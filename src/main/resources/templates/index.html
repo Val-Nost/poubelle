@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Index</h1>
+    <form method="post" th:action="login">
+        <div id="connexion">
+            <fieldset>
+                <legend>Connexion</legend>
+
+                <label for="login" class="login-label">Login</label>
+                <input id="login" type="text" name="login" class="input2" maxlength="250" required><br>
+
+                <label for="password" class="login-label">Mot de passe</label>
+                <input id="password" type="password" name="password" class="input2" maxlength="250" required><br>
+            </fieldset>
+        </div>
+        <div id="footPageConnexion">
+            <input  class="button btn-small-white" type="submit" style="display:block;margin:auto;" value="Connexion" />
+        </div>
+    </form>
+</body>
+</html>
