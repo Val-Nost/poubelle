@@ -1,9 +1,10 @@
 package fr.limyrac.poubelle.model;
 
 import lombok.Getter;
+import org.springframework.security.core.GrantedAuthority;
 
 @Getter
-public enum Role {
+public enum Role implements GrantedAuthority {
     Cycliste(0, "Cycliste"),
     Gestionnaire(1, "Gestionnaire"),
     RH(2, "Responsable Resource Humaines"),
@@ -17,4 +18,8 @@ public enum Role {
         this.libelle = libelle;
     }
 
+    @Override
+    public String getAuthority() {
+        return "ROLE_" + this.name();
+    }
 }
