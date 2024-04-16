@@ -1,7 +1,7 @@
-package fr.limyrac.poubelle.security;
+package fr.limayrac.poubelle.security;
 
-import fr.limyrac.poubelle.model.Role;
-import fr.limyrac.poubelle.model.Utilisateur;
+import fr.limayrac.poubelle.model.Role;
+import fr.limayrac.poubelle.model.Utilisateur;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

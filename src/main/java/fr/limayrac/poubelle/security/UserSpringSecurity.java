@@ -1,6 +1,6 @@
-package fr.limyrac.poubelle.security;
+package fr.limayrac.poubelle.security;
 
-import fr.limyrac.poubelle.model.Utilisateur;
+import fr.limayrac.poubelle.model.Utilisateur;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

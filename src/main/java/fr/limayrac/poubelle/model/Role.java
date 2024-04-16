@@ -1,4 +1,4 @@
-package fr.limyrac.poubelle.model;
+package fr.limayrac.poubelle.model;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,4 +1,4 @@
-package fr.limyrac.poubelle.security;
+package fr.limayrac.poubelle.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
