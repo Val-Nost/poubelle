@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <h1>Accueil</h1>
+<h2 th:text="${utilisateurConnecte.nom + ' ' + utilisateurConnecte.prenom + ' ' + utilisateurConnecte.role.libelle}"></h2>
 <a href="/logout">Déconnexion</a>
+<ul th:each="utilisateur : ${utilisateurs}">
+    <li  th:text="${utilisateur.nom + ' ' + utilisateur.prenom + ' ' + utilisateur.role}"></li>
+</ul>
 </body>
 </html>
