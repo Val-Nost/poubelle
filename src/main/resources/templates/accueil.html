@@ -8,6 +8,7 @@
 <h1>Accueil</h1>
 <h2 th:text="${utilisateurConnecte.nom + ' ' + utilisateurConnecte.prenom + ' ' + utilisateurConnecte.role.libelle}"></h2>
 <a href="/logout">Déconnexion</a>
+<a th:if="${utilisateurConnecte.role.libelle != 'Cycliste'}" href="/utilisateurs/ajouter">Créer un utilisateur</a>
 <ul th:each="utilisateur : ${utilisateurs}">
     <li  th:text="${utilisateur.nom + ' ' + utilisateur.prenom + ' ' + utilisateur.role}"></li>
 </ul>
