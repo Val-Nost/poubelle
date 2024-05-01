@@ -2,7 +2,7 @@
 <html lang="fr" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Accueil</title>
 </head>
 <body>
 <h1>Accueil</h1>
@@ -10,7 +10,19 @@
 <a href="/logout">Déconnexion</a>
 <a th:if="${utilisateurConnecte.role.libelle != 'Cycliste'}" href="/utilisateurs/ajouter">Créer un utilisateur</a>
 <ul th:each="utilisateur : ${utilisateurs}">
-    <li  th:text="${utilisateur.nom + ' ' + utilisateur.prenom + ' ' + utilisateur.role}"></li>
+    <li>
+        <span th:text="${utilisateur.nom + ' ' + utilisateur.prenom + ' ' + utilisateur.role.libelle}"></span>
+        <a th:if="${utilisateur.id == utilisateurConnecte.id or
+                    utilisateurConnecte.role.libelle == 'Gestionnaire' or
+                    utilisateurConnecte.role.libelle == 'Responsable Resource Humaines' or
+                    utilisateurConnecte.role.libelle == 'Administrateur'}"
+           th:href="@{/utilisateurs/modifier/{id}(id=${utilisateur.id})}">Modifier</a>
+        <form th:if="${utilisateurConnecte.role.libelle == 'Administrateur'}"
+              th:action="@{/utilisateurs/supprimer/{id}(id=${utilisateur.id})}" method="post">
+            <input type="submit" value="Supprimer" />
+        </form>
+    </li>
+    </li>
 </ul>
 </body>
 </html>

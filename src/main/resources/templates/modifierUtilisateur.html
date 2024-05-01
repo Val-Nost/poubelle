@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Modifier Utilisateur</title>
+</head>
+<body>
+<h1>Modifier Utilisateur</h1>
+<form th:action="@{/utilisateurs/update/{id}(id=${utilisateur.id})}" th:object="${utilisateur}" method="post">
+    <label for="nom">Nom:</label>
+    <input type="text" id="nom" th:field="*{nom}" />
+    <label for="prenom">Prénom:</label>
+    <input type="text" id="prenom" th:field="*{prenom}" />
+    <label for="login">Login:</label>
+    <input type="text" id="login" th:field="*{login}" />
+    <label for="password">Password:</label>
+    <input type="password" id="password" th:field="*{password}" />
+    <label for="role">Role:</label>
+    <select id="role" th:field="*{role}">
+        <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+    </select>
+    <label for="actif">Actif:</label>
+    <input type="checkbox" id="actif" th:field="*{actif}" />
+    <button type="submit">Modifier</button>
+</form>
+<a th:href="@{/accueil}">Retour à l'accueil</a>
+</body>
+</html>
