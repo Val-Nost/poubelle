@@ -10,7 +10,9 @@ public class V1_0_2__AjoutArretRue extends BaseJavaMigration implements SpringJD
     public void migrate(Context context) throws Exception {
         JdbcTemplate jdbcTemplate = jdbcTemplate(context);
         creationTableArret(jdbcTemplate);
+        creationTableRue(jdbcTemplate);
         ajoutArret(jdbcTemplate);
+        ajoutRues(jdbcTemplate);
     }
 
     public void creationTableArret(final JdbcTemplate jdbcTemplate) {
