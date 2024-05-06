@@ -5,6 +5,7 @@
     <title>Ajouter un nouvel utilisateur</title>
 </head>
 <body>
+<header th:replace="~{fragments/navbar :: navbar}"></header>
 <h1>Ajouter un nouvel utilisateur</h1>
 <form th:action="@{/utilisateurs/creer}" th:object="${utilisateur}" method="post">
     <label for="nom">Nom:</label>

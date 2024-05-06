@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Accueil</title>
+    <link rel="stylesheet" href="/css/accueil.css">
 </head>
 <body>
+<header th:replace="~{fragments/navbar :: navbar}"></header>
 <h1>Accueil</h1>
 <h2 th:text="${utilisateurConnecte.nom + ' ' + utilisateurConnecte.prenom + ' ' + utilisateurConnecte.role.libelle}"></h2>
 <a href="/logout">Déconnexion</a>
