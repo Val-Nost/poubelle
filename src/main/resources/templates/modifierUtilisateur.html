@@ -2,8 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Modifier Utilisateur</title>
+    <link rel="stylesheet" href="/css/modifierUtilisateur.css">
+    <link rel="stylesheet" href="/css/fragments/navbar.css">
 </head>
 <body>
+<header th:replace="~{fragments/navbar :: navbar}"></header>
 <h1>Modifier Utilisateur</h1>
 <form th:action="@{/utilisateurs/update/{id}(id=${utilisateur.id})}" th:object="${utilisateur}" method="post">
     <label for="nom">Nom:</label>
