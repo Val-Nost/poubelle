@@ -5,20 +5,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/fragments/navbar.css">
 </head>
-<body id="navBarBody">
 <div th:fragment="navbar" class="topnav" id="navBar">
-    <a th:href="@{/accueil}">Accueil</a>
-    <a th:href="@{/utilisateurs/ajouter}">Créer un utilisateur</a>
+    <div>
+        <a th:href="@{/accueil}">Accueil</a>
+        <a th:if="${utilisateurConnecte.role.libelle != 'Cycliste'}"
+                th:href="@{/utilisateurs/ajouter}">Créer un utilisateur</a>
+        <a th:href="@{/utilisateurs/modifier/{id}(id=${utilisateurConnecte.id})}">Mon Compte</a>
+    </div>
+    <a href="/logout" id="deconnexion">Déconnexion</a>
     <a href="javascript:void(0);" class="icon" onclick="hamburgerResponsive()">
         <i class="fa fa-bars"></i>
     </a>
 </div>
-</body>
 </html>
 
 <script>
     function hamburgerResponsive() {
-        var x = document.getElementById("myTopnav");
+        var x = document.getElementById("navBar");
         if (x.className === "topnav") {
             x.className += " responsive";
         } else {

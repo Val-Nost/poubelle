@@ -4,6 +4,7 @@ import fr.limayrac.poubelle.UtilisateurDao;
 import fr.limayrac.poubelle.model.Utilisateur;
 import fr.limayrac.poubelle.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import fr.limayrac.poubelle.security.UserSpringSecurity;
 
 @Controller
 @RequestMapping("/utilisateurs")
@@ -25,8 +27,11 @@ public class UtilisateurController {
 
     @GetMapping("/ajouter")
     public String ajouterUtilisateurForm(Model model) {
+        UserSpringSecurity userSpringSecurity = (UserSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Utilisateur utilisateurConnecte = userSpringSecurity.getUtilisateur();
+        model.addAttribute("utilisateurConnecte", utilisateurConnecte);
         model.addAttribute("utilisateur", new Utilisateur());
-        model.addAttribute("roles", Role.values());
+        model.addAttribute("role", Role.values());
         return "ajouterUtilisateur";
     }
 
@@ -39,10 +44,13 @@ public class UtilisateurController {
     }
     @GetMapping("/modifier/{id}")
     public String modifierUtilisateurForm(@PathVariable Long id, Model model) {
+        UserSpringSecurity userSpringSecurity = (UserSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Utilisateur utilisateurConnecte = userSpringSecurity.getUtilisateur();
+        model.addAttribute("utilisateurConnecte", utilisateurConnecte);
         Utilisateur utilisateur = utilisateurDao.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         model.addAttribute("utilisateur", utilisateur);
-        model.addAttribute("roles", Role.values());
+        model.addAttribute("role", Role.values());
         return "modifierUtilisateur";
     }
     @PostMapping("/update/{id}")
