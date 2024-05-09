@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rues et Arrêts</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/fragments/navbar.css">
+</head>
+<body>
+<header th:replace="~{fragments/navbar :: navbar}"></header>
+<h1>Rues et Arrêts</h1>
+<ul>
+    <li th:each="rue : ${rues}">
+        <span th:text="${rue.libelle}"/>
+        <ul>
+            <li th:each="arretVoisin : ${rue.arretVoisins}" th:text="${arretVoisin.arret.libelle}"></li>
+        </ul>
+    </li>
+</ul>
+</body>
+</html>
