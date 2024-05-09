@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="https://www.thymeleaf.org">
+<html lang="fr" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title>Accueil</title>
@@ -13,13 +13,10 @@
 <ul th:each="utilisateur : ${utilisateurs}">
     <li>
         <span th:text="${utilisateur.nom + ' ' + utilisateur.prenom + ' ' + utilisateur.role.libelle}"></span>
-        <a th:if="${utilisateur.id == utilisateurConnecte.id or
-                    utilisateurConnecte.role.libelle == 'Gestionnaire' or
-                    utilisateurConnecte.role.libelle == 'Responsable Resource Humaines' or
-                    utilisateurConnecte.role.libelle == 'Administrateur'}"
-           th:href="@{/utilisateurs/modifier/{id}(id=${utilisateur.id})}">Modifier</a>
-        <form th:if="${utilisateurConnecte.role.libelle == 'Administrateur'}"
-              th:action="@{/utilisateurs/supprimer/{id}(id=${utilisateur.id})}" method="post">
+        <a th:if="${utilisateur.id == #authentication.principal.utilisateur.id}"
+           th:href="${'/utilisateurs/modifier/'+#authentication.principal.utilisateur.id}">Modifier</a>
+        <form sec:authorize="hasAnyRole('ROLE_Admin')"
+              th:action="${'/utilisateurs/supprimer/'+utilisateur.id}" method="post">
             <input type="submit" value="Supprimer" />
         </form>
     </li>
