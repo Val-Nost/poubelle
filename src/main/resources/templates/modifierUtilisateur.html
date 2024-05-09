@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <title>Modifier Utilisateur</title>
     <link rel="stylesheet" href="/css/modifierUtilisateur.css">
@@ -15,13 +15,20 @@
             <input type="text" id="prenom" th:field="*{prenom}" />
             <label for="login">Login:</label>
             <input type="text" id="login" th:field="*{login}" />
-            <label for="password">Password:</label>
-            <input type="password" id="password" th:field="*{password}" />
-            <label for="role">Role:</label>
-            <select id="role" th:field="*{role}">
-                <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
-            </select>
-            <div class="checkbox-container">
+            <div class="passmordDiv">
+                <label for="password">Password:</label>
+                <input type="password" id="password" th:field="*{password}" />
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" oninput="checkPasswordMatch();"/>
+            </div>
+            <div sec:authorize="hasAnyRole('ROLE_RH', 'ROLE_Gestionnaire', 'ROLE_Admin')">
+                <label for="role">Role:</label>
+                <select id="role" th:field="*{role}">
+                    <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+                </select>
+            </div>
+            <div sec:authorize="hasAnyRole('ROLE_RH', 'ROLE_Gestionnaire', 'ROLE_Admin')"
+                    class="checkbox-container">
                 <label for="actif">Actif:</label>
                 <input type="checkbox" id="actif" th:field="*{actif}" />
             </div>
@@ -30,3 +37,15 @@
     </div>
 </body>
 </html>
+<script>
+    function checkPasswordMatch() {
+        var password = document.getElementById('password').value;
+        var confirmPasswordField = document.getElementById('confirmPassword');
+
+        if (password !== confirmPasswordField.value) {
+            confirmPasswordField.style.borderColor = 'red';
+        } else {
+            confirmPasswordField.style.borderColor = 'green';
+        }
+    }
+</script>
