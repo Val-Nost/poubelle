@@ -3,9 +3,9 @@
 <head>
     <title>Navigation</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/fragments/navbar.css">
 </head>
 <div th:fragment="navbar" class="topnav" id="navBar">
+    <link rel="stylesheet" href="/css/fragments/navbar.css">
     <div>
         <a th:href="@{/accueil}">Accueil</a>
         <a sec:authorize="hasAnyRole('ROLE_RH', 'ROLE_Gestionnaire', 'ROLE_Admin')"

@@ -1,0 +1,68 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.ajoutUser{
+    width: 100%;
+}
+
+.ajoutUser h1 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.ajoutUser form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+}
+
+.ajoutUser label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.ajoutUser input[type="text"], .ajoutUser input[type="password"], .ajoutUser select {
+    width: 95%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: baseline;
+}
+
+.ajoutUser input[type="checkbox"] {
+    margin-bottom: 15px;
+    margin-left: 10px;
+}
+
+.ajoutUser input[type="submit"] {
+    background-color: #5c67f2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ajoutUser input[type="submit"]:hover {
+    background-color: #4a54e1;
+}

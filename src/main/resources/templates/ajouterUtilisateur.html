@@ -4,33 +4,30 @@
     <meta charset="UTF-8">
     <title>Ajouter un nouvel utilisateur</title>
     <link rel="stylesheet" href="/css/ajouterUtilisateur.css">
-    <link rel="stylesheet" href="/css/fragments/navbar.css">
 </head>
 <body>
-<header th:replace="~{fragments/navbar :: navbar}"></header>
-<h1>Ajouter un nouvel utilisateur</h1>
-<form th:action="@{/utilisateurs/creer}" th:object="${utilisateur}" method="post">
-    <label for="nom">Nom:</label>
-    <input type="text" id="nom" name="nom" th:value="*{nom}" required><br><br>
-
-    <label for="prenom">Prénom:</label>
-    <input type="text" id="prenom" name="prenom" th:value="*{prenom}" required><br><br>
-
-    <label for="login">Login:</label>
-    <input type="text" id="login" name="login" th:value="*{login}" required><br><br>
-
-    <label for="password">Mot de passe:</label>
-    <input type="password" id="password" name="password" th:value="*{password}" required><br><br>
-
-    <label for="role">Rôle:</label>
-    <select id="role" name="role">
-        <option th:each="role : ${roles}" th:value="${role.name()}" th:text="${role.libelle}"></option>
-    </select><br><br>
-
-    <label for="actif">Actif:</label>
-    <input type="checkbox" id="actif" name="actif" th:checked="*{actif}"><br><br>
-
-    <input type="submit" value="Créer">
-</form>
+    <header th:replace="~{fragments/navbar :: navbar}"></header>
+    <div class="ajoutUser">
+        <h1>Ajouter un nouvel utilisateur</h1>
+        <form th:action="@{/utilisateurs/creer}" th:object="${utilisateur}" method="post">
+            <label for="nom">Nom:</label>
+            <input type="text" id="nom" name="nom" th:value="*{nom}" required><br><br>
+            <label for="prenom">Prénom:</label>
+            <input type="text" id="prenom" name="prenom" th:value="*{prenom}" required><br><br>
+            <label for="login">Login:</label>
+            <input type="text" id="login" name="login" th:value="*{login}" required><br><br>
+            <label for="password">Mot de passe:</label>
+            <input type="password" id="password" name="password" th:value="*{password}" required><br><br>
+            <label for="role">Rôle:</label>
+            <select id="role" name="role">
+                <option th:each="role : ${roles}" th:value="${role.name()}" th:text="${role.libelle}"></option>
+            </select><br><br>
+            <div class="checkbox-container">
+                <label for="actif">Actif:</label>
+                <input type="checkbox" id="actif" name="actif" th:checked="*{actif}">
+            </div>
+            <input type="submit" value="Créer">
+        </form>
+    </div>
 </body>
 </html>

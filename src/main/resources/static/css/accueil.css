@@ -10,11 +10,11 @@ body, html {
     flex-direction: column;
 }
 
-h1, h2 {
+.accueil h1, .accueil h2 {
     color: #333;
 }
 
-a {
+.accueil a {
     margin: 10px;
     padding: 8px 16px;
     background-color: #5c67f2;
@@ -24,16 +24,16 @@ a {
     transition: background-color 0.3s ease;
 }
 
-a:hover {
+.accueil a:hover {
     background-color: #4a54e1;
 }
 
-ul {
+.accueil ul {
     list-style-type: none;
     padding: 0;
 }
 
-li {
+.accueil li {
     background: white;
     margin: 10px 0;
     padding: 10px;
@@ -43,11 +43,11 @@ li {
     max-width: 600px;
 }
 
-form {
+.accueil form {
     display: inline-block;
 }
 
-input[type="submit"] {
+.accueil input[type="submit"] {
     padding: 5px 10px;
     border: none;
     border-radius: 4px;
@@ -57,15 +57,15 @@ input[type="submit"] {
     transition: background-color 0.3s ease;
 }
 
-input[type="submit"]:hover {
+.accueil input[type="submit"]:hover {
     background-color: #c53030;
 }
 
 @media (max-width: 768px) {
-    body {
+    .accueil {
         align-items: stretch;
     }
-    li {
+    .accueil li {
         padding: 10px;
         width: auto;
     }
