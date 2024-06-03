@@ -27,16 +27,28 @@ public class V1_0_1__AjoutUtilisateur extends BaseJavaMigration implements Sprin
     }
 
     public void ajoutUtilisateur(JdbcTemplate jdbcTemplate) {
+        // Cycliste
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String password = "cycliste";
         jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
                 "VALUES (true, 'cycliste', 'CLAVETTE', '" + bCryptPasswordEncoder.encode(password) +"', 'Tyson', 0)");
+        jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
+                "VALUES (true, 'abazinet', 'BAZINET', '" + bCryptPasswordEncoder.encode(password) +"', 'Amélie', 0)");
+        jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
+                "VALUES (true, 'lturgeon', 'TURGEON', '" + bCryptPasswordEncoder.encode(password) +"', 'Lucas', 0)");
+        jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
+                "VALUES (true, 'mletourneau', 'LETOURNEAU', '" + bCryptPasswordEncoder.encode(password) +"', 'Marcel', 0)");
+        jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
+                "VALUES (true, 'cfrancoeur', 'FRANCOEUR', '" + bCryptPasswordEncoder.encode(password) +"', 'Célie', 0)");
+        // Gestionnaire
         password = "gestionnaire";
         jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
                 "VALUES (true, 'gestionnaire', 'BONSAINT', '" + bCryptPasswordEncoder.encode(password) +"', 'Antoine', 1)");
+        // RH
         password = "rh";
         jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
                 "VALUES (true, 'rh', 'TARDIF', '" + bCryptPasswordEncoder.encode(password) +"', 'Nanna', 2)");
+        // Admin
         password = "admin";
         jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
                 "VALUES (true, 'admin', 'COLLIN', '" + bCryptPasswordEncoder.encode(password) +"', 'Virginie', 3)");

@@ -41,3 +41,13 @@
     border: 1px solid #ccc;
     border-top: none;
 }
+
+.ok {
+    color: #04AA6D;
+    padding: 0;
+}
+
+.ko {
+    color: #c53030;
+    padding: 0;
+}

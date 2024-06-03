@@ -21,7 +21,8 @@ public class V1_0_2__AjoutArretRue extends BaseJavaMigration implements SpringJD
     public void creationTableArret(final JdbcTemplate jdbcTemplate) {
         jdbcTemplate.execute("CREATE TABLE arret(" +
                 "id BIGINT NOT NULL PRIMARY KEY auto_increment, " +
-                "libelle VARCHAR(255) UNIQUE" +
+                "libelle VARCHAR(255) UNIQUE, " +
+                "ramasse BOOLEAN NOT NULL DEFAULT false" +
                 ")");
     }
 

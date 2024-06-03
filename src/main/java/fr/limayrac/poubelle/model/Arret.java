@@ -17,5 +17,5 @@ public class Arret {
 
     @OneToMany(mappedBy = "arret")
     private List<ArretVoisin> arretVoisins;
-
+    private Boolean ramasse;
 }

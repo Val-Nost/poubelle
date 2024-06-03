@@ -10,6 +10,7 @@ import fr.limayrac.poubelle.service.IUtilisateurService;
 import fr.limayrac.poubelle.service.IVeloService;
 import fr.limayrac.poubelle.service.impl.ArretService;
 import fr.limayrac.poubelle.service.impl.RamassageArretService;
+import fr.limayrac.poubelle.service.impl.RueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +34,8 @@ public class RamassageController {
     private ArretService arretService;
     @Autowired
     private RamassageArretService ramassageArretService;
+    @Autowired
+    private RueService rueService;
 
     @GetMapping
     public String ramassage(Model model) {
@@ -91,6 +94,7 @@ public class RamassageController {
     public String cyclistesRamassage(@PathVariable Long idRamassage, Model model) {
         Ramassage ramassage = ramassageService.findById(idRamassage);
         model.addAttribute("ramassage", ramassage);
+        model.addAttribute("rues", rueService.findAllOrderById());
         return "infoRamassage";
     }
 
