@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ramassage</title>
+    <link rel="stylesheet" href="/css/fragments/navbar.css">
+</head>
+<body>
+<header th:replace="~{fragments/navbar :: navbar}"></header>
+<h1>Ramassage en cours</h1>
+<div class="container">
+    <div class="card" th:each="rammassageEnCours : ${ramassagesEnCours}">
+        <h3><a th:href="${'/ramassage/' + rammassageEnCours.id}" th:text="${'Ramassage n°' + rammassageEnCours.id}"/></h3>
+    </div>
+    <div class="card" th:each="rammassageTermine : ${ramassagesTermine}">
+        <h3><a th:href="${'/ramassage/' + rammassageTermine.id}" th:text="${'Ramassage n°' + rammassageTermine.id}"/></h3>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lancement Ramassage</title>
+    <link rel="stylesheet" href="/css/fragments/navbar.css">
+    <link rel="stylesheet" href="/css/ramassage.css">
+</head>
+<body>
+<header th:replace="~{fragments/navbar :: navbar}"></header>
+<div class="container">
+    <h1>Lancer un ramassage</h1>
+    <!-- On peut lancer un ramassage seulement si un n'est pas déjà en cours -->
+    <form th:if="${ramassagesEnCours.size() == 0}" action="ramassage/choixCycliste" method="post">
+        <div id="Etape1" class="etape">
+            <fieldset>
+                <legend>Choix des cyclistes</legend>
+                <h3 th:text="${'Nombre de vélos utilisables : ' + velos.size()}"/>
+                <input type="hidden" name="nbvelos" th:value="${velos.size()}">
+
+                <h3>Choix des cyclistes : </h3>
+                <div th:each="cycliste : ${cyclistes}">
+                    <label for="cyclistes" th:text="${cycliste.nom + ' ' + cycliste.prenom}"/>
+                    <input id="cyclistes" type="checkbox" name="cyclistes" th:value="${cycliste.id}" onclick="onSelect(this)" >
+                </div>
+            </fieldset>
+        </div>
+        <input type="submit" value="Valider">
+    </form>
+    <h4 th:if="${ramassagesEnCours.size() > 0}">Un ramassage est déjà en cours</h4>
+
+</div>
+<script>
+    let etapeCourante = 0
+    let suivant = document.querySelector("#suivant")
+    let precedent = document.querySelector("#precedent")
+    let etapes = document.querySelectorAll(".etape")
+    let nbVelos = document.querySelector("input[name='nbvelos']").value
+    let cyclistesSelected = 0;
+    let cyclistes = []
+
+    function onSelect(element) {
+        if (element.checked) {
+            if (cyclistesSelected < nbVelos) {
+                cyclistesSelected++;
+                cyclistes.push(element)
+            } else {
+                event.preventDefault()
+                alert("Vous ne pouvez plus sélectionner de cycliste, il n'y a pas assez de vélos")
+            }
+        } else {
+            if (cyclistesSelected > 0) {
+                cyclistesSelected--;
+                cyclistes.splice(cyclistes.indexOf(element))
+            }
+        }
+    }
+
+    // suivant.addEventListener('click', (event) => {
+    //     switch (etapeCourante) {
+    //         case 0:
+    //             // On active precedent
+    //             precedent.disabled = false
+    //             etapeCourante++;
+    //
+    //             let etape2 = document.querySelector("#Etape2");
+    //             cyclistes.forEach((element) => {
+    //
+    //             })
+    //             break;
+    //         case 1:
+    //
+    //             break;
+    //         case etapes.length-1:
+    //             // On atteint la dernière étape
+    //             suivant.disabled = true
+    //             break;
+    //     }
+    //
+    //     // On montre l'étape suivante
+    //     if (etapeCourante < etapes.length) {
+    //         // On cache l'étape courante
+    //         etapes[etapeCourante].classList.add("hidden");
+    //         etapeCourante++;
+    //         etapes[etapeCourante].classList.remove("hidden");
+    //     }
+    // })
+    //
+    // precedent.addEventListener('click', () => {
+    //     // Si on est à la dernière étape on réactive suivant
+    //     suivant.disabled = false
+    //
+    //     if (etapeCourante > 0) {
+    //         etapes[etapeCourante].classList.add("hidden");
+    //         etapeCourante--;
+    //         etapes[etapeCourante].classList.remove("hidden");
+    //     }
+    //
+    //     // On atteint la première étape
+    //     if (etapeCourante === 0) {
+    //         precedent.disabled = true
+    //     }
+    // })
+</script>
+</body>
+</html>

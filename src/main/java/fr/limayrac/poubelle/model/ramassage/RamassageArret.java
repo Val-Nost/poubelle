@@ -1,21 +1,21 @@
-package fr.limayrac.poubelle.model;
+package fr.limayrac.poubelle.model.ramassage;
 
+import fr.limayrac.poubelle.model.Arret;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 
-@Getter
-@Setter
 @Entity
-public class Arret {
+@Getter @Setter
+public class RamassageArret {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String libelle;
-
-    @OneToMany(mappedBy = "arret")
-    private List<ArretVoisin> arretVoisins;
+    @ManyToOne
+    private Ramassage ramassage;
+    @ManyToOne
+    private Arret arret;
     private Boolean ramasse;
 }

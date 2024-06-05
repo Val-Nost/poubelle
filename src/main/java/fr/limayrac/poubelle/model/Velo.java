@@ -18,4 +18,5 @@ public class Velo {
     private Integer charge;
     private Integer chargeMax;
     private StatutVelo statutVelo;
+    private Boolean modeRamassage;
 }

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Détail ramassage</title>
+    <link rel="stylesheet" href="/css/fragments/navbar.css">
+    <link rel="stylesheet" href="/css/ramassage.css">
+</head>
+<body>
+<header th:replace="~{fragments/navbar :: navbar}"></header>
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'Itinéraire')">Itinéraire</button>
+    <button class="tablinks" onclick="openTab(event, 'Cyclistes')">Cyclistes</button>
+    <button class="tablinks" onclick="openTab(event, 'Rues et Arrêts')">Rues et Arrêts</button>
+</div>
+<div id="Itinéraire" class="tabcontent" style="display: block!important;">
+    <p>Ici sera affiché le graphe des arrêts à parcourir</p>
+</div>
+<div id="Cyclistes" class="tabcontent">
+    <table>
+        <thead>
+        <tr>
+            <th colspan="2">Cycliste</th>
+            <th colspan="2">Vélo</th>
+        </tr>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Id vélo</th>
+            <th>Statut</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ramasssageCyclisteVelo : ${ramassage.ramassageCyclisteVelos}">
+            <td th:text="${ramasssageCyclisteVelo.cycliste.nom}"/>
+            <td th:text="${ramasssageCyclisteVelo.cycliste.prenom}"/>
+            <td th:text="${ramasssageCyclisteVelo.velo.id}"/>
+            <td th:text="${ramasssageCyclisteVelo.velo.statutVelo.libelle}"/>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div id="Rues et Arrêts" class="tabcontent">
+    <p>Ici seront affichés les arrêts parcourus et non parcourus</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rue</th>
+            <th>Arrêt</th>
+            <th>Ramassé</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="rue : ${rues}">
+            <tr>
+                <td style="border: #333333 1px solid" th:rowspan="${rue.arretVoisins.size()+1}" th:text="${rue.libelle}"></td>
+            </tr>
+            <tr th:each="arretVoisin : ${rue.arretVoisins}">
+                <td style="border: #333333 1px solid" th:text="${arretVoisin.arret.libelle}"></td>
+                <td style="border: #333333 1px solid" th:text="${arretVoisin.arret.ramasse ? 'Oui' : 'Non'}" th:class="${arretVoisin.arret.ramasse ? 'ok' : 'ko
+                '}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+<script>
+    function openTab(evt, tapName) {
+        // Declare all variables
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace("active", "");
+        }
+
+        // Show the current tab, and add an "active" class to the button that opened the tab
+        document.getElementById(tapName).style.display = "block";
+        evt.currentTarget.className += "active";
+    }
+</script>
+</body>
+</html>

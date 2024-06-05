@@ -40,7 +40,7 @@ public class UtilisateurController {
         Utilisateur utilisateurConnecte = userSpringSecurity.getUtilisateur();
         model.addAttribute("utilisateurConnecte", utilisateurConnecte);
         model.addAttribute("utilisateur", new Utilisateur());
-        model.addAttribute("role", Role.values());
+        model.addAttribute("roles", Role.values());
         return "ajouterUtilisateur";
     }
 
