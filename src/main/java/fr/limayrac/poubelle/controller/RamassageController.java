@@ -4,13 +4,7 @@ import fr.limayrac.poubelle.model.*;
 import fr.limayrac.poubelle.model.ramassage.Ramassage;
 import fr.limayrac.poubelle.model.ramassage.RamassageArret;
 import fr.limayrac.poubelle.model.ramassage.RamassageCyclisteVelo;
-import fr.limayrac.poubelle.service.IRamassageCyclisteVeloService;
-import fr.limayrac.poubelle.service.IRamassageService;
-import fr.limayrac.poubelle.service.IUtilisateurService;
-import fr.limayrac.poubelle.service.IVeloService;
-import fr.limayrac.poubelle.service.impl.ArretService;
-import fr.limayrac.poubelle.service.impl.RamassageArretService;
-import fr.limayrac.poubelle.service.impl.RueService;
+import fr.limayrac.poubelle.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,11 +25,13 @@ public class RamassageController {
     @Autowired
     private IRamassageCyclisteVeloService ramassageCyclisteVeloService;
     @Autowired
-    private ArretService arretService;
+    private IArretService arretService;
     @Autowired
-    private RamassageArretService ramassageArretService;
+    private IRamassageArretService ramassageArretService;
     @Autowired
-    private RueService rueService;
+    private IRueService rueService;
+    @Autowired
+    private IIncidentService incidentService;
 
     @GetMapping
     public String ramassage(Model model) {
@@ -95,6 +91,11 @@ public class RamassageController {
         Ramassage ramassage = ramassageService.findById(idRamassage);
         model.addAttribute("ramassage", ramassage);
         model.addAttribute("rues", rueService.findAllOrderById());
+
+        // Incident
+        model.addAttribute("cyclistes", utilisateurService.findByRole(Role.Cycliste));
+        model.addAttribute("velos", veloService.findByStatut(StatutVelo.UTILISABLE));
+        model.addAttribute("arrets", arretService.findAll());
         return "infoRamassage";
     }
 
@@ -103,5 +104,49 @@ public class RamassageController {
         model.addAttribute("ramassagesEnCours", ramassageService.findByEnCours(true));
         model.addAttribute("ramassagesTermine", ramassageService.findByEnCours(false));
         return "ramassage";
+    }
+
+    @PostMapping("/{idRamassage}/ajoutIncident")
+    public String ajoutIncident(Model model, @PathVariable Long idRamassage, @RequestParam String libelle,
+                                @RequestParam(required = false) Long cyclisteConcerne, @RequestParam(required = false) Long cyclisteRemplacant,
+                                @RequestParam(required = false) Long veloConcerne, @RequestParam(required = false) Long veloRemplacant,
+                                @RequestParam(required = false) Long arret, @RequestParam(required = false) Boolean pratiquable) {
+        Ramassage ramassage = ramassageService.findById(idRamassage);
+
+        Utilisateur cyclisteC = null;
+        if (cyclisteConcerne != null) {
+            cyclisteC = utilisateurService.findById(cyclisteConcerne);
+        }
+
+        Utilisateur cyclisteR = null;
+        if (cyclisteRemplacant != null) {
+            cyclisteR =  utilisateurService.findById(cyclisteRemplacant);
+        }
+
+        Velo veloC = null;
+        if (veloConcerne != null) {
+            veloC = veloService.findById(veloConcerne);
+        }
+
+        Velo veloR = null;
+        if (veloRemplacant != null) {
+            veloR = veloService.findById(veloRemplacant);
+        }
+
+        Arret arretObj = null;
+        if (arret != null) {
+            arretObj = arretService.findById(arret);
+        }
+
+        Incident incident = new Incident();
+        incident.setLibelle(libelle);
+        incident.setCycliste(cyclisteC);
+        incident.setVelo(veloC);
+        incident.setArret(arretObj);
+        incident.setRamassage(ramassage);
+
+        incidentService.save(incident);
+
+        return "redirect:/ramassage/{idRamassage}";
     }
 }
