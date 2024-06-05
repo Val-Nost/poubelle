@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface IArretService {
     List<Arret> findAll();
+
+    Arret findById(Long id);
 }

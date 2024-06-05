@@ -16,4 +16,9 @@ public class ArretService implements IArretService {
     public List<Arret> findAll() {
         return (List<Arret>) arretDao.findAll();
     }
+
+    @Override
+    public Arret findById(Long id) {
+        return arretDao.findById(id).orElse(null);
+    }
 }
