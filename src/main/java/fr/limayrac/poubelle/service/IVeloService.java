@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface IVeloService {
     List<Velo> findByStatut(StatutVelo statutVelo);
+
+    Velo findById(Long id);
 }

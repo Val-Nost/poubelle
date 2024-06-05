@@ -17,4 +17,9 @@ public class VeloService implements IVeloService {
     public List<Velo> findByStatut(StatutVelo statutVelo) {
         return veloDao.findByStatutVelo(statutVelo);
     }
+
+    @Override
+    public Velo findById(Long id) {
+        return veloDao.findById(id).orElse(null);
+    }
 }
