@@ -1,32 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-<head>
-    <title>Navigation</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
-<div th:fragment="navbar" class="topnav" id="navBar">
-    <link rel="stylesheet" href="/css/fragments/navbar.css">
-    <div>
-        <a th:href="@{/accueil}">Accueil</a>
-        <a sec:authorize="hasAnyRole('ROLE_RH', 'ROLE_Gestionnaire', 'ROLE_Admin')"
-                th:href="@{/utilisateurs/ajouter}">Créer un utilisateur</a>
-        <a th:href="${'/utilisateurs/modifier/'+#authentication.principal.utilisateur.id}">Mon Compte</a>
-        <a href="/ruesEtArrets">Rues et Arrêts</a>
+    <head>
+        <title>Navigation</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <div th:fragment="navbar" class="topnav" id="navBar">
+        <link rel="stylesheet" href="/css/fragments/navbar.css">
+        <div id="menuNav">
+            <div id="menuNavLeft">
+                <a th:href="@{/accueil}">Accueil</a>
+                <a sec:authorize="hasAnyRole('ROLE_RH', 'ROLE_Gestionnaire', 'ROLE_Admin')"
+                   th:href="@{/utilisateurs/userListe}">Gestion des utilisateurs</a>
+                <a th:href="${'/utilisateurs/modifier/'+#authentication.principal.utilisateur.id}">Mon Compte</a>
+                <a href="/ruesEtArrets">Rues et Arrêts</a>
+            </div>
+            <div class="menu-icon" id="menuIcon">&#9776;</div>
+            <a href="/logout" id="deconnexion">Déconnexion</a>
+        </div>
+        <div id="menuNavResponsive">
+            <a sec:authorize="hasAnyRole('ROLE_RH', 'ROLE_Gestionnaire', 'ROLE_Admin')"
+               th:href="@{/utilisateurs/ajouter}">Créer un utilisateur</a>
+            <a th:href="${'/utilisateurs/modifier/'+#authentication.principal.utilisateur.id}">Mon Compte</a>
+            <a href="/ruesEtArrets">Rues et Arrêts</a>
+            <a href="/logout">Déconnexion</a>
+        </div>
     </div>
-    <a href="/logout" id="deconnexion">Déconnexion</a>
-    <a href="javascript:void(0);" class="icon" onclick="hamburgerResponsive()">
-        <i class="fa fa-bars"></i>
-    </a>
-</div>
 </html>
-
-<script>
-    function hamburgerResponsive() {
-        var x = document.getElementById("navBar");
-        if (x.className === "topnav") {
-            x.className += " responsive";
-        } else {
-            x.className = "topnav";
-        }
-    }
-</script>

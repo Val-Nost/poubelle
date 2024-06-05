@@ -1,3 +1,4 @@
+
 #navBarBody {
     margin: 0;
     width: auto;
@@ -10,6 +11,7 @@
     height: auto;
     position: sticky;
     display: flex;
+    flex-direction: column;
     top: 0;
     overflow: hidden;
     background-color: #333;
@@ -41,19 +43,36 @@
     display: none;
 }
 
-#deconnexion {
-
+#menuNav {
+    display: flex;
+    justify-content: space-between;
 }
 
-@media screen and (max-width: 600px) {
-    #navBar a:not(:first-child) {display: none;}
+#menuNavResponsive {
+    background-color: #585656;
+    width: 100%;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease-out;
+}
+
+#menuIcon {
+    display: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: white;
+    padding: 10px 20px;
+}
+
+@media screen and (max-width: 670px) {
+    #menuNavLeft a:not(:first-child) {display: none;}
     #navBara.icon {
         float: right;
         display: block;
     }
-}
-
-@media screen and (max-width: 600px) {
+    #deconnexion{
+        display: none!important;
+    }
     #navBar.responsive {position: relative;}
     #navBar.responsive .icon {
         position: absolute;
@@ -64,5 +83,8 @@
         float: none;
         display: block;
         text-align: left;
+    }
+    #menuIcon {
+        display: block;
     }
 }

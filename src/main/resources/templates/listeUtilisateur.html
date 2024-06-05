@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Accueil</title>
-    <link rel="stylesheet" href="/css/accueil.css">
+    <link rel="stylesheet" href="/css/listeUtilisateur.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <header th:replace="~{fragments/navbar :: navbar}"></header>
-    <div class="accueil">
-        <h1>Accueil</h1>
-        <h2 th:text="${utilisateurConnecte.nom + ' ' + utilisateurConnecte.prenom + ' ' + utilisateurConnecte.role.libelle}"></h2>
+    <h1>Liste des Utilisateurs</h1>
+    <div>
         <ul th:each="utilisateur : ${utilisateurs}">
             <li>
                 <span th:text="${utilisateur.nom + ' ' + utilisateur.prenom + ' ' + utilisateur.role.libelle}"></span>

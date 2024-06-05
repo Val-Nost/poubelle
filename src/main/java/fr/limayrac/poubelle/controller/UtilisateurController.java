@@ -25,6 +25,15 @@ public class UtilisateurController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @GetMapping("/userListe")
+    public String userListe(Model model) {
+        UserSpringSecurity userSpringSecurity = (UserSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Utilisateur utilisateurConnecte = userSpringSecurity.getUtilisateur();
+        model.addAttribute("utilisateurs", utilisateurDao.findAll());
+        model.addAttribute("utilisateurConnecte", utilisateurConnecte);
+        return "listeUtilisateur";
+    }
+
     @GetMapping("/ajouter")
     public String ajouterUtilisateurForm(Model model) {
         UserSpringSecurity userSpringSecurity = (UserSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -42,6 +51,7 @@ public class UtilisateurController {
         utilisateurDao.save(utilisateur);
         return "redirect:/accueil";
     }
+
     @GetMapping("/modifier/{id}")
     public String modifierUtilisateurForm(@PathVariable Long id, Model model) {
         UserSpringSecurity userSpringSecurity = (UserSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

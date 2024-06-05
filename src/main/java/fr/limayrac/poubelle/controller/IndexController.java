@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class IndexController {
     @Autowired
     private UtilisateurDao utilisateurDao;
+
     @GetMapping("/accueil")
     public String accueil(Model model) {
         UserSpringSecurity userSpringSecurity = (UserSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
