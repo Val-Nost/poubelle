@@ -6,18 +6,57 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/ruesArrets.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Réinitialisation des styles de liste */
+        ul, li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* styles.css */
+        .list-container ul {
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+            max-height: 0; /* Initialement réduite */
+            padding: 0;
+        }
+
+        .list-container.expanded ul {
+            max-height: 1000px; /* S'assurer que la valeur est suffisante pour contenir tous les éléments */
+        }
+
+        .list-container ul li {
+            display: none; /* Masquer tous les éléments de la liste */
+        }
+
+        .list-container.expanded ul li {
+            display: list-item; /* Afficher tous les éléments lorsque la liste est agrandie */
+            margin-left: 20px; /* Ajouter un décalage pour les sous-éléments */
+        }
+
+        .toggleBtn {
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <header th:replace="~{fragments/navbar :: navbar}"></header>
 <h1>Rues et Arrêts</h1>
 <ul>
-    <li th:each="rue : ${rues}">
-        <span th:text="${rue.libelle}"/>
+    <li th:each="rue : ${rues}"  class="list-container">
+        <span class="toggleBtn" onclick="toggleList(this)" th:text="${rue.libelle}"></span>
         <ul>
             <li th:each="arretVoisin : ${rue.arretVoisins}" th:text="${arretVoisin.arret.libelle}"></li>
         </ul>
     </li>
 </ul>
+<script>
+    function toggleList(button) {
+        const listContainer = button.parentElement;
+        listContainer.classList.toggle('expanded');
+    }
+</script>
 <script src="/js/fragments/navbar.js"></script>
 </body>
 </html>
