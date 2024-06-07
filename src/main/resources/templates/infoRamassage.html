@@ -11,108 +11,138 @@
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'Itinéraire')">Itinéraire</button>
     <button class="tablinks" onclick="openTab(event, 'Cyclistes')">Cyclistes</button>
-    <button class="tablinks" onclick="openTab(event, 'Rues et Arrêts')">Rues et Arrêts</button>
+    <button class="tablinks" onclick="openTab(event, 'RuesEtArrêts')">Rues et Arrêts</button>
     <button class="tablinks" onclick="openTab(event, 'Incidents')">Incidents</button>
 </div>
-<div id="Itinéraire" class="tabcontent" style="display: block!important;">
-    <p>Ici sera affiché le graphe des arrêts à parcourir</p>
-</div>
-<div id="Cyclistes" class="tabcontent">
-    <table>
-        <thead>
-        <tr>
-            <th colspan="2">Cycliste</th>
-            <th colspan="2">Vélo</th>
-        </tr>
-        <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Id vélo</th>
-            <th>Statut</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="ramasssageCyclisteVelo : ${ramassage.ramassageCyclisteVelos}">
-            <td th:text="${ramasssageCyclisteVelo.cycliste.nom}"/>
-            <td th:text="${ramasssageCyclisteVelo.cycliste.prenom}"/>
-            <td th:text="${ramasssageCyclisteVelo.velo.id}"/>
-            <td th:text="${ramasssageCyclisteVelo.velo.statutVelo.libelle}"/>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div id="Rues et Arrêts" class="tabcontent">
-    <p>Ici seront affichés les arrêts parcourus et non parcourus</p>
-    <table>
-        <thead>
-        <tr>
-            <th>Rue</th>
-            <th>Arrêt</th>
-            <th>Ramassé</th>
-        </tr>
-        </thead>
-        <tbody>
-        <th:block th:each="rue : ${rues}">
+<div>
+    <div id="Itinéraire" class="tabcontent">
+        <p>Ici sera affiché le graphe des arrêts à parcourir</p>
+    </div>
+    <div id="Cyclistes" class="tabcontent">
+        <div class="formfield center">
+            <button onclick="addVelo(this)">Ajouter</button>
+        </div>
+        <form id="ajoutCyclisteVelo" method="post" th:action="${'/ramassage/' + ramassage.id + '/ajoutCyclisteVelo'}" style="display: none">
+            <div class="formfield">
+                <label for="cyclisteRestant">Cycliste à ajouter</label>
+                <select id="cyclisteRestant" name="cyclisteRestant">
+                    <option th:each="cycliste : ${cyclistesRestants}" th:value="${cycliste.id}" th:text="${cycliste.nom + ' ' + cycliste.prenom}"/>
+                </select>
+            </div>
+            <div class="formfield">
+                <label for="veloRestant">Vélo à ajouter</label>
+                <select id="veloRestant" name="veloRestant">
+                    <option th:each="velo : ${velosRestants}" th:text="${velo.id}"/>
+                </select>
+            </div>
+            <div class="formfield center">
+                <input value="Valider" type="submit">
+            </div>
+        </form>
+        <table>
+            <thead>
             <tr>
-                <td style="border: #333333 1px solid" th:rowspan="${rue.arretVoisins.size()+1}" th:text="${rue.libelle}"></td>
+                <th colspan="2">Cycliste</th>
+                <th colspan="2">Vélo</th>
             </tr>
-            <tr th:each="arretVoisin : ${rue.arretVoisins}">
-                <td style="border: #333333 1px solid" th:text="${arretVoisin.arret.libelle}"></td>
-                <td style="border: #333333 1px solid" th:text="${arretVoisin.arret.ramasse ? 'Oui' : 'Non'}" th:class="${arretVoisin.arret.ramasse ? 'ok' : 'ko
-                '}"></td>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Id vélo</th>
+                <th>Statut</th>
             </tr>
-        </th:block>
-        </tbody>
-    </table>
-</div>
-<div id="Incidents" class="tabcontent">
-    <form method="post" th:action="${'/ramassage/' + ramassage.id + '/ajoutIncident'}">
-        <div>
-            <label for="libelle">Libelle</label>
-            <input id="libelle" name="libelle" type="text" required>
-        </div>
-        <div>
-            <label for="cyclisteConcerne">Cycliste concerné : </label>
-            <select id="cyclisteConcerne" name="cyclisteConcerne" onchange="selectCycliste(this)">
-                <option value="">Aucun</option>
-                <option th:each="cycliste : ${cyclistes}" th:value="${cycliste.id}" th:text="${cycliste.nom + ' ' + cycliste.prenom}"></option>
-            </select>
-            <div id="cyclisteRemplacantDiv" style="display: none">
-                <label for="cyclisteRemplacant">Cycliste remplaçant : </label>
-                <select id="cyclisteRemplacant" name="cyclisteRemplacant">
+            </thead>
+            <tbody>
+            <tr th:each="ramasssageCyclisteVelo : ${ramassage.ramassageCyclisteVelos}">
+                <td th:text="${ramasssageCyclisteVelo.cycliste.nom}"/>
+                <td th:text="${ramasssageCyclisteVelo.cycliste.prenom}"/>
+                <td th:text="${ramasssageCyclisteVelo.velo.id}"/>
+                <td th:text="${ramasssageCyclisteVelo.velo.statutVelo.libelle}"/>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="RuesEtArrêts" class="tabcontent">
+        <table>
+            <thead>
+            <tr>
+                <th>Rue</th>
+                <th>Arrêt</th>
+                <th>Ramassé</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="rue : ${rues}">
+                <tr>
+                    <td style="border: #333333 1px solid" th:rowspan="${rue.arretVoisins.size()+1}" th:text="${rue.libelle}"></td>
+                </tr>
+                <tr th:each="arretVoisin : ${rue.arretVoisins}">
+                    <td style="border: #333333 1px solid" th:text="${arretVoisin.arret.libelle}"></td>
+                    <td style="border: #333333 1px solid" th:text="${arretVoisin.arret.ramasse ? 'Oui' : 'Non'}" th:class="${arretVoisin.arret.ramasse ? 'ok' : 'ko'}"></td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+    <div id="Incidents" class="tabcontent">
+        <form method="post" th:action="${'/ramassage/' + ramassage.id + '/ajoutIncident'}">
+            <div>
+                <label for="libelle">Libelle</label>
+                <input id="libelle" name="libelle" type="text" required>
+            </div>
+            <div>
+                <label for="cyclisteConcerne">Cycliste concerné : </label>
+                <select id="cyclisteConcerne" name="cyclisteConcerne" onchange="selectCycliste(this)">
+                    <option value="">Aucun</option>
+                    <option th:each="cycliste : ${cyclistes}" th:value="${cycliste.id}" th:text="${cycliste.nom + ' ' + cycliste.prenom}"></option>
                 </select>
+                <div id="cyclisteRemplacantDiv" style="display: none">
+                    <label for="cyclisteRemplacant">Cycliste remplaçant : </label>
+                    <select id="cyclisteRemplacant" name="cyclisteRemplacant">
+                    </select>
+                </div>
             </div>
-        </div>
-        <div>
-            <label for="veloConcerne">Vélo concerné</label>
-            <select id="veloConcerne" name="veloConcerne" onchange="selectVelo(this)">
-                <option value="">Aucun</option>
-                <option th:each="velo : ${velos}" th:value="${velo.id}" th:text="${velo.id}"></option>
-            </select>
-            <div id="veloRemplacantDiv" style="display: none">
-                <label for="veloRemplacant">Vélo remplaçant</label>
-                <select id="veloRemplacant" name="veloRemplacant">
+            <div>
+                <label for="veloConcerne">Vélo concerné</label>
+                <select id="veloConcerne" name="veloConcerne" onchange="selectVelo(this)">
+                    <option value="">Aucun</option>
+                    <option th:each="velo : ${velos}" th:value="${velo.id}" th:text="${velo.id}"></option>
                 </select>
+                <div id="veloRemplacantDiv" style="display: none">
+                    <label for="veloRemplacant">Vélo remplaçant</label>
+                    <select id="veloRemplacant" name="veloRemplacant">
+                    </select>
+                </div>
             </div>
-        </div>
-        <div>
-            <label for="arret">Arret  concerné</label>
-            <select id="arret" name="arret" onchange="selectArret(this)">
-                <option value="">Aucun</option>
-                <option th:each="arret : ${arrets}" th:value="${arret.id}" th:text="${arret.libelle}"></option>
-            </select>
-            <div id="arretDiv" style="display: none">
-                <label for="arretDiv">L'arrêt est-il toujours accessible ?</label>
-                <label for="pratiquableOui">Oui</label>
-                <input id="pratiquableOui" name="pratiquable" type="radio" th:value="${true}">
-                <label for="pratiquableNon">Non</label>
-                <input id="pratiquableNon" name="pratiquable" type="radio" th:value="${false}" checked>
+            <div>
+                <label for="arret">Arret  concerné</label>
+                <select id="arret" name="arret" onchange="selectArret(this)">
+                    <option value="">Aucun</option>
+                    <option th:each="arret : ${arrets}" th:value="${arret.id}" th:text="${arret.libelle}"></option>
+                </select>
+                <div id="arretDiv" style="display: none">
+                    <label for="arretDiv">L'arrêt est-il toujours accessible ?</label>
+                    <label for="pratiquableOui">Oui</label>
+                    <input id="pratiquableOui" name="pratiquable" type="radio" th:value="${true}">
+                    <label for="pratiquableNon">Non</label>
+                    <input id="pratiquableNon" name="pratiquable" type="radio" th:value="${false}" checked>
+                </div>
             </div>
-        </div>
-        <input type="submit" value="Valider">
-    </form>
+            <input type="submit" value="Valider">
+        </form>
+    </div>
 </div>
+
 <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has("tab")) {
+        document.getElementById(urlParams.get("tab")).style.display = "block"
+    } else {
+        document.getElementById("Itinéraire").style.display = 'block'
+    }
+
+    let ajoutVelo = document.querySelector('#ajoutCyclisteVelo')
+
     let veloConcerne = document.querySelector('#veloConcerne');
     let veloRemplacant = document.querySelector('#veloRemplacant');
 
@@ -124,6 +154,9 @@
     let divArret = document.querySelector("#arretDiv")
 
     function openTab(evt, tapName) {
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set("tab", tapName)
+        window.location.search = urlParams;
         // Declare all variables
         var i, tabcontent, tablinks;
 
@@ -144,6 +177,18 @@
         evt.currentTarget.className += "active";
     }
 
+    // Tab Cyclistes
+    function addVelo(button) {
+        if (button.textContent === "Ajouter") {
+            button.innerHTML = "Annuler"
+            ajoutVelo.style.display = 'block'
+        } else {
+            button.innerHTML = "Ajouter"
+            ajoutVelo.style.display = 'none'
+        }
+    }
+
+    // Tab Incidents
     function selectVelo(element) {
         if (element.value === "") {
             divVelo.style.display = 'none';
@@ -159,7 +204,6 @@
             }
         }
     }
-
     function selectCycliste(element) {
         if (element.value === "") {
             divCycliste.style.display = 'none';
@@ -175,7 +219,6 @@
             }
         }
     }
-
     function selectArret(element) {
         if (element.value === "") {
             divArret.style.display = 'none'

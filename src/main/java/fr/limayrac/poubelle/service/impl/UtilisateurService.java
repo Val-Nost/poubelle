@@ -3,6 +3,7 @@ package fr.limayrac.poubelle.service.impl;
 import fr.limayrac.poubelle.dao.IUtilisateurDao;
 import fr.limayrac.poubelle.model.Role;
 import fr.limayrac.poubelle.model.Utilisateur;
+import fr.limayrac.poubelle.model.ramassage.Ramassage;
 import fr.limayrac.poubelle.service.IUtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,5 +23,10 @@ public class UtilisateurService implements IUtilisateurService {
     @Override
     public List<Utilisateur> findByRole(Role role) {
         return utilisateurDao.findByRole(role);
+    }
+
+    @Override
+    public List<Utilisateur> findUtilisateurNotAffectedToRamassageByRole(Ramassage ramassage, Role role) {
+        return utilisateurDao.findUtilisateurNotAffectedToRamassageByRole(ramassage, role);
     }
 }

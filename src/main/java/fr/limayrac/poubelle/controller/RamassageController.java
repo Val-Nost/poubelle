@@ -92,6 +92,10 @@ public class RamassageController {
         model.addAttribute("ramassage", ramassage);
         model.addAttribute("rues", rueService.findAllOrderById());
 
+        // Cyclistes
+        model.addAttribute("velosRestants", veloService.findVeloNotAffectedToRamassage(ramassage));
+        model.addAttribute("cyclistesRestants", utilisateurService.findUtilisateurNotAffectedToRamassageByRole(ramassage, Role.Cycliste));
+
         // Incident
         model.addAttribute("cyclistes", utilisateurService.findByRole(Role.Cycliste));
         model.addAttribute("velos", veloService.findByStatut(StatutVelo.UTILISABLE));
@@ -104,6 +108,21 @@ public class RamassageController {
         model.addAttribute("ramassagesEnCours", ramassageService.findByEnCours(true));
         model.addAttribute("ramassagesTermine", ramassageService.findByEnCours(false));
         return "ramassage";
+    }
+
+    @PostMapping("/{idRamassage}/ajoutCyclisteVelo")
+    public String ajoutCyclisteVelo(@PathVariable Long idRamassage, @RequestParam Long cyclisteRestant, @RequestParam Long veloRestant) {
+        Ramassage ramassage = ramassageService.findById(idRamassage);
+        Utilisateur cycliste = utilisateurService.findById(cyclisteRestant);
+        Velo velo = veloService.findById(veloRestant);
+
+        RamassageCyclisteVelo ramassageCyclisteVelo = new RamassageCyclisteVelo();
+        ramassageCyclisteVelo.setCycliste(cycliste);
+        ramassageCyclisteVelo.setRamassage(ramassage);
+        ramassageCyclisteVelo.setVelo(velo);
+
+        ramassageCyclisteVeloService.save(ramassageCyclisteVelo);
+        return "redirect:/ramassage/{idRamassage}?tab=Cyclistes";
     }
 
     @PostMapping("/{idRamassage}/ajoutIncident")
@@ -147,6 +166,6 @@ public class RamassageController {
 
         incidentService.save(incident);
 
-        return "redirect:/ramassage/{idRamassage}";
+        return "redirect:/ramassage/{idRamassage}?tab=Incidents";
     }
 }
