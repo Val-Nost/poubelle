@@ -3,40 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <title>Rues et Arrêts</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
     <link rel="stylesheet" href="/css/ruesArrets.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* Réinitialisation des styles de liste */
         ul, li {
             list-style: none;
             margin: 0;
             padding: 0;
         }
 
-        /* styles.css */
         .list-container ul {
             overflow: hidden;
             transition: max-height 0.5s ease-in-out;
-            max-height: 0; /* Initialement réduite */
+            max-height: 0;
             padding: 0;
         }
 
         .list-container.expanded ul {
-            max-height: 1000px; /* S'assurer que la valeur est suffisante pour contenir tous les éléments */
+            max-height: 1000px;
         }
 
         .list-container ul li {
-            display: none; /* Masquer tous les éléments de la liste */
+            display: none;
         }
 
         .list-container.expanded ul li {
-            display: list-item; /* Afficher tous les éléments lorsque la liste est agrandie */
-            margin-left: 20px; /* Ajouter un décalage pour les sous-éléments */
+            display: list-item;
+            margin-left: 20px;
         }
 
         .toggleBtn {
             cursor: pointer;
+            position: relative;
+        }
+
+        .toggleBtn i {
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+        }
+
+        .list-container.expanded .toggleBtn i.fa-chevron-down {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .list-container.expanded .toggleBtn i.fa-chevron-up {
+            transform: translateY(-50%) rotate(0deg);
         }
     </style>
 </head>
@@ -44,8 +60,11 @@
 <header th:replace="~{fragments/navbar :: navbar}"></header>
 <h1>Rues et Arrêts</h1>
 <ul>
-    <li th:each="rue : ${rues}"  class="list-container">
-        <span class="toggleBtn" onclick="toggleList(this)" th:text="${rue.libelle}"></span>
+    <li th:each="rue : ${rues}" class="list-container">
+        <span class="toggleBtn" onclick="toggleList(this)">
+            <i class="fa-solid fa-arrow-down"></i>
+            <span th:text="${rue.libelle}"></span>
+        </span>
         <ul>
             <li th:each="arretVoisin : ${rue.arretVoisins}" th:text="${arretVoisin.arret.libelle}"></li>
         </ul>
@@ -54,6 +73,7 @@
 <script>
     function toggleList(button) {
         const listContainer = button.parentElement;
+        $(button).find('i').toggleClass('fa-arrow-down fa-arrow-up');
         listContainer.classList.toggle('expanded');
     }
 </script>
