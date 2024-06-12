@@ -16,5 +16,5 @@ public class Ramassage {
     private List<RamassageCyclisteVelo> ramassageCyclisteVelos;
     private Boolean enCours;
     @OneToMany(mappedBy = "ramassage")
-    private List<RamassageArret> ramassageArrets;
+    private List<Passage> passages;
 }
