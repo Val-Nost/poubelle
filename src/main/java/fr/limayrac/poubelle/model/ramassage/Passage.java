@@ -5,11 +5,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
-public class RamassageArret {
+public class Passage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,4 +18,5 @@ public class RamassageArret {
     @ManyToOne
     private Arret arret;
     private Boolean ramasse;
+    private LocalDateTime datePassage;
 }
