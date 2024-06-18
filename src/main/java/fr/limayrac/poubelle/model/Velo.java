@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Entity
 @Getter @Setter
 public class Velo {
@@ -19,4 +21,8 @@ public class Velo {
     private Integer chargeMax;
     private StatutVelo statutVelo;
     private Boolean modeRamassage;
+
+    public Boolean chargeMaxAtteint() {
+        return Objects.equals(charge, chargeMax);
+    }
 }

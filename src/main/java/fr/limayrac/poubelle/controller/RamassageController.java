@@ -1,8 +1,8 @@
 package fr.limayrac.poubelle.controller;
 
 import fr.limayrac.poubelle.model.*;
+import fr.limayrac.poubelle.model.ramassage.Passage;
 import fr.limayrac.poubelle.model.ramassage.Ramassage;
-import fr.limayrac.poubelle.model.ramassage.RamassageArret;
 import fr.limayrac.poubelle.model.ramassage.RamassageCyclisteVelo;
 import fr.limayrac.poubelle.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class RamassageController {
     @Autowired
     private IArretService arretService;
     @Autowired
-    private IRamassageArretService ramassageArretService;
+    private IPassageService ramassageArretService;
     @Autowired
     private IRueService rueService;
     @Autowired
@@ -74,14 +74,14 @@ public class RamassageController {
         Remarque on crée une liste pour éviter les appels multiples vers la BDD
         Il est peut recommandé de faire appel à un DAO dans une boucle
         */
-        List<RamassageArret> ramassageArrets = new ArrayList<>();
+        List<Passage> passages = new ArrayList<>();
         for (Arret arret : arretService.findAll()) {
-            RamassageArret ramassageArret = new RamassageArret();
-            ramassageArret.setArret(arret);
-            ramassageArret.setRamassage(ramassage);
-            ramassageArret.setRamasse(false);
+            Passage passage = new Passage();
+            passage.setArret(arret);
+            passage.setRamassage(ramassage);
+            passage.setRamasse(false);
         }
-        ramassageArretService.saveAll(ramassageArrets);
+        ramassageArretService.saveAll(passages);
 
         return "redirect:/ramassage/liste";
     }

@@ -1,6 +1,7 @@
 package fr.limayrac.poubelle.model.ramassage;
 
 import fr.limayrac.poubelle.model.Arret;
+import fr.limayrac.poubelle.model.Utilisateur;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,4 +20,6 @@ public class Passage {
     private Arret arret;
     private Boolean ramasse;
     private LocalDateTime datePassage;
+    @ManyToOne
+    private Utilisateur ramasseur;
 }

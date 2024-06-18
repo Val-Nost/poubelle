@@ -15,7 +15,9 @@ public class Arret {
     private Long id;
     private String libelle;
 
-    @OneToMany(mappedBy = "arret")
+    @OneToMany(mappedBy = "arret", fetch = FetchType.EAGER)
     private List<ArretVoisin> arretVoisins;
     private Boolean ramasse;
+
+
 }

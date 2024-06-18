@@ -19,10 +19,10 @@
         <p>Ici sera affiché le graphe des arrêts à parcourir</p>
     </div>
     <div id="Cyclistes" class="tabcontent">
-        <div class="formfield center">
+        <div class="formfield center" th:if="${ramassage.enCours}">
             <button onclick="addVelo(this)">Ajouter</button>
         </div>
-        <form id="ajoutCyclisteVelo" method="post" th:action="${'/ramassage/' + ramassage.id + '/ajoutCyclisteVelo'}" style="display: none">
+        <form id="ajoutCyclisteVelo" method="post"  onsubmit="addVeloValidate(event)" th:action="${'/ramassage/' + ramassage.id + '/ajoutCyclisteVelo'}" style="display: none"  th:if="${ramassage.enCours}">
             <div class="formfield">
                 <label for="cyclisteRestant">Cycliste à ajouter</label>
                 <select id="cyclisteRestant" name="cyclisteRestant">
@@ -187,7 +187,23 @@
             ajoutVelo.style.display = 'none'
         }
     }
+    function addVeloValidate(evt) {
+        let veloRestant = document.querySelectorAll('#veloRestant option')
+        let cyclisteRestant = document.querySelectorAll('#cyclisteRestant option')
 
+        let message = ""
+        console.log(message)
+        if (veloRestant.length === 0) {
+            message = message.concat("Aucun vélo n'est actuellement disponible\n")
+        }
+        if (cyclisteRestant.length === 0) {
+            message = message.concat("Aucun cycliste n'est actuellement disponible")
+        }
+        if (veloRestant.length === 0 || cyclisteRestant.length === 0) {
+            evt.preventDefault()
+            alert(message)
+        }
+    }
     // Tab Incidents
     function selectVelo(element) {
         if (element.value === "") {

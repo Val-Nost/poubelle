@@ -3,7 +3,6 @@ package fr.limayrac.poubelle.db.migration;
 import org.flywaydb.core.api.migration.BaseJavaMigration;
 import org.flywaydb.core.api.migration.Context;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class V1_0_3__AjoutVelo extends BaseJavaMigration implements SpringJDBCTemplateProvider{
 
@@ -28,14 +27,14 @@ public class V1_0_3__AjoutVelo extends BaseJavaMigration implements SpringJDBCTe
 
     public void ajoutVelo(JdbcTemplate jdbcTemplate) {
         jdbcTemplate.execute("INSERT INTO velo(autonomie, autonomie_max, charge, charge_max, statut_velo, mode_ramassage) VALUES " +
-                "(50, 50, 200, 200, 0, true)," +
-                "(50, 50, 200, 200, 0, true)," +
-                "(50, 50, 200, 200, 0, true)," +
-                "(50, 50, 200, 200, 0, true)," +
-                "(50, 50, 200, 200, 0, true)," +
-                "(50, 50, 200, 200, 0, true)," +
-                "(50, 50, 200, 200, 0, true)," +
-                "(50, 50, 200, 200, 0, true)");
+                "(50, 50, 0, 200, 0, true)," +
+                "(50, 50, 0, 200, 0, true)," +
+                "(50, 50, 0, 200, 0, true)," +
+                "(50, 50, 0, 200, 0, true)," +
+                "(50, 50, 0, 200, 0, true)," +
+                "(50, 50, 0, 200, 0, true)," +
+                "(50, 50, 0, 200, 0, true)," +
+                "(50, 50, 0, 200, 0, true)");
     }
 
 
