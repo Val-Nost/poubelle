@@ -64,7 +64,7 @@ public class ItineraireTest {
                     } else {
                         arretCourant.setRamasse(true);
                         Passage passage = new Passage();
-                        passage.setArret(arretDepart);
+                        passage.setArret(arretCourant);
                         passage.setRamassage(ramassage);
                         passage.setRamasse(true);
                         passage.setDatePassage(LocalDateTime.now());
@@ -88,7 +88,7 @@ public class ItineraireTest {
                             // Sinon on regarde les arrêts voisins
                             Passage passageDepart = null;
                             for (ArretVoisin arretVoisin : mapOriginal.get(ramassageCyclisteVelo.getCycliste()).get(i).getArret().getArretVoisins()) {
-                                if (arretVoisin.getArret().equals(arretDepart)) {
+                                if (arretVoisin.getArretSuivant().equals(arretDepart)) {
                                     // On est tombé sur l'arrêt de départ
                                     passageDepart = new Passage();
                                     passageDepart.setArret(arretVoisin.getArret());
@@ -121,23 +121,23 @@ public class ItineraireTest {
         if (allRamasse(arretVoisins)) {
             for (ArretVoisin arretN : arretVoisins) {
                 // On parours les arrêts voisins afin de trouver
-                for (ArretVoisin arretN1 : arretN.getArret().getArretVoisins()) {
+                for (ArretVoisin arretN1 : arretN.getArretSuivant().getArretVoisins()) {
                     // On regarde si tous les arrets voisins de 1 niveaux sont ramasse
-                    if (!allRamasse(arretN1.getArret().getArretVoisins())) {
-                        return arretRecursif(arretN1.getArret().getArretVoisins());
+                    if (!allRamasse(arretN1.getArretSuivant().getArretVoisins())) {
+                        return arretRecursif(arretN1.getArretSuivant().getArretVoisins());
                     }
                 }
                 // Si aucun arrêt voisin de niveax 1 n'est trouvé
-                for (ArretVoisin arretN1 : arretN.getArret().getArretVoisins()) {
+                for (ArretVoisin arretN1 : arretN.getArretSuivant().getArretVoisins()) {
                     // On regarde si tous les arrets voisins de 1 niveaux sont ramasse
-                    return arretRecursif(arretN1.getArret().getArretVoisins());
+                    return arretRecursif(arretN1.getArretSuivant().getArretVoisins());
                 }
             }
         } else {
             for (ArretVoisin arretVoisin : arretVoisins) {
-                if (!arretVoisin.getArret().getRamasse()) {
+                if (!arretVoisin.getArretSuivant().getRamasse()) {
                     Passage passage = new Passage();
-                    passage.setArret(arretVoisin.getArret());
+                    passage.setArret(arretVoisin.getArretSuivant());
                     passage.setRamasse(true);
                     passage.setDatePassage(LocalDateTime.now());
                     return passage;
@@ -148,6 +148,6 @@ public class ItineraireTest {
     }
 
     public Boolean allRamasse(List<ArretVoisin> arretVoisins) {
-        return arretVoisins.stream().allMatch(arretVoisin -> arretVoisin.getArret().getRamasse().equals(true));
+        return arretVoisins.stream().allMatch(arretVoisin -> arretVoisin.getArretSuivant().getRamasse().equals(true));
     }
 }
