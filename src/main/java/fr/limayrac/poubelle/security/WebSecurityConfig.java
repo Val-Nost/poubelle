@@ -35,6 +35,7 @@ public class WebSecurityConfig  {
                                 .usernameParameter("login")
                                 .passwordParameter("password")
                                 .defaultSuccessUrl("/accueil", true)
+                                .failureUrl("/?error=true")
                 )
                 .logout((logout) ->
                         logout
