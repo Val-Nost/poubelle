@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Détail ramassage</title>
     <link rel="stylesheet" href="/css/fragments/navbar.css">
+    <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/css/ramassage.css">
 </head>
 <body>
@@ -59,7 +60,7 @@
             <tr th:each="arretVoisin : ${rue.arretVoisins}">
                 <td style="border: #333333 1px solid" th:text="${arretVoisin.arret.libelle}"></td>
                 <td style="border: #333333 1px solid" th:text="${arretVoisin.arret.ramasse ? 'Oui' : 'Non'}" th:class="${arretVoisin.arret.ramasse ? 'ok' : 'ko
-                '}"></td>
+                }"></td>
             </tr>
         </th:block>
         </tbody>
