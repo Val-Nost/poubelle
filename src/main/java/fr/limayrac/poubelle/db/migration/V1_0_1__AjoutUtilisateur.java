@@ -33,6 +33,28 @@ public class V1_0_1__AjoutUtilisateur extends BaseJavaMigration implements Sprin
         jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
                 "VALUES (true, 'cycliste', 'CLAVETTE', '" + bCryptPasswordEncoder.encode(password) +"', 'Tyson', 0)");
         jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
+                "VALUES (true, 'cycliste2', 'CLAVETTE', '" + bCryptPasswordEncoder.encode(password) +"', 'Tyson', 0)");
+        jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
+                "VALUES (true, 'cycliste3', 'CLAVETTE', '" + bCryptPasswordEncoder.encode(password) +"', 'Tyson', 0)");
+        jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
+                "VALUES (true, 'cycliste4', 'CLAVETTE', '" + bCryptPasswordEncoder.encode(password) +"', 'Tyson', 0)");
+        jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
+                "VALUES (true, 'cycliste5', 'CLAVETTE', '" + bCryptPasswordEncoder.encode(password) +"', 'Tyson', 0)");
+        jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
+                "VALUES (true, 'cycliste6', 'CLAVETTE', '" + bCryptPasswordEncoder.encode(password) +"', 'Tyson', 0)");
+        jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
+                "VALUES (true, 'cycliste7', 'CLAVETTE', '" + bCryptPasswordEncoder.encode(password) +"', 'Tyson', 0)");
+        jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
+                "VALUES (true, 'cycliste8', 'CLAVETTE', '" + bCryptPasswordEncoder.encode(password) +"', 'Tyson', 0)");
+        jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
+                "VALUES (true, 'cycliste9', 'CLAVETTE', '" + bCryptPasswordEncoder.encode(password) +"', 'Tyson', 0)");
+        jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
+                "VALUES (true, 'cycliste10', 'CLAVETTE', '" + bCryptPasswordEncoder.encode(password) +"', 'Tyson', 0)");
+        jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
+                "VALUES (true, 'cycliste11', 'CLAVETTE', '" + bCryptPasswordEncoder.encode(password) +"', 'Tyson', 0)");
+        jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
+                "VALUES (true, 'cycliste12', 'CLAVETTE', '" + bCryptPasswordEncoder.encode(password) +"', 'Tyson', 0)");
+        jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
                 "VALUES (true, 'abazinet', 'BAZINET', '" + bCryptPasswordEncoder.encode(password) +"', 'Amélie', 0)");
         jdbcTemplate.execute("INSERT INTO utilisateur (actif, login, nom, password, prenom, role) " +
                 "VALUES (true, 'lturgeon', 'TURGEON', '" + bCryptPasswordEncoder.encode(password) +"', 'Lucas', 0)");
