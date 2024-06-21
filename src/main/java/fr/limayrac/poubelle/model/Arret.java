@@ -20,4 +20,5 @@ public class Arret {
     private Boolean ramasse;
 
 
+
 }
