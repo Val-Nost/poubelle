@@ -1,6 +1,7 @@
 package fr.limayrac.poubelle.service.impl;
 
 import fr.limayrac.poubelle.dao.IArretDao;
+import fr.limayrac.poubelle.dao.IRueDao;
 import fr.limayrac.poubelle.model.Arret;
 import fr.limayrac.poubelle.service.IArretService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import java.util.List;
 public class ArretService implements IArretService {
     @Autowired
     private IArretDao arretDao;
+    @Autowired
+    private IRueDao rueDao;
     @Override
     public List<Arret> findAll() {
         return (List<Arret>) arretDao.findAll();
@@ -20,5 +23,10 @@ public class ArretService implements IArretService {
     @Override
     public Arret findById(Long id) {
         return arretDao.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Arret> findFeuille() {
+        return arretDao.findTerminusByRue();
     }
 }

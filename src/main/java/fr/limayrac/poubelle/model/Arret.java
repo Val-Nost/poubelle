@@ -19,6 +19,13 @@ public class Arret {
     private List<ArretVoisin> arretVoisins;
     private Boolean ramasse;
 
+    public Boolean isCarrefour() {
+        if (arretVoisins == null) {
+            return null;
+        }
+        return arretVoisins.size() > 1;
+    }
+
 
 
 }

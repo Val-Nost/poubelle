@@ -1,5 +1,6 @@
 package fr.limayrac.poubelle;
 
+import fr.limayrac.poubelle.dto.CheminPossibleDto;
 import fr.limayrac.poubelle.model.Arret;
 import fr.limayrac.poubelle.model.ArretVoisin;
 import fr.limayrac.poubelle.model.Utilisateur;
@@ -179,5 +180,43 @@ public class ItineraireTest {
     public Boolean allRamasse(List<ArretVoisin> arretVoisins) {
         // TODO attention au arrêts suivants null
         return arretVoisins.stream().allMatch(arretVoisin -> arretVoisin.getArretSuivant().getRamasse().equals(true));
+    }
+
+    @Test
+    public void chercheChemin() {
+        List<Arret> terminus = arretService.findFeuille();
+        Map<Arret, List<CheminPossibleDto>> cheminsPossiblesParTerminus = new HashMap<>();
+
+        for (Arret arret : terminus) {
+            if (!cheminsPossiblesParTerminus.containsKey(arret)) {
+                List<CheminPossibleDto> cheminPossibleDtos = new ArrayList<>();
+                cheminPossibleDtos.add(new CheminPossibleDto());
+                chercheCheminRecursif(arretDepart, arret, 0, cheminPossibleDtos);
+                cheminsPossiblesParTerminus.put(arret, cheminPossibleDtos);
+            }
+        }
+        cheminsPossiblesParTerminus = cheminsPossiblesParTerminus;
+    }
+
+    public void chercheCheminRecursif(Arret arret, Arret arretDestination, Integer numeroChemin, List<CheminPossibleDto> cheminPossibleDtos) {
+        // TODO hash et equals de Arret
+        if (!arret.equals(arretDestination)) {
+            if (arret.getArretVoisins().size() == 1) {
+                // S'il s'agit d'un arrêt simple, on l'ajoute juste au chemin possible
+                cheminPossibleDtos.get(numeroChemin).addArret(arret.getArretVoisins().get(0).getArret());
+                chercheCheminRecursif(arret.getArretVoisins().get(0).getArretSuivant(), arretDestination, numeroChemin, cheminPossibleDtos);
+            } else {
+                // Sinon on dupplique le chemin actuel par le nomnbre de voisins -1 (comme on garde le premier chemin)
+                for (int i = 0; i < arret.getArretVoisins().size()-1; i++) {
+                    cheminPossibleDtos.add(new CheminPossibleDto(cheminPossibleDtos.get(numeroChemin)));
+                }
+                for (ArretVoisin arretVoisin : arret.getArretVoisins()) {
+                    cheminPossibleDtos.get(numeroChemin).addArret(arretVoisin.getArretSuivant());
+                    chercheCheminRecursif(arretVoisin.getArretSuivant(), arretDestination, numeroChemin, cheminPossibleDtos);
+                    // On incrémente le nombre de chemin possible pour chaque voisins
+                    numeroChemin++;
+                }
+            }
+        }
     }
 }

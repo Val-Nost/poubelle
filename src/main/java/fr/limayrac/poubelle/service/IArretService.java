@@ -8,4 +8,6 @@ public interface IArretService {
     List<Arret> findAll();
 
     Arret findById(Long id);
+
+    List<Arret> findFeuille();
 }

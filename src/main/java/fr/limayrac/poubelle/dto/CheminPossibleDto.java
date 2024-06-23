@@ -4,6 +4,7 @@ import fr.limayrac.poubelle.model.Arret;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
@@ -12,6 +13,18 @@ public class CheminPossibleDto {
     private Integer compteurArret;
     private List<Arret> arrets;
 
+    public CheminPossibleDto() {
+        compteurCarrefour = 0;
+        compteurArret = 0;
+        arrets = new ArrayList<>();
+    }
+
+    public CheminPossibleDto(CheminPossibleDto cheminPossibleDto) {
+        compteurCarrefour = cheminPossibleDto.getCompteurCarrefour();
+        compteurArret = cheminPossibleDto.getCompteurArret();
+        arrets = new ArrayList<>(cheminPossibleDto.getArrets());
+    }
+
     public Integer calculDistance() {
         // 500 mètres séparent chaque arrêt
         // On perd 1 kilomètre tous les 20 carrefours
@@ -19,8 +32,19 @@ public class CheminPossibleDto {
         return ((500*compteurArret) + (compteurCarrefour%20))*2;
     }
 
+    public void addArret(Arret arret) {
+        if (arret.isCarrefour()) {
+            compteurCarrefour++;
+        }
+        compteurArret++;
+        arrets.add(arret);
+    }
+
     public void removeArret(Arret arret) {
-        if (arret.is)
-        arrets.remove(arret);
+        if (arret.isCarrefour()) {
+
+        } else {
+            arrets.remove(arret);
+        }
     }
 }
