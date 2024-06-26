@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Lancement Ramassage</title>
-    <link rel="stylesheet" href="/css/fragments/navbar.css">
     <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/css/ramassage.css">
 </head>
 <body>
 <header th:replace="~{fragments/navbar :: navbar}"></header>
 <div class="container">
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
     <h1>Lancer un ramassage</h1>
     <!-- On peut lancer un ramassage seulement si un n'est pas déjà en cours -->
     <form th:if="${ramassagesEnCours.size() == 0}" action="ramassage/choixCycliste" method="post">

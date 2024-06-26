@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Ramassage</title>
-    <link rel="stylesheet" href="/css/fragments/navbar.css">
     <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/css/ramassage.css">
 </head>
 <body>
-<header th:replace="~{fragments/navbar :: navbar}"></header>
+<header th:replace="fragments/navbar :: navbar"></header>
 <div class="container">
     <h1>Ramassage en cours</h1>
     <div class="card" th:each="rammassageEnCours : ${ramassagesEnCours}">

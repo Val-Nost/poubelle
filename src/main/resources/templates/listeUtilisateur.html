@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <header th:replace="~{fragments/navbar :: navbar}"></header>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
     <h1>Liste des Utilisateurs</h1>
     <div>
         <ul th:each="utilisateur : ${utilisateurs}">

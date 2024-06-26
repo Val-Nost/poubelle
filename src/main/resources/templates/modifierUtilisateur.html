@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <header th:replace="~{fragments/navbar :: navbar}"></header>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
     <div class="modifierUtilisateur">
         <h1>Modifier Utilisateur</h1>
         <form th:action="@{/utilisateurs/update/{id}(id=${utilisateur.id})}" th:object="${utilisateur}" method="post">
