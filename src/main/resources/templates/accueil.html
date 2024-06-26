@@ -12,113 +12,108 @@
     <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
           rel="stylesheet">
-</head>
-<style>
-    a {
-        font-family: "EB Garamond", serif;
-        font-weight: 500;
-        font-style: normal;
-        font-size: 25px;
-    }
+    <style>
+        a {
+            font-family: "EB Garamond", serif;
+            font-weight: 500;
+            font-style: normal;
+            font-size: 25px;
+        }
 
-    .logo {
-        width: 90px;
-        height: auto;
-        margin-left: 120px;
-    }
+        .logo {
+            width: 90px;
+            height: auto;
+            margin-left: 120px;
+        }
 
-    .cd-popup {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s 0s, visibility 0s 0.3s;
-        z-index: 1000;
-    }
+        .cd-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s 0s, visibility 0s 0.3s;
+            z-index: 1000;
+        }
 
-    .cd-popup.is-visible {
-        opacity: 1;
-        visibility: visible;
-        transition: opacity 0.3s 0s, visibility 0s 0s;
-    }
+        .cd-popup.is-visible {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.3s 0s, visibility 0s 0s;
+        }
 
-    .cd-popup-container {
-        position: relative;
-        width: 90%;
-        max-width: 400px;
-        margin: 100px auto;
-        background: #fff;
-        padding: 20px;
-        text-align: center;
-        border-radius: 5px;
-        transform: translateY(-40px);
-        transition: transform 0.3s;
-    }
+        .cd-popup-container {
+            position: relative;
+            width: 90%;
+            max-width: 400px;
+            margin: 100px auto;
+            background: #fff;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            transform: translateY(-40px);
+            transition: transform 0.3s;
+        }
 
-    .is-visible .cd-popup-container {
-        transform: translateY(0);
-    }
+        .is-visible .cd-popup-container {
+            transform: translateY(0);
+        }
 
-    .cd-buttons {
-        list-style: none;
-        padding: 0;
-        margin: 20px 0 0;
-    }
+        .cd-buttons {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 0;
+        }
 
-    .cd-buttons li {
-        display: inline-block;
-        margin: 0 10px;
-    }
+        .cd-buttons li {
+            display: inline-block;
+            margin: 0 10px;
+        }
 
-    .cd-buttons a {
-        text-decoration: none;
-        padding: 10px 20px;
-        color: #fff;
-        border-radius: 3px;
-        transition: background 0.3s;
-    }
+        .cd-buttons a {
+            text-decoration: none;
+            padding: 10px 20px;
+            color: black;
+            border-radius: 3px;
+            transition: background 0.3s;
+        }
 
-    .cd-buttons a#confirm-delete {
-        background: #ff4d4d; /* Red for "Yes" button */
-    }
+        .cd-buttons a#confirm-delete {
+            background: #ff4d4d;
+        }
 
-    .cd-buttons a#confirm-delete:hover {
-        background: #e60000;
-    }
+        .cd-buttons a#confirm-delete:hover {
+            background: #e60000;
+        }
 
-    .cd-buttons a#cancel-delete {
-        background: #4d79ff; /* Blue for "No" button */
-    }
+        .cd-buttons a#cancel-delete {
+            background: #4d79ff;
+        }
 
-    .cd-buttons a#cancel-delete:hover {
-        background: #0040ff;
-    }
+        .cd-buttons a#cancel-delete:hover {
+            background: #0040ff;
+        }
 
-    .cd-popup-close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        text-decoration: none;
-        font-size: 16px;
-        color: #aaa;
-    }
+        .cd-popup-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #aaa;
+        }
 
-    .cd-popup-close:hover {
-        color: #000;
-    }
+        .cd-popup-close:hover {
+            color: #000;
+        }
 
-    .cd-popup-close .fa-times {
-        font-size: 24px;
-    }
-
-    .hidden {
-        display: none;
-    }
-</style>
+        .cd-popup-close .fa-times {
+            font-size: 24px;
+        }
+    </style>
 </head>
 <body>
 <nav class="bg-white border-gray-200 dark:bg-gray-900">
@@ -232,12 +227,18 @@
             <td class="px-6 py-4 whitespace-nowrap" th:text="${utilisateur.role.libelle}"></td>
             <td class="px-6 py-4 whitespace-nowrap" th:if="${#authorization.expression('hasRole(''ROLE_Admin'')')}">
                 <div class="flex justify-center items-center gap-4">
-                    <a id="show-popup-[[${utilisateur.id}]]" th:if="${utilisateur.id == #authentication.principal.utilisateur.id}" sec:authorize="hasRole('ROLE_Admin')"
-                       th:href="${'/utilisateurs/modifier/'+#authentication.principal.utilisateur.id}"> <img src="/pen.png" alt="Modifier" width="40" height="40"></a>
-                    <button type="button" class="open-popup" data-id="[[${utilisateur.id}]]"><img src="/delete.png" alt="Supprimer" width="40" height="40"></button>
+                    <a id="show-popup-[[${utilisateur.id}]]"
+                       th:if="${utilisateur.id == #authentication.principal.utilisateur.id}"
+                       sec:authorize="hasRole('ROLE_Admin')"
+                       th:href="${'/utilisateurs/modifier/'+#authentication.principal.utilisateur.id}"> <img
+                            src="/pen.png" alt="Modifier" width="40" height="40"></a>
+                    <button type="button" class="open-popup" data-id="[[${utilisateur.id}]]"><img src="/delete.png"
+                                                                                                  alt="Supprimer"
+                                                                                                  width="40"
+                                                                                                  height="40"></button>
                     <form id="delete-form-[[${utilisateur.id}]]" sec:authorize="hasRole('ROLE_Admin')"
                           th:action="${'/utilisateurs/supprimer/'+utilisateur.id}" method="post" class="hidden">
-                        <input type="submit" value="Supprimer" />
+                        <input type="submit" value="Supprimer"/>
                     </form>
                 </div>
             </td>
@@ -334,8 +335,5 @@
         });
     });
 </script>
-
-
-<script src="/js/fragments/navbar.js"></script>
 </body>
 </html>
