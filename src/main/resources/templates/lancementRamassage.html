@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <title>Lancement Ramassage</title>
     <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="/css/ramassage.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="/css/navbar.css">
 </head>
 <body>
-<header th:replace="~{fragments/navbar :: navbar}"></header>
+<header th:replace="fragments/navbar :: navbar"></header>
 <div class="container">
-    <div th:replace="~{fragments/navbar :: navbar}"></div>
     <h1>Lancer un ramassage</h1>
     <!-- On peut lancer un ramassage seulement si un n'est pas déjà en cours -->
     <form th:if="${ramassagesEnCours.size() == 0}" action="ramassage/choixCycliste" method="post">
