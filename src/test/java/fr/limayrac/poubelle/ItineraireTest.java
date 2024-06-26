@@ -60,9 +60,9 @@ public class ItineraireTest {
                         if (arretDepart.getRamasse()) {
                             Passage passage;
                             if (arretCourantParUtilisateur.containsKey(ramassageCyclisteVelo.getCycliste())) {
-                                passage = arretRecursif(arretCourantParUtilisateur.get(ramassageCyclisteVelo.getCycliste()).getArretVoisins());
+                                passage = arretRecursif(arretCourantParUtilisateur.get(ramassageCyclisteVelo.getCycliste()).getArretVoisinsSuivant());
                             } else {
-                                passage = arretRecursif(arretDepart.getArretVoisins());
+                                passage = arretRecursif(arretDepart.getArretVoisinsSuivant());
                             }
                             passage.setDatePassage(LocalDateTime.now());
                             passage.setRamasseur(ramassageCyclisteVelo.getCycliste());
@@ -108,7 +108,7 @@ public class ItineraireTest {
                             } else {
                                 // Sinon on regarde les arrêts voisins
                                 Passage passageDepart = null;
-                                for (ArretVoisin arretVoisin : mapOriginal.get(ramassageCyclisteVelo.getCycliste()).get(i).getArret().getArretVoisins()) {
+                                for (ArretVoisin arretVoisin : mapOriginal.get(ramassageCyclisteVelo.getCycliste()).get(i).getArret().getArretVoisinsSuivant()) {
                                     if (arretVoisin.getArretSuivant().equals(arretDepart)) {
                                         // On est tombé sur l'arrêt de départ
                                         passageDepart = new Passage();
@@ -156,9 +156,9 @@ public class ItineraireTest {
 //                    }
 //                }
                 // Si aucun arrêt suivant
-                for (ArretVoisin arretN1 : arretN.getArretSuivant().getArretVoisins()) {
+                for (ArretVoisin arretN1 : arretN.getArretSuivant().getArretVoisinsSuivant()) {
                     // On regarde si tous les arrets voisins de 1 niveaux sont ramasse
-                    return arretRecursif(arretN1.getArretSuivant().getArretVoisins());
+                    return arretRecursif(arretN1.getArretSuivant().getArretVoisinsSuivant());
                 }
             }
         } else {
@@ -186,34 +186,94 @@ public class ItineraireTest {
     public void chercheChemin() {
         List<Arret> terminus = arretService.findFeuille();
         Map<Arret, List<CheminPossibleDto>> cheminsPossiblesParTerminus = new HashMap<>();
-
-        for (Arret arret : terminus) {
-            if (!cheminsPossiblesParTerminus.containsKey(arret)) {
-                List<CheminPossibleDto> cheminPossibleDtos = new ArrayList<>();
-                cheminPossibleDtos.add(new CheminPossibleDto());
-                chercheCheminRecursif(arretDepart, arret, 0, cheminPossibleDtos);
-                cheminsPossiblesParTerminus.put(arret, cheminPossibleDtos);
+        List<CheminPossibleDto> cheminPossibleDtosSuivant = new ArrayList<>();
+        CheminPossibleDto cheminPossibleDto = new CheminPossibleDto();
+        cheminPossibleDto.addArret(arretDepart);
+        cheminPossibleDtosSuivant.add(cheminPossibleDto);
+        chercheCheminPrecedent(arretDepart/*, arret*/, 0, cheminPossibleDtosSuivant);
+//        cheminsPossiblesParTerminus.put(arret, cheminPossibleDtosSuivant);
+//        for (Arret arret : terminus) {
+//            if (!cheminsPossiblesParTerminus.containsKey(arret)) {
+//                List<CheminPossibleDto> cheminPossibleDtosSuivant = new ArrayList<>();
+//                CheminPossibleDto cheminPossibleDto = new CheminPossibleDto();
+//                cheminPossibleDto.addArret(arretDepart);
+//                cheminPossibleDtosSuivant.add(cheminPossibleDto);
+//                chercheCheminPrecedentRecursif(arretDepart, arret, 0, cheminPossibleDtosSuivant);
+//                cheminsPossiblesParTerminus.put(arret, cheminPossibleDtosSuivant);
+//            }
+//        }
+        List<String> messages = new ArrayList<>();
+        for (CheminPossibleDto cheminPossibleDto1 : cheminPossibleDtosSuivant) {
+            StringBuilder message = new StringBuilder();
+            for (Arret arret : cheminPossibleDto1.getArrets()) {
+                message.append(arret.getLibelle()).append(" ");
             }
+            messages.add(message.toString());
+            System.out.print(message + "\n");
+//            logger.info(message.toString());
         }
         cheminsPossiblesParTerminus = cheminsPossiblesParTerminus;
     }
 
-    public void chercheCheminRecursif(Arret arret, Arret arretDestination, Integer numeroChemin, List<CheminPossibleDto> cheminPossibleDtos) {
+    public void chercheCheminSuivantRecursif(Arret arret/*, Arret arretDestination*/, Integer numeroChemin, List<CheminPossibleDto> cheminPossibleDtos) {
         // TODO hash et equals de Arret
-        if (!arret.equals(arretDestination)) {
-            if (arret.getArretVoisins().size() == 1) {
+//        if (!arret.equals(arretDestination)) {
+            if (arret.getArretVoisinsSuivant().size() == 1) {
                 // S'il s'agit d'un arrêt simple, on l'ajoute juste au chemin possible
-                cheminPossibleDtos.get(numeroChemin).addArret(arret.getArretVoisins().get(0).getArret());
-                chercheCheminRecursif(arret.getArretVoisins().get(0).getArretSuivant(), arretDestination, numeroChemin, cheminPossibleDtos);
+                cheminPossibleDtos.get(numeroChemin).addArret(arret.getArretVoisinsSuivant().get(0).getArret());
+                chercheCheminSuivantRecursif(arret.getArretVoisinsSuivant().get(0).getArretSuivant()/*, arretDestination*/, numeroChemin, cheminPossibleDtos);
             } else {
                 // Sinon on dupplique le chemin actuel par le nomnbre de voisins -1 (comme on garde le premier chemin)
-                for (int i = 0; i < arret.getArretVoisins().size()-1; i++) {
+                for (int i = 0; i < arret.getArretVoisinsSuivant().size()-1; i++) {
                     cheminPossibleDtos.add(new CheminPossibleDto(cheminPossibleDtos.get(numeroChemin)));
                 }
-                for (ArretVoisin arretVoisin : arret.getArretVoisins()) {
+                for (ArretVoisin arretVoisin : arret.getArretVoisinsSuivant()) {
                     cheminPossibleDtos.get(numeroChemin).addArret(arretVoisin.getArretSuivant());
-                    chercheCheminRecursif(arretVoisin.getArretSuivant(), arretDestination, numeroChemin, cheminPossibleDtos);
+                    chercheCheminSuivantRecursif(arretVoisin.getArretSuivant()/*, arretDestination*/, numeroChemin, cheminPossibleDtos);
                     // On incrémente le nombre de chemin possible pour chaque voisins
+                    numeroChemin++;
+                }
+            }
+//        }
+    }
+    public void chercheCheminPrecedentRecursif(Arret arret/*, Arret arretDestination*/, Integer numeroChemin, List<CheminPossibleDto> cheminPossibleDtos) {
+        // TODO hash et equals de Arret
+        if (!arret.getArretVoisinsPrecedent().isEmpty()) {
+            if (arret.getArretVoisinsPrecedent().size() == 1) {
+                // S'il s'agit d'un arrêt simple, on l'ajoute juste au chemin possible
+                cheminPossibleDtos.get(numeroChemin).addArret(arret.getArretVoisinsPrecedent().get(0).getArret());
+                chercheCheminPrecedentRecursif(arret.getArretVoisinsPrecedent().get(0).getArret()/*, arretDestination*/, numeroChemin, cheminPossibleDtos);
+            } else {
+                // Sinon on dupplique le chemin actuel par le nomnbre de voisins -1 (comme on garde le premier chemin)
+                for (int i = 0; i < arret.getArretVoisinsPrecedent().size()-1; i++) {
+                    cheminPossibleDtos.add(new CheminPossibleDto(cheminPossibleDtos.get(numeroChemin)));
+                }
+                for (ArretVoisin arretVoisin : arret.getArretVoisinsPrecedent()) {
+                    cheminPossibleDtos.get(numeroChemin).addArret(arretVoisin.getArret());
+                    chercheCheminPrecedentRecursif(arretVoisin.getArret()/*, arretDestination*/, numeroChemin, cheminPossibleDtos);
+                    // On incrémente le nombre de chemin possible pour chaque voisins
+                    numeroChemin++;
+                }
+            }
+        }
+    }
+
+    public void chercheCheminPrecedent(Arret arret, Integer numeroChemin, List<CheminPossibleDto> cheminPossibleDtos) {
+        CheminPossibleDto cheminPossibleDto = cheminPossibleDtos.get(numeroChemin);
+        if (!arret.getArretVoisinsPrecedent().isEmpty()) {
+            if (arret.getArretVoisinsPrecedent().size() == 1) {
+                // S'il s'agit d'un arrêt simple, on l'ajoute juste au chemin possible
+                cheminPossibleDtos.get(numeroChemin).addArret(arret.getArretVoisinsPrecedent().get(0).getArret());
+                chercheCheminPrecedent(arret.getArretVoisinsPrecedent().get(0).getArret(), numeroChemin, cheminPossibleDtos);
+            } else {
+                // TODO tester les arretsVoisins, si tous les arrets des arretsVoisins sont identiques, alors on dupplique pas
+                for (int i = 0; i < arret.getArretVoisinsPrecedent().size()-1; i++) {
+                    cheminPossibleDtos.add(new CheminPossibleDto(cheminPossibleDto));
+                }
+                for (ArretVoisin arretVoisin : arret.getArretVoisinsPrecedent()) {
+                    cheminPossibleDtos.get(numeroChemin).addArret(arretVoisin.getArret());
+                    chercheCheminPrecedent(arretVoisin.getArret(), numeroChemin, cheminPossibleDtos);
+                    // On incrémente le numéro du chemin possible pour chaque voisins
                     numeroChemin++;
                 }
             }
