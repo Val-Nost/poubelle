@@ -41,10 +41,18 @@ public class CheminPossibleDto {
     }
 
     public void removeArret(Arret arret) {
-        if (arret.isCarrefour()) {
+//        if (arret.isCarrefour()) {
+//
+//        } else {
+//            arrets.remove(arret);
+//        }
+    }
 
+    public Arret dernierArret() {
+        if (!arrets.isEmpty()) {
+            return arrets.get(arrets.size()-1);
         } else {
-            arrets.remove(arret);
+            return null;
         }
     }
 }

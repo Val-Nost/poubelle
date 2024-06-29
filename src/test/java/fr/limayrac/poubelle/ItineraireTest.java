@@ -216,7 +216,6 @@ public class ItineraireTest {
     }
 
     public void chercheCheminSuivantRecursif(Arret arret/*, Arret arretDestination*/, Integer numeroChemin, List<CheminPossibleDto> cheminPossibleDtos) {
-        // TODO hash et equals de Arret
 //        if (!arret.equals(arretDestination)) {
             if (arret.getArretVoisinsSuivant().size() == 1) {
                 // S'il s'agit d'un arrêt simple, on l'ajoute juste au chemin possible
@@ -259,22 +258,23 @@ public class ItineraireTest {
     }
 
     public void chercheCheminPrecedent(Arret arret, Integer numeroChemin, List<CheminPossibleDto> cheminPossibleDtos) {
-        CheminPossibleDto cheminPossibleDto = cheminPossibleDtos.get(numeroChemin);
         if (!arret.getArretVoisinsPrecedent().isEmpty()) {
-            if (arret.getArretVoisinsPrecedent().size() == 1) {
+            if (arret.getArretVoisinsPrecedent().size() == 1 || arret.arretVoisinsPrecedentIdentique()) {
                 // S'il s'agit d'un arrêt simple, on l'ajoute juste au chemin possible
                 cheminPossibleDtos.get(numeroChemin).addArret(arret.getArretVoisinsPrecedent().get(0).getArret());
                 chercheCheminPrecedent(arret.getArretVoisinsPrecedent().get(0).getArret(), numeroChemin, cheminPossibleDtos);
             } else {
-                // TODO tester les arretsVoisins, si tous les arrets des arretsVoisins sont identiques, alors on dupplique pas
+                // TODO Revoir tout
+
                 for (int i = 0; i < arret.getArretVoisinsPrecedent().size()-1; i++) {
-                    cheminPossibleDtos.add(new CheminPossibleDto(cheminPossibleDto));
+                    cheminPossibleDtos.add(new CheminPossibleDto(cheminPossibleDtos.get(numeroChemin)));
                 }
                 for (ArretVoisin arretVoisin : arret.getArretVoisinsPrecedent()) {
                     cheminPossibleDtos.get(numeroChemin).addArret(arretVoisin.getArret());
                     chercheCheminPrecedent(arretVoisin.getArret(), numeroChemin, cheminPossibleDtos);
                     // On incrémente le numéro du chemin possible pour chaque voisins
-                    numeroChemin++;
+                    // TODO, associer le numero de chemin au chemin ou trouver une autre alternative
+                    numeroChemin = cheminPossibleDtos.size()-1;
                 }
             }
         }

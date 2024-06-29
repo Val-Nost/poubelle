@@ -26,6 +26,44 @@ public class Arret {
         return arretVoisinsSuivant.size() <= 1 && arretVoisinsPrecedent.size() <= 1;
     }
 
+    public Boolean arretVoisinsPrecedentIdentique() {
+        Arret arret = null;
+        for (ArretVoisin arretVoisin : arretVoisinsPrecedent) {
+            if (arret == null) {
+                // On affecte le premier arrêt qu'on trouve
+                arret = arretVoisin.getArret();
+            } else {
+                // On compare le premier arrêt trouvé avec les suivants
+                // Si un seul arrêt est différent, alors les arrêts voisins ne sont pas identiques
+                if (!arret.equals(arretVoisin.getArret())) {
+                    return false;
+                }
+            }
+        }
+        // Si la boucle est fini, alors les arrêts voisins sont tous identiques
+        // Attention, si la liste d'arretvoisin est vide, alors true est renvoyé
+        return true;
+    }
+
+    public Boolean arretVoisinsSuivantIdentique() {
+        Arret arret = null;
+        for (ArretVoisin arretVoisin : arretVoisinsSuivant) {
+            if (arret == null) {
+                // On affecte le premier arrêt qu'on trouve
+                arret = arretVoisin.getArretSuivant();
+            } else {
+                // On compare le premier arrêt trouvé avec les suivants
+                // Si un seul arrêt est différent, alors les arrêts voisins ne sont pas identiques
+                if (!arret.equals(arretVoisin.getArretSuivant())) {
+                    return false;
+                }
+            }
+        }
+        // Si la boucle est fini, alors les arrêts voisins sont tous identiques
+        // Attention, si la liste d'arretvoisin est vide, alors true est renvoyé
+        return true;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object instanceof Arret) {
@@ -43,5 +81,10 @@ public class Arret {
         return result;
     }
 
+    // TODO à supprimer
+    @Override
+    public String toString() {
+        return libelle;
+    }
 
 }
