@@ -25,11 +25,11 @@ public class CheminPossibleDto {
         arrets = new ArrayList<>(cheminPossibleDto.getArrets());
     }
 
-    public Integer calculDistance() {
+    public Double calculDistance() {
         // 500 mètres séparent chaque arrêt
         // On perd 1 kilomètre tous les 20 carrefours
         // On multiplie par deux pour compter la distance du retour en plus
-        return ((500*compteurArret) + (compteurCarrefour%20))*2;
+        return ((0.5*compteurArret) + (compteurCarrefour%20))*2;
     }
 
     public void addArret(Arret arret) {
