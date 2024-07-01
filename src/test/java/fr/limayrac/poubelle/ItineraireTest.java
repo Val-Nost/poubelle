@@ -83,12 +83,21 @@ public class ItineraireTest {
         }
         for (RamassageCyclisteVelo ramassageCyclisteVelo : ramassage.getRamassageCyclisteVelos()) {
             // TODO Chercher chemin adéquat
+            CheminPossibleDto cheminPossibleDto1 = chercheCheminPlusCourtParArret(cheminPlusCourtParArret);
+
+            ramassageCyclisteVelo.getVelo().setAutonomie(cheminPossibleDto1.calculDistance());
 
         }
     }
 
     public CheminPossibleDto chercheCheminPlusCourtParArret(Map<Arret, CheminPossibleDto> arretCheminPossibleDtoMap) {
-        return null;
+        CheminPossibleDto cheminPossibleDto = null;
+        for (Arret arret : arretCheminPossibleDtoMap.keySet()) {
+            if (cheminPossibleDto == null || cheminPossibleDto.calculDistance() < arretCheminPossibleDtoMap.get(arret).calculDistance()) {
+                cheminPossibleDto = arretCheminPossibleDtoMap.get(arret);
+            }
+        }
+        return cheminPossibleDto;
     }
 
 

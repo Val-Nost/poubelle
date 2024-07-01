@@ -1,6 +1,7 @@
 package fr.limayrac.poubelle.dto;
 
 import fr.limayrac.poubelle.model.Arret;
+import fr.limayrac.poubelle.model.ArretVoisin;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,12 +41,27 @@ public class CheminPossibleDto {
         arrets.add(arret);
     }
 
-    public void removeArret(Arret arret) {
-//        if (arret.isCarrefour()) {
-//
-//        } else {
-//            arrets.remove(arret);
-//        }
+    public Arret removeArret() {
+        Arret arret = arrets.get(arrets.size()-1);
+        if (arret.isCarrefour()) {
+            boolean allRamasse = true;
+            for (ArretVoisin arretVoisin : arret.getArretVoisinsPrecedent()) {
+                if (!arretVoisin.getArret().getRamasse()) {
+                    allRamasse = false;
+                }
+            }
+            for (ArretVoisin arretVoisin : arret.getArretVoisinsSuivant()) {
+                if (!arretVoisin.getArretSuivant().getRamasse()) {
+                    allRamasse = false;
+                }
+            }
+            if (allRamasse) {
+                arrets.remove(arret);
+            }
+        } else {
+            arrets.remove(arret);
+        }
+        return arret;
     }
 
     public Arret dernierArret() {

@@ -15,8 +15,8 @@ public class Velo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer autonomie;
-    private Integer autonomieMax;
+    private Double autonomie;
+    private Double autonomieMax;
     private Integer charge;
     private Integer chargeMax;
     private StatutVelo statutVelo;
@@ -24,5 +24,9 @@ public class Velo {
 
     public Boolean chargeMaxAtteint() {
         return Objects.equals(charge, chargeMax);
+    }
+
+    public void reduireAutonomie(Double distance) {
+
     }
 }
