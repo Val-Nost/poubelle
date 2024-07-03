@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Carte de la ville</title>
+    <link rel="stylesheet" href="/css/listeUtilisateur.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<header th:replace="~{fragments/navbar :: navbar}"></header>
+    <h1>Carte de la ville</h1>
+    <svg width="1800" height="900"></svg>
+<script src="/js/fragments/navbar.js"></script>
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<script src="/js/ruesArrets.js"></script>
+</body>
+</html>
+
