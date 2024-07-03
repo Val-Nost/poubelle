@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,11 +21,22 @@ public class Arret {
     private List<ArretVoisin> arretVoisinsSuivant;
     @OneToMany(mappedBy = "arretSuivant", fetch = FetchType.EAGER)
     private List<ArretVoisin> arretVoisinsPrecedent;
+    @OneToMany(mappedBy = "arret", fetch = FetchType.EAGER)
+    private List<ArretAdjacent> arretAdjacents;
     private Boolean ramasse;
 
     public Boolean isCarrefour() {
         // TODO demander si un arrêt terminus (qui n'a pas d'arrêt suivant) mais qui à deux arrêts précédents, est-il considéré comme un carrefour ?
-        return arretVoisinsSuivant.size() <= 1 && arretVoisinsPrecedent.size() <= 1;
+//        return arretVoisinsSuivant.size() <= 1 && arretVoisinsPrecedent.size() <= 1;
+        return  arretAdjacents.size() > 1;
+    }
+
+    public Set<Arret> arretsAdjacentDifferent() {
+        Set<Arret> arretsDistinct = new HashSet<>();
+        for (ArretAdjacent arretAdjacent : arretAdjacents) {
+            arretsDistinct.add(arretAdjacent.getArretAdjacent());
+        }
+        return arretsDistinct;
     }
 
     public Boolean arretVoisinsPrecedentIdentique() {
