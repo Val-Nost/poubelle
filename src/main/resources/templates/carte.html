@@ -4,15 +4,24 @@
     <meta charset="UTF-8">
     <title>Carte de la ville</title>
     <link rel="stylesheet" href="/css/listeUtilisateur.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/vis-network/styles/vis-network.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #mynetwork {
+            width: 90%;
+            height: 750px;
+            border: 1px solid lightgray;
+        }
+    </style>
 </head>
 <body>
 <header th:replace="~{fragments/navbar :: navbar}"></header>
     <h1>Carte de la ville</h1>
-    <svg width="1800" height="900"></svg>
-<script src="/js/fragments/navbar.js"></script>
-<script src="https://d3js.org/d3.v6.min.js"></script>
-<script src="/js/ruesArrets.js"></script>
+    <div id="mynetwork"></div>
+    <script src="/js/fragments/navbar.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script src="/js/ruesArrets.js"></script>
 </body>
 </html>
-

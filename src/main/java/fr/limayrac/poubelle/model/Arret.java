@@ -14,6 +14,8 @@ public class Arret {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String libelle;
+    private Double latitude;
+    private Double longitude;
 
     @OneToMany(mappedBy = "arret")
     private List<ArretVoisin> arretVoisins;
