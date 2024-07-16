@@ -1,531 +1,109 @@
-const data = {
-    "Rue Croix-Baragnon": [
-        "La Défense", "Esplanade de la Défense", "Pont de Neuilly", "Les Sablons", "Porte Maillot", "Argentine",
-        "Charles de Gaulle-Étoile", "George V", "Franklin D. Roosevelt", "Champs-Élysées-Clemenceau", "Concorde",
-        "Tuileries", "Palais Royal-Musée du Louvre", "Louvre-Rivoli", "Châtelet", "Hôtel de Ville", "Saint-Paul",
-        "Bastille", "Gare de Lyon", "Reuilly-Diderot", "Nation", "Porte de Vincennes", "Saint-Mandé", "Bérault",
-        "Château de Vincennes"
-    ],
-    "Rue des Arts": [
-        "Porte Dauphine", "Victor Hugo", "Charles de Gaulle-Étoile", "Ternes", "Courcelles", "Monceau", "Villiers",
-        "Rome", "Place de Clichy", "Blanche", "Pigalle", "Anvers", "Barbès-Rochechouart", "La Chapelle", "Stalingrad",
-        "Jaurès", "Colonel Fabien", "Belleville", "Couronnes", "Ménilmontant", "Père Lachaise", "Philippe Auguste",
-        "Alexandre Dumas", "Avron", "Nation"
-    ],
-    "Rue Pargaminières": [
-        "Pont de Levallois-Bécon", "Anatole France", "Louise Michel", "Porte de Champerret", "Pereire", "Wagram",
-        "Malesherbes", "Villiers", "Europe", "Saint-Lazare", "Havre-Caumartin", "Opéra", "Quatre-Septembre", "Bourse",
-        "Sentier", "Réaumur-Sébastopol", "Arts et Métiers", "Temple", "République", "Parmentier", "Rue Saint-Maur",
-        "Père Lachaise", "Gambetta", "Porte de Bagnolet", "Gallieni"
-    ],
-    "Rue Saint-Rome": [
-        "Gambetta", "Pelleport", "Saint-Fargeau", "Porte des Lilas"
-    ],
-    "Rue Saint-Antoine du T": [
-        "Porte de Clignancourt", "Simplon", "Marcadet-Poissonniers", "Château Rouge", "Barbès-Rochechouart",
-        "Gare du Nord", "Gare de l'Est", "Château d'Eau", "Strasbourg-Saint-Denis", "Réaumur-Sébastopol", "Étienne Marcel",
-        "Les Halles", "Châtelet", "Cité", "Saint-Michel-Notre-Dame", "Odéon", "Saint-Germain-des-Prés", "Saint-Sulpice",
-        "Saint-Placide", "Montparnasse-Bienvenüe", "Vavin", "Raspail", "Denfert-Rochereau", "Mouton-Duvernet", "Alésia",
-        "Porte d'Orléans"
-    ],
-    "Rue de la Fonderie": [
-        "Bobigny-Pablo Picasso", "Bobigny-Pantin-Raymond Queneau", "Église de Pantin", "Hoche", "Porte de Pantin",
-        "Ourcq", "Laumière", "Jaurès", "Stalingrad", "Gare du Nord", "Gare de l'Est", "Jacques Bonsergent", "République",
-        "Oberkampf", "Richard-Lenoir", "Bréguet-Sabin", "Bastille", "Quai de la Rapée", "Gare d'Austerlitz",
-        "Saint-Marcel", "Campo-Formio", "Place d'Italie"
-    ],
-    "Rue Peyrolières": [
-        "Charles de Gaulle-Étoile", "Kléber", "Boissière", "Trocadéro", "Passy", "Champ de Mars-Tour Eiffel", "Dupleix",
-        "La Motte-Picquet-Grenelle", "Cambronne", "Sèvres-Lecourbe", "Pasteur", "Montparnasse-Bienvenüe", "Edgar Quinet",
-        "Raspail", "Denfert-Rochereau", "Saint-Jacques", "Glacière", "Corvisart", "Place d'Italie", "Nationale",
-        "Chevaleret", "Quai de la Gare", "Bercy", "Dugommier", "Daumesnil", "Bel-Air", "Picpus", "Nation"
-    ],
-    "Rue Genty-Magre": [
-        "La Courneuve-8 Mai 1945", "Fort d'Aubervilliers", "Aubervilliers-Pantin-Quatre Chemins", "Porte de la Villette",
-        "Corentin Cariou", "Crimée", "Riquet", "Stalingrad", "Louis Blanc", "Château-Landon", "Gare de l'Est",
-        "Poissonnière", "Cadet", "Le Peletier", "Chaussée d'Antin-La Fayette", "Opéra", "Pyramides",
-        "Palais Royal-Musée du Louvre", "Pont Neuf", "Châtelet", "Pont Marie", "Sully-Morland", "Jussieu", "Place Monge",
-        "Censier-Daubenton", "Les Gobelins", "Place d'Italie", "Tolbiac", "Maison Blanche", "Porte d'Italie",
-        "Porte de Choisy", "Porte d'Ivry", "Pierre et Marie Curie", "Mairie d'Ivry"
-    ],
-    "Rue d'Alsace-Lorraine": [
-        "Louis Blanc", "Jaurès", "Bolivar", "Buttes Chaumont", "Botzaris", "Place des Fêtes", "Pré Saint-Gervais"
-    ],
-    "Rue Peyras": [
-        "Balard", "Lourmel", "Boucicaut", "Félix Faure", "Commerce", "La Motte-Picquet-Grenelle", "École Militaire",
-        "La Tour-Maubourg", "Invalides", "Concorde", "Madeleine", "Opéra", "Richelieu-Drouot", "Grands Boulevards",
-        "Bonne Nouvelle", "Strasbourg-Saint-Denis", "République", "Filles du Calvaire", "Saint-Sébastien-Froissart",
-        "Chemin Vert", "Bastille", "Ledru-Rollin", "Faidherbe-Chaligny", "Reuilly-Diderot", "Montgallet", "Daumesnil",
-        "Michel Bizot", "Porte Dorée", "Porte de Charenton", "Liberté", "Charenton-Écoles",
-        "École Vétérinaire de Maisons-Alfort", "Maisons-Alfort-Stade", "Maisons-Alfort-Les Juilliottes", "Créteil-L'Échat",
-        "Créteil-Université", "Créteil-Préfecture"
-    ],
-    "Rue du Taur": [
-        "Pont de Sèvres", "Billancourt", "Marcel Sembat", "Porte de Saint-Cloud", "Exelmans", "Michel-Ange-Molitor",
-        "Michel-Ange-Auteuil", "Jasmin", "Ranelagh", "La Muette", "Rue de la Pompe", "Trocadéro", "Iéna",
-        "Alma-Marceau", "Franklin D. Roosevelt", "Saint-Philippe du Roule", "Miromesnil", "Saint-Augustin",
-        "Havre-Caumartin", "Chaussée d'Antin-La Fayette", "Richelieu-Drouot", "Grands Boulevards", "Bonne Nouvelle",
-        "Strasbourg-Saint-Denis", "République", "Oberkampf", "Saint-Ambroise", "Voltaire", "Charonne", "Rue des Boulets",
-        "Nation", "Buzenval", "Maraîchers", "Porte de Montreuil", "Robespierre", "Croix de Chavaux", "Mairie de Montreuil"
-    ],
-    "Allée Jean Jaurès": [
-        "Boulogne-Pont de Saint-Cloud", "Boulogne-Jean Jaurès", "Porte d'Auteuil", "Michel-Ange-Auteuil", "Église d'Auteuil",
-        "Javel-André Citroën", "Charles Michels", "Avenue Émile Zola", "La Motte-Picquet-Grenelle", "Ségur", "Duroc",
-        "Vaneau", "Sèvres-Babylone", "Mabilon", "Odéon", "Cluny-La Sorbonne", "Maubert-Mutualité", "Cardinal Lemoine",
-        "Jussieu", "Gare d'Austerlitz"
-    ],
-    "Rue du May": [
-        "Châtelet", "Hôtel de Ville", "Rambuteau", "Arts et Métiers", "République", "Goncourt", "Belleville", "Pyrénées",
-        "Jourdain", "Place des Fêtes", "Télégraphe", "Porte des Lilas", "Mairie des Lilas"
-    ],
-    "Rue des Filatiers": [
-        "Porte de la Chapelle", "Marx Dormoy", "Marcadet-Poissonniers", "Jules Joffrin", "Lamarck-Caulaincourt", "Abbesses",
-        "Pigalle", "Saint-Georges", "Notre-Dame-de-Lorette", "Trinité-d'Estienne d'Orves", "Saint-Lazare", "Madeleine",
-        "Concorde", "Assemblée nationale", "Solférino", "Rue du Bac", "Sèvres-Babylone", "Rennes", "Notre-Dame-des-Champs",
-        "Montparnasse-Bienvenüe", "Falguière", "Pasteur", "Volontaires", "Vaugirard", "Convention", "Porte de Versailles",
-        "Corentin Celton", "Mairie d'Issy"
-    ],
-    "Rue Mage": [
-        "Saint-Denis-Université", "Basilique de Saint-Denis", "Saint-Denis-Porte de Paris", "Carrefour Pleyel",
-        "Mairie de Saint-Ouen", "Garibaldi", "Porte de Saint-Ouen", "Guy Môquet", "La Fourche", "Place de Clichy",
-        "Liège", "Saint-Lazare", "Miromesnil", "Champs-Élysées-Clemenceau", "Invalides", "Varenne", "Saint-François-Xavier",
-        "Duroc", "Montparnasse-Bienvenüe", "Gaîté", "Pernety", "Plaisance", "Porte de Vanves", "Malakoff-Plateau de Vanves",
-        "Malakoff-Rue Etienne Dolet", "Châtilon-Montrouge"
-    ],
-    "Rue d'Espinasse": [
-        "Saint-Lazare", "Madeleine", "Pyramides", "Châtelet", "Gare de Lyon", "Bercy", "Cour Saint-Émilion",
-        "Bibliothèque François Mitterrand", "Olympiades"
-    ],
-    "Rue des Gestes": [
-        "Gare Saint-Denis", "Théâtre Gérard Philipe", "Marché de Saint-Denis", "Basilique de Saint-Denis", "Cimetière de Saint-Denis",
-        "Hôpital Delafontaine", "Cosmonautes", "La Courneuve-Six Routes", "Hôtel de Ville de La Courneuve", "Stade Géo André",
-        "Danton", "La Courneuve-8 Mai 1945", "Maurice Lachâtre", "Drancy-Avenir", "Hôpital Avicenne", "Gaston Roulaud",
-        "Escadrille Normandie-Niémen", "La Ferme", "Libération", "Hôtel de Ville de Bobigny", "Bobigny-Pablo Picasso",
-        "Jean Rostand", "Auguste Delaune", "Pont de Bondy", "Petit Noisy", "Noisy-le-Sec"
-    ],
-    "Quai de la Daurade": [
-        "La Défense", "Puteaux", "Belvédère", "Suresnes-Longchamp", "Les Coteaux", "Les Milons", "Parc de Saint-Cloud",
-        "Musée de Sèvres", "Brimborion", "Meudon-sur-Seine", "Les Moulineaux", "Jacques-Henri Lartigue", "Issy-Val de Seine",
-        "Balard", "Porte de Versailles"
-    ],
-    "Rue Bédelières": [
-        "Pont du Garigliano", "Balard", "Desnouettes", "Porte de Versailles", "Georges Brassens", "Brancion",
-        "Porte de Vanves", "Didot", "Jean Moulin", "Porte d'Orléans", "Montsouris", "Cité universitaire", "Stade Charléty",
-        "Poterne des Peupliers", "Porte d'Italie", "Porte de Choisy", "Porte d'Ivry", "Bibliothèque François Mitterrand",
-        "Porte de Charenton", "Porte Dorée", "Montempoivre", "Porte de Vincennes"
-    ],
-    "Rue Merlane": [
-        "La Défense", "Charles de Gaulle-Étoile", "Auber", "Châtelet-Les Halles", "Gare de Lyon", "Nation"
-    ],
-    "Rue Vélane": [
-        "Gare du Nord", "Châtelet-Les Halles", "Saint-Michel-Notre-Dame", "Luxembourg", "Port-Royal", "Denfert-Rochereau",
-        "Cité Universitaire"
-    ],
-    "Rue Etroite": [
-        "Porte de Clichy", "Pereire", "Porte Maillot", "Avenue Foch", "Avenue Henri Martin", "La Muette", "Avenue du Président Kennedy",
-        "Champ de Mars-Tour Eiffel", "Pont de l'Alma", "Invalides", "Musée d'Orsay", "Saint-Michel-Notre-Dame",
-        "Gare d'Austerlitz", "Bibliothèque François Mitterrand"
-    ],
-    "Rue des Tourneurs": [
-        "Gare du Nord", "Châtelet-Les Halles", "Gare de Lyon"
-    ],
-    "Rue de la Trinité": [
-        "Saint-Lazare", "Gare du Nord"
-    ]
-};
+document.addEventListener("DOMContentLoaded", function() {
+    // Vérifiez les données
+    console.log('Rues:', rues);
+    console.log('Arrets:', arrets);
+    console.log('RueArrets:', rueArrets);
 
-const arretsCoords = {
-    "La Défense": {lat: 48.8926, lon: 2.2361},
-    "Esplanade de la Défense": {lat: 48.8881, lon: 2.2425},
-    "Pont de Neuilly": {lat: 48.8852, lon: 2.2561},
-    "Les Sablons": {lat: 48.8811, lon: 2.2691},
-    "Porte Maillot": {lat: 48.8785, lon: 2.2808},
-    "Argentine": {lat: 48.8751, lon: 2.2924},
-    "Charles de Gaulle-Étoile": {lat: 48.8748, lon: 2.295},
-    "George V": {lat: 48.872, lon: 2.3026},
-    "Franklin D. Roosevelt": {lat: 48.8686, lon: 2.3113},
-    "Champs-Élysées-Clemenceau": {lat: 48.8673, lon: 2.3142},
-    "Concorde": {lat: 48.8655, lon: 2.3214},
-    "Tuileries": {lat: 48.8634, lon: 2.3315},
-    "Palais Royal-Musée du Louvre": {lat: 48.8632, lon: 2.3365},
-    "Louvre-Rivoli": {lat: 48.8613, lon: 2.3408},
-    "Châtelet": {lat: 48.8584, lon: 2.347},
-    "Hôtel de Ville": {lat: 48.8575, lon: 2.3511},
-    "Saint-Paul": {lat: 48.8556, lon: 2.3611},
-    "Bastille": {lat: 48.8529, lon: 2.369},
-    "Gare de Lyon": {lat: 48.8443, lon: 2.3744},
-    "Reuilly-Diderot": {lat: 48.8481, lon: 2.3865},
-    "Nation": {lat: 48.848, lon: 2.395},
-    "Porte de Vincennes": {lat: 48.847, lon: 2.4072},
-    "Saint-Mandé": {lat: 48.8453, lon: 2.4153},
-    "Bérault": {lat: 48.8442, lon: 2.4272},
-    "Château de Vincennes": {lat: 48.844, lon: 2.4405},
-    "Porte Dauphine": {lat: 48.8715, lon: 2.2745},
-    "Victor Hugo": {lat: 48.871, lon: 2.2846},
-    "Ternes": {lat: 48.8782, lon: 2.2983},
-    "Courcelles": {lat: 48.8813, lon: 2.3072},
-    "Monceau": {lat: 48.8801, lon: 2.3123},
-    "Villiers": {lat: 48.883, lon: 2.319},
-    "Rome": {lat: 48.8843, lon: 2.3275},
-    "Place de Clichy": {lat: 48.8837, lon: 2.3267},
-    "Blanche": {lat: 48.8831, lon: 2.3306},
-    "Pigalle": {lat: 48.882, lon: 2.337},
-    "Anvers": {lat: 48.882, lon: 2.3445},
-    "Barbès-Rochechouart": {lat: 48.8833, lon: 2.3494},
-    "La Chapelle": {lat: 48.8843, lon: 2.3592},
-    "Stalingrad": {lat: 48.8848, lon: 2.367},
-    "Jaurès": {lat: 48.8815, lon: 2.3705},
-    "Colonel Fabien": {lat: 48.8766, lon: 2.3708},
-    "Belleville": {lat: 48.871, lon: 2.3765},
-    "Couronnes": {lat: 48.8704, lon: 2.3811},
-    "Ménilmontant": {lat: 48.867, lon: 2.388},
-    "Père Lachaise": {lat: 48.8616, lon: 2.3911},
-    "Philippe Auguste": {lat: 48.8585, lon: 2.3923},
-    "Alexandre Dumas": {lat: 48.8554, lon: 2.3952},
-    "Avron": {lat: 48.8524, lon: 2.401},
-    "Pont de Levallois-Bécon": {lat: 48.8936, lon: 2.276},
-    "Anatole France": {lat: 48.8923, lon: 2.2821},
-    "Louise Michel": {lat: 48.8902, lon: 2.2881},
-    "Porte de Champerret": {lat: 48.8852, lon: 2.2934},
-    "Pereire": {lat: 48.8868, lon: 2.2969},
-    "Wagram": {lat: 48.8875, lon: 2.3037},
-    "Malesherbes": {lat: 48.8854, lon: 2.3084},
-    "Europe": {lat: 48.8794, lon: 2.3247},
-    "Saint-Lazare": {lat: 48.8763, lon: 2.3272},
-    "Havre-Caumartin": {lat: 48.8744, lon: 2.3293},
-    "Opéra": {lat: 48.8715, lon: 2.3323},
-    "Quatre-Septembre": {lat: 48.8695, lon: 2.3375},
-    "Bourse": {lat: 48.8682, lon: 2.3417},
-    "Sentier": {lat: 48.867, lon: 2.349},
-    "Réaumur-Sébastopol": {lat: 48.8678, lon: 2.3537},
-    "Arts et Métiers": {lat: 48.8667, lon: 2.3563},
-    "Temple": {lat: 48.8665, lon: 2.3616},
-    "République": {lat: 48.8674, lon: 2.363},
-    "Parmentier": {lat: 48.865, lon: 2.3715},
-    "Rue Saint-Maur": {lat: 48.8633, lon: 2.3784},
-    "Gambetta": {lat: 48.863, lon: 2.3982},
-    "Porte de Bagnolet": {lat: 48.864, lon: 2.4098},
-    "Gallieni": {lat: 48.865, lon: 2.4184},
-    "Pelleport": {lat: 48.8696, lon: 2.3956},
-    "Saint-Fargeau": {lat: 48.8688, lon: 2.3985},
-    "Porte des Lilas": {lat: 48.8755, lon: 2.4041},
-    "Porte de Clignancourt": {lat: 48.8992, lon: 2.3455},
-    "Simplon": {lat: 48.897, lon: 2.3491},
-    "Marcadet-Poissonniers": {lat: 48.8924, lon: 2.3509},
-    "Château Rouge": {lat: 48.8921, lon: 2.3557},
-    "Gare du Nord": {lat: 48.8808, lon: 2.3553},
-    "Gare de l'Est": {lat: 48.876, lon: 2.3592},
-    "Château d'Eau": {lat: 48.8734, lon: 2.3602},
-    "Strasbourg-Saint-Denis": {lat: 48.8694, lon: 2.3558},
-    "Étienne Marcel": {lat: 48.8685, lon: 2.3491},
-    "Les Halles": {lat: 48.8626, lon: 2.3466},
-    "Cité": {lat: 48.8553, lon: 2.3461},
-    "Saint-Michel-Notre-Dame": {lat: 48.8545, lon: 2.3436},
-    "Odéon": {lat: 48.8532, lon: 2.3385},
-    "Saint-Germain-des-Prés": {lat: 48.8533, lon: 2.3333},
-    "Saint-Sulpice": {lat: 48.8515, lon: 2.331},
-    "Saint-Placide": {lat: 48.8461, lon: 2.3269},
-    "Montparnasse-Bienvenüe": {lat: 48.8422, lon: 2.3223},
-    "Vavin": {lat: 48.8411, lon: 2.3266},
-    "Raspail": {lat: 48.8417, lon: 2.3307},
-    "Denfert-Rochereau": {lat: 48.8338, lon: 2.3323},
-    "Mouton-Duvernet": {lat: 48.8322, lon: 2.331},
-    "Alésia": {lat: 48.8288, lon: 2.3261},
-    "Porte d'Orléans": {lat: 48.8233, lon: 2.3256},
-    "Bobigny-Pablo Picasso": {lat: 48.9078, lon: 2.4398},
-    "Bobigny-Pantin-Raymond Queneau": {lat: 48.8994, lon: 2.4161},
-    "Église de Pantin": {lat: 48.8909, lon: 2.4123},
-    "Hoche": {lat: 48.8886, lon: 2.3978},
-    "Porte de Pantin": {lat: 48.889, lon: 2.3938},
-    "Ourcq": {lat: 48.886, lon: 2.385},
-    "Laumière": {lat: 48.8857, lon: 2.3788},
-    "Jacques Bonsergent": {lat: 48.8716, lon: 2.3626},
-    "Oberkampf": {lat: 48.8633, lon: 2.3697},
-    "Richard-Lenoir": {lat: 48.8607, lon: 2.3696},
-    "Bréguet-Sabin": {lat: 48.8579, lon: 2.3696},
-    "Quai de la Rapée": {lat: 48.8442, lon: 2.3704},
-    "Gare d'Austerlitz": {lat: 48.8434, lon: 2.3663},
-    "Saint-Marcel": {lat: 48.8417, lon: 2.357},
-    "Campo-Formio": {lat: 48.835, lon: 2.3557},
-    "Place d'Italie": {lat: 48.8318, lon: 2.3554},
-    "Kléber": {lat: 48.8733, lon: 2.2938},
-    "Boissière": {lat: 48.8668, lon: 2.2918},
-    "Trocadéro": {lat: 48.8624, lon: 2.2879},
-    "Passy": {lat: 48.8565, lon: 2.2824},
-    "Champ de Mars-Tour Eiffel": {lat: 48.8551, lon: 2.2931},
-    "Dupleix": {lat: 48.8507, lon: 2.2983},
-    "La Motte-Picquet-Grenelle": {lat: 48.8491, lon: 2.3014},
-    "Cambronne": {lat: 48.8468, lon: 2.3033},
-    "Sèvres-Lecourbe": {lat: 48.843, lon: 2.3091},
-    "Pasteur": {lat: 48.8413, lon: 2.3121},
-    "Edgar Quinet": {lat: 48.8422, lon: 2.3253},
-    "Saint-Jacques": {lat: 48.8414, lon: 2.336},
-    "Glacière": {lat: 48.8359, lon: 2.3397},
-    "Corvisart": {lat: 48.8335, lon: 2.3488},
-    "Nationale": {lat: 48.8325, lon: 2.362},
-    "Chevaleret": {lat: 48.8302, lon: 2.3707},
-    "Quai de la Gare": {lat: 48.8364, lon: 2.3719},
-    "Bercy": {lat: 48.8383, lon: 2.3806},
-    "Dugommier": {lat: 48.8395, lon: 2.3875},
-    "Daumesnil": {lat: 48.8414, lon: 2.3913},
-    "Bel-Air": {lat: 48.8432, lon: 2.3988},
-    "Picpus": {lat: 48.8437, lon: 2.4044},
-    "La Courneuve-8 Mai 1945": {lat: 48.9288, lon: 2.3965},
-    "Fort d'Aubervilliers": {lat: 48.9101, lon: 2.3958},
-    "Aubervilliers-Pantin-Quatre Chemins": {lat: 48.9003, lon: 2.3833},
-    "Porte de la Villette": {lat: 48.898, lon: 2.385},
-    "Corentin Cariou": {lat: 48.8932, lon: 2.379},
-    "Crimée": {lat: 48.8908, lon: 2.3705},
-    "Riquet": {lat: 48.8906, lon: 2.3626},
-    "Louis Blanc": {lat: 48.8827, lon: 2.3638},
-    "Château-Landon": {lat: 48.8786, lon: 2.3622},
-    "Poissonnière": {lat: 48.8778, lon: 2.3493},
-    "Cadet": {lat: 48.8762, lon: 2.3475},
-    "Le Peletier": {lat: 48.8755, lon: 2.3448},
-    "Chaussée d'Antin-La Fayette": {lat: 48.8722, lon: 2.3323},
-    "Pyramides": {lat: 48.8657, lon: 2.3361},
-    "Pont Neuf": {lat: 48.8587, lon: 2.3415},
-    "Pont Marie": {lat: 48.8538, lon: 2.3574},
-    "Sully-Morland": {lat: 48.8509, lon: 2.3619},
-    "Jussieu": {lat: 48.8486, lon: 2.3558},
-    "Place Monge": {lat: 48.8435, lon: 2.3534},
-    "Censier-Daubenton": {lat: 48.8422, lon: 2.3542},
-    "Les Gobelins": {lat: 48.8358, lon: 2.3551},
-    "Tolbiac": {lat: 48.8275, lon: 2.3553},
-    "Maison Blanche": {lat: 48.8211, lon: 2.3578},
-    "Porte d'Italie": {lat: 48.8188, lon: 2.3623},
-    "Porte de Choisy": {lat: 48.8166, lon: 2.3677},
-    "Porte d'Ivry": {lat: 48.8141, lon: 2.3711},
-    "Pierre et Marie Curie": {lat: 48.8123, lon: 2.384},
-    "Mairie d'Ivry": {lat: 48.813, lon: 2.3888},
-    "Bolivar": {lat: 48.8784, lon: 2.3706},
-    "Buttes Chaumont": {lat: 48.8774, lon: 2.3774},
-    "Botzaris": {lat: 48.8771, lon: 2.3886},
-    "Place des Fêtes": {lat: 48.8765, lon: 2.3917},
-    "Pré Saint-Gervais": {lat: 48.8814, lon: 2.401},
-    "Balard": {lat: 48.8382, lon: 2.2784},
-    "Lourmel": {lat: 48.8374, lon: 2.2838},
-    "Boucicaut": {lat: 48.8387, lon: 2.2905},
-    "Félix Faure": {lat: 48.838, lon: 2.2943},
-    "Commerce": {lat: 48.8417, lon: 2.297},
-    "École Militaire": {lat: 48.8502, lon: 2.3044},
-    "La Tour-Maubourg": {lat: 48.8573, lon: 2.3116},
-    "Invalides": {lat: 48.8564, lon: 2.3122},
-    "Madeleine": {lat: 48.8693, lon: 2.324},
-    "Richelieu-Drouot": {lat: 48.8735, lon: 2.3428},
-    "Grands Boulevards": {lat: 48.8723, lon: 2.3445},
-    "Bonne Nouvelle": {lat: 48.8702, lon: 2.3493},
-    "Filles du Calvaire": {lat: 48.8632, lon: 2.3642},
-    "Saint-Sébastien-Froissart": {lat: 48.8598, lon: 2.3686},
-    "Chemin Vert": {lat: 48.8577, lon: 2.3715},
-    "Ledru-Rollin": {lat: 48.8536, lon: 2.3716},
-    "Faidherbe-Chaligny": {lat: 48.8514, lon: 2.3792},
-    "Montgallet": {lat: 48.8472, lon: 2.387},
-    "Michel Bizot": {lat: 48.8418, lon: 2.3945},
-    "Porte Dorée": {lat: 48.8366, lon: 2.4033},
-    "Porte de Charenton": {lat: 48.834, lon: 2.4136},
-    "Liberté": {lat: 48.8217, lon: 2.406},
-    "Charenton-Écoles": {lat: 48.8205, lon: 2.4132},
-    "École Vétérinaire de Maisons-Alfort": {lat: 48.8135, lon: 2.423},
-    "Maisons-Alfort-Stade": {lat: 48.8115, lon: 2.4285},
-    "Maisons-Alfort-Les Juilliottes": {lat: 48.8082, lon: 2.4401},
-    "Créteil-L'Échat": {lat: 48.7909, lon: 2.4577},
-    "Créteil-Université": {lat: 48.7863, lon: 2.4617},
-    "Créteil-Préfecture": {lat: 48.7842, lon: 2.4667},
-    "Pont de Sèvres": {lat: 48.826, lon: 2.2335},
-    "Billancourt": {lat: 48.833, lon: 2.2396},
-    "Marcel Sembat": {lat: 48.8335, lon: 2.2434},
-    "Porte de Saint-Cloud": {lat: 48.837, lon: 2.2608},
-    "Exelmans": {lat: 48.8389, lon: 2.2698},
-    "Michel-Ange-Molitor": {lat: 48.843, lon: 2.264},
-    "Michel-Ange-Auteuil": {lat: 48.8451, lon: 2.2632},
-    "Jasmin": {lat: 48.8486, lon: 2.2703},
-    "Ranelagh": {lat: 48.8564, lon: 2.2718},
-    "La Muette": {lat: 48.8575, lon: 2.276},
-    "Rue de la Pompe": {lat: 48.8648, lon: 2.2787},
-    "Iéna": {lat: 48.864, lon: 2.2945},
-    "Alma-Marceau": {lat: 48.864, lon: 2.3014},
-    "Saint-Philippe du Roule": {lat: 48.8691, lon: 2.3105},
-    "Miromesnil": {lat: 48.8712, lon: 2.3153},
-    "Saint-Augustin": {lat: 48.8744, lon: 2.3206},
-    "Saint-Ambroise": {lat: 48.861, lon: 2.3762},
-    "Voltaire": {lat: 48.8585, lon: 2.3802},
-    "Charonne": {lat: 48.855, lon: 2.385},
-    "Rue des Boulets": {lat: 48.8537, lon: 2.3896},
-    "Buzenval": {lat: 48.8523, lon: 2.395},
-    "Maraîchers": {lat: 48.8502, lon: 2.4018},
-    "Porte de Montreuil": {lat: 48.8537, lon: 2.4096},
-    "Robespierre": {lat: 48.8554, lon: 2.416},
-    "Croix de Chavaux": {lat: 48.859, lon: 2.4257},
-    "Mairie de Montreuil": {lat: 48.863, lon: 2.4438},
-    "Boulogne-Pont de Saint-Cloud": {lat: 48.8422, lon: 2.2247},
-    "Boulogne-Jean Jaurès": {lat: 48.8427, lon: 2.2348},
-    "Porte d'Auteuil": {lat: 48.847, lon: 2.2618},
-    "Église d'Auteuil": {lat: 48.8478, lon: 2.2667},
-    "Javel-André Citroën": {lat: 48.8415, lon: 2.2786},
-    "Charles Michels": {lat: 48.8478, lon: 2.2878},
-    "Avenue Émile Zola": {lat: 48.8476, lon: 2.2923},
-    "Ségur": {lat: 48.8478, lon: 2.3086},
-    "Duroc": {lat: 48.8448, lon: 2.3125},
-    "Vaneau": {lat: 48.8466, lon: 2.3202},
-    "Sèvres-Babylone": {lat: 48.8492, lon: 2.3248},
-    "Mabilon": {lat: 48.8534, lon: 2.3336},
-    "Cluny-La Sorbonne": {lat: 48.851, lon: 2.3443},
-    "Maubert-Mutualité": {lat: 48.849, lon: 2.3483},
-    "Cardinal Lemoine": {lat: 48.8466, lon: 2.3557},
-    "Rambuteau": {lat: 48.8618, lon: 2.3527},
-    "Goncourt": {lat: 48.8685, lon: 2.3701},
-    "Pyrénées": {lat: 48.8727, lon: 2.3838},
-    "Jourdain": {lat: 48.8757, lon: 2.3896},
-    "Télégraphe": {lat: 48.8779, lon: 2.3974},
-    "Mairie des Lilas": {lat: 48.8793, lon: 2.407},
-    "Porte de la Chapelle": {lat: 48.8982, lon: 2.3597},
-    "Marx Dormoy": {lat: 48.8918, lon: 2.3596},
-    "Jules Joffrin": {lat: 48.8925, lon: 2.3457},
-    "Lamarck-Caulaincourt": {lat: 48.8882, lon: 2.3381},
-    "Abbesses": {lat: 48.8842, lon: 2.3384},
-    "Saint-Georges": {lat: 48.8787, lon: 2.3377},
-    "Notre-Dame-de-Lorette": {lat: 48.8768, lon: 2.338},
-    "Trinité-d'Estienne d'Orves": {lat: 48.875, lon: 2.3308},
-    "Solférino": {lat: 48.858, lon: 2.3217},
-    "Rue du Bac": {lat: 48.8553, lon: 2.3267},
-    "Rennes": {lat: 48.8517, lon: 2.3276},
-    "Notre-Dame-des-Champs": {lat: 48.8444, lon: 2.3307},
-    "Falguière": {lat: 48.841, lon: 2.3164},
-    "Volontaires": {lat: 48.8414, lon: 2.3081},
-    "Vaugirard": {lat: 48.8397, lon: 2.3038},
-    "Convention": {lat: 48.837, lon: 2.2997},
-    "Porte de Versailles": {lat: 48.8328, lon: 2.2862},
-    "Corentin Celton": {lat: 48.8284, lon: 2.2755},
-    "Mairie d'Issy": {lat: 48.825, lon: 2.2733},
-    "Saint-Denis-Université": {lat: 48.9365, lon: 2.3515},
-    "Basilique de Saint-Denis": {lat: 48.9344, lon: 2.3568},
-    "Saint-Denis-Porte de Paris": {lat: 48.9284, lon: 2.3543},
-    "Carrefour Pleyel": {lat: 48.9241, lon: 2.3458},
-    "Mairie de Saint-Ouen": {lat: 48.9114, lon: 2.3334},
-    "Garibaldi": {lat: 48.9078, lon: 2.3341},
-    "Porte de Saint-Ouen": {lat: 48.8995, lon: 2.3295},
-    "Guy Môquet": {lat: 48.8927, lon: 2.3264},
-    "La Fourche": {lat: 48.8873, lon: 2.3281},
-    "Liège": {lat: 48.8786, lon: 2.3278},
-    "Varenne": {lat: 48.8557, lon: 2.3156},
-    "Saint-François-Xavier": {lat: 48.8509, lon: 2.3151},
-    "Gaîté": {lat: 48.8405, lon: 2.3231},
-    "Pernety": {lat: 48.8344, lon: 2.3207},
-    "Plaisance": {lat: 48.8326, lon: 2.3138},
-    "Porte de Vanves": {lat: 48.8273, lon: 2.3032},
-    "Malakoff-Plateau de Vanves": {lat: 48.8233, lon: 2.2993},
-    "Malakoff-Rue Etienne Dolet": {lat: 48.8204, lon: 2.2997},
-    "Châtilon-Montrouge": {lat: 48.8137, lon: 2.2982},
-    "Auber": {lat: 48.873, lon: 2.3282},
-    "Châtelet-Les Halles": {lat: 48.8601, lon: 2.347},
-    "Olympiades": {lat: 48.8253, lon: 2.3662},
-    "Gare Saint-Denis": {lat: 48.9311, lon: 2.345},
-    "Théâtre Gérard Philipe": {lat: 48.9361, lon: 2.3522},
-    "Marché de Saint-Denis": {lat: 48.9352, lon: 2.3601},
-    "Cimetière de Saint-Denis": {lat: 48.9371, lon: 2.364},
-    "Hôpital Delafontaine": {lat: 48.9334, lon: 2.3562},
-    "Cosmonautes": {lat: 48.9307, lon: 2.3457},
-    "La Courneuve-Six Routes": {lat: 48.9261, lon: 2.3936},
-    "Hôtel de Ville de La Courneuve": {lat: 48.9275, lon: 2.3967},
-    "Stade Géo André": {lat: 48.9289, lon: 2.4067},
-    "Danton": {lat: 48.9256, lon: 2.4102},
-    "Maurice Lachâtre": {lat: 48.9221, lon: 2.4112},
-    "Drancy-Avenir": {lat: 48.9212, lon: 2.417},
-    "Hôpital Avicenne": {lat: 48.9174, lon: 2.4215},
-    "Gaston Roulaud": {lat: 48.9187, lon: 2.4261},
-    "Escadrille Normandie-Niémen": {lat: 48.9211, lon: 2.4343},
-    "La Ferme": {lat: 48.925, lon: 2.4323},
-    "Libération": {lat: 48.926, lon: 2.4421},
-    "Hôtel de Ville de Bobigny": {lat: 48.9077, lon: 2.4395},
-    "Jean Rostand": {lat: 48.9055, lon: 2.4412},
-    "Auguste Delaune": {lat: 48.9057, lon: 2.446},
-    "Pont de Bondy": {lat: 48.9078, lon: 2.4608},
-    "Petit Noisy": {lat: 48.9075, lon: 2.4702},
-    "Noisy-le-Sec": {lat: 48.8912, lon: 2.4665},
-    "Puteaux": {lat: 48.8834, lon: 2.2392},
-    "Belvédère": {lat: 48.8865, lon: 2.2466},
-    "Suresnes-Longchamp": {lat: 48.869, lon: 2.2267},
-    "Les Coteaux": {lat: 48.867, lon: 2.2324},
-    "Les Milons": {lat: 48.8652, lon: 2.2396},
-    "Parc de Saint-Cloud": {lat: 48.8419, lon: 2.2105},
-    "Musée de Sèvres": {lat: 48.8267, lon: 2.2217},
-    "Brimborion": {lat: 48.8192, lon: 2.2246},
-    "Meudon-sur-Seine": {lat: 48.8136, lon: 2.2325},
-    "Les Moulineaux": {lat: 48.8232, lon: 2.2581},
-    "Jacques-Henri Lartigue": {lat: 48.823, lon: 2.263},
-    "Issy-Val de Seine": {lat: 48.8246, lon: 2.2667},
-    "Desnouettes": {lat: 48.8333, lon: 2.2839},
-    "Georges Brassens": {lat: 48.8295, lon: 2.2993},
-    "Brancion": {lat: 48.8304, lon: 2.3021},
-    "Didot": {lat: 48.831, lon: 2.3182},
-    "Jean Moulin": {lat: 48.8307, lon: 2.3235},
-    "Montsouris": {lat: 48.8216, lon: 2.3406},
-    "Cité universitaire": {lat: 48.8196, lon: 2.3386},
-    "Stade Charléty": {lat: 48.819, lon: 2.3418},
-    "Poterne des Peupliers": {lat: 48.8217, lon: 2.3481},
-    "Montempoivre": {lat: 48.8396, lon: 2.4114},
-    "Avenue Foch": {lat: 48.8683, lon: 2.275},
-    "Avenue Henri Martin": {lat: 48.8646, lon: 2.2768},
-    "Avenue du Président Kennedy": {lat: 48.8544, lon: 2.279},
-    "Pont de l'Alma": {lat: 48.8601, lon: 2.303},
-    "Musée d'Orsay": {lat: 48.8598, lon: 2.3266},
-    "Porte de Clichy": {lat: 48.8925, lon: 2.315},
-    "Gare de Lyon": {lat: 48.8443, lon: 2.3744},
-    "Cour Saint-Émilion": {lat: 48.833, lon: 2.3866}
-};
+    const map = L.map('mynetwork').setView([48.8566, 2.3522], 12); // Centre de Paris
 
-const ligneColors = {
-    "Rue Croix-Baragnon": "#FFCD00",
-    "Rue des Arts": "#007852",
-    "Rue Pargaminières": "#FBB03B",
-    "Rue Saint-Rome": "#704B1C",
-    "Rue Saint-Antoine du T": "#6EC4E8",
-    "Rue de la Fonderie": "#B53635",
-    "Rue Peyrolières": "#62259D",
-    "Rue Genty-Magre": "#FF7E2E",
-    "Rue d'Alsace-Lorraine": "#C8102E",
-    "Rue Peyras": "#D6AADA",
-    "Rue du Taur": "#BDB157",
-    "Allée Jean Jaurès": "#75A23D",
-    "Rue du May": "#C79FE5",
-    "Rue des Filatiers": "#00643C",
-    "Rue Mage": "#60A0B2",
-    "Rue d'Espinasse": "#6F5854",
-    "Rue des Gestes": "#82C8E6",
-    "Quai de la Daurade": "#007852",
-    "Rue Bédelières": "#9457A6",
-    "Rue Merlane": "#FFCD00",
-    "Rue Vélane": "#6EC4E8",
-    "Rue Etroite": "#62259D",
-    "Rue des Tourneurs": "#FFCD00",
-    "Rue de la Trinité": "#FBB03B",
-};
+    // Créer des panes personnalisés pour gérer l'ordre de dessin
+    map.createPane('polylinesPane');
+    map.createPane('markersPane');
 
-const map = L.map('mynetwork').setView([48.8566, 2.3522], 12); // Centre de Paris
+    // Définir le z-index des panes
+    map.getPane('polylinesPane').style.zIndex = 400;
+    map.getPane('markersPane').style.zIndex = 450;
 
-// Création des lignes et des cercles
-for (const rue in data) {
-    const polylinePoints = [];
-    const color = ligneColors[rue]; // Récupérer la couleur de la ligne depuis ligneColors
+    const arretsCoords = {};
+    arrets.forEach(arret => {
+        arretsCoords[arret.id] = { lat: arret.latitude, lon: arret.longitude, libelle: arret.libelle };
+    });
 
-    for (const arret of data[rue]) {
-        const coords = arretsCoords[arret];
+    const ligneColors = {/*
+        "Rue Croix-Baragnon": "#FFCD00",
+        "Rue des Arts": "#007852",
+        "Rue Pargaminières": "#FBB03B",
+        "Rue Saint-Rome": "#704B1C",
+        "Rue Saint-Antoine du T": "#6EC4E8",
+        "Rue de la Fonderie": "#B53635",
+        "Rue Peyrolières": "#62259D",
+        "Rue Genty-Magre": "#FF7E2E",
+        "Rue d'Alsace-Lorraine": "#C8102E",
+        "Rue Peyras": "#D6AADA",
+        "Rue du Taur": "#BDB157",
+        "Allée Jean Jaurès": "#75A23D",
+        "Rue du May": "#C79FE5",
+        "Rue des Filatiers": "#00643C",
+        "Rue Mage": "#60A0B2",
+        "Rue d'Espinasse": "#6F5854",
+        "Rue des Gestes": "#82C8E6",
+        "Quai de la Daurade": "#007852",
+        "Rue Bédelières": "#9457A6",
+        "Rue Merlane": "#FFCD00",
+        "Rue Vélane": "#6EC4E8",
+        "Rue Etroite": "#62259D",
+        "Rue des Tourneurs": "#FFCD00",
+        "Rue de la Trinité": "#FBB03B",*/
+    };
+
+    // Couleurs par défaut
+    const defaultLineColor = '#A9A9A9'; // Gris clair pour les rues
+    const defaultMarkerColor = '#696969'; // Gris foncé pour les arrêts
+
+    // Regrouper les points par rue
+    const groupedPoints = {};
+    rueArrets.forEach(rueArret => {
+        const rue = rueArret.rue.libelle;
+        const arret = rueArret.arret;
+        const coords = arretsCoords[arret.id];
+
         if (coords) {
-            polylinePoints.push([coords.lat, coords.lon]);
-            L.circleMarker([coords.lat, coords.lon], {
+            if (!groupedPoints[rue]) {
+                groupedPoints[rue] = [];
+            }
+            groupedPoints[rue].push([coords.lat, coords.lon]);
+        } else {
+            console.warn(`Coordonnées non trouvées pour l'arrêt : ${arret.id}`);
+        }
+    });
+
+    // Fonction pour obtenir les rues associées à un arrêt
+    function getRuesForArret(arretId) {
+        return rueArrets
+            .filter(rueArret => rueArret.arret.id === arretId)
+            .map(rueArret => rueArret.rue.libelle);
+    }
+
+    // Créer les polylines pour chaque rue
+    for (const rue in groupedPoints) {
+        const polylinePoints = groupedPoints[rue];
+        const color = ligneColors[rue] || defaultLineColor; // Couleur par défaut si non définie
+
+        L.polyline(polylinePoints, { color: color, pane: 'polylinesPane' }).addTo(map)
+            .bindPopup(`<span style="color: ${color}">${rue}</span>`); // Afficher le nom de la rue avec sa couleur
+
+        // Ajouter des marqueurs pour chaque point
+        polylinePoints.forEach(point => {
+            const marker = L.circleMarker(point, {
                 radius: 5,
-                fillColor: color,
+                fillColor: defaultMarkerColor,
                 color: '#000',
                 weight: 1,
                 opacity: 1,
-                fillOpacity: 0.8
-            }).addTo(map)
-                .bindPopup(`<span style="color: ${color}">${rue}</span><br>${arret}`); // Afficher le nom de la rue avec sa couleur
-        } else {
-            console.warn(`Coordonnées non trouvées pour l'arrêt : ${arret}`);
-        }
-    }
+                fillOpacity: 0.8,
+                pane: 'markersPane'
+            }).addTo(map);
 
-    L.polyline(polylinePoints, { color: color }).addTo(map);
-}
+            // Ajouter les informations dans le popup
+            const arretId = Object.keys(arretsCoords).find(id =>
+                arretsCoords[id].lat === point[0] && arretsCoords[id].lon === point[1]);
+            const arretLibelle = arretsCoords[arretId].libelle;
+            const ruesAssociees = getRuesForArret(Number(arretId)).join(', ');
+
+            marker.bindPopup(`
+                <span style="color: ${defaultMarkerColor}">${arretLibelle}</span><br>
+                <strong>Rues associées :</strong> ${ruesAssociees}
+            `);
+        });
+    }
+});
