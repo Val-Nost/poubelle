@@ -1,54 +1,28 @@
+const itineraire = [1, 3, 5, 7, 333, 284];
 document.addEventListener("DOMContentLoaded", function() {
-    // Vérifiez les données
-    console.log('Rues:', rues);
-    console.log('Arrets:', arrets);
-    console.log('RueArrets:', rueArrets);
-
-    const map = L.map('mynetwork').setView([48.8566, 2.3522], 12); // Centre de Paris
+    const map = L.map('mynetwork').setView([48.8566, 2.3522], 12);
 
     // Créer des panes personnalisés pour gérer l'ordre de dessin
     map.createPane('polylinesPane');
     map.createPane('markersPane');
+    map.createPane('itinerairePane');
 
     // Définir le z-index des panes
     map.getPane('polylinesPane').style.zIndex = 400;
     map.getPane('markersPane').style.zIndex = 450;
+    map.getPane('itinerairePane').style.zIndex = 500;
 
     const arretsCoords = {};
     arrets.forEach(arret => {
         arretsCoords[arret.id] = { lat: arret.latitude, lon: arret.longitude, libelle: arret.libelle };
     });
 
-    const ligneColors = {/*
-        "Rue Croix-Baragnon": "#FFCD00",
-        "Rue des Arts": "#007852",
-        "Rue Pargaminières": "#FBB03B",
-        "Rue Saint-Rome": "#704B1C",
-        "Rue Saint-Antoine du T": "#6EC4E8",
-        "Rue de la Fonderie": "#B53635",
-        "Rue Peyrolières": "#62259D",
-        "Rue Genty-Magre": "#FF7E2E",
-        "Rue d'Alsace-Lorraine": "#C8102E",
-        "Rue Peyras": "#D6AADA",
-        "Rue du Taur": "#BDB157",
-        "Allée Jean Jaurès": "#75A23D",
-        "Rue du May": "#C79FE5",
-        "Rue des Filatiers": "#00643C",
-        "Rue Mage": "#60A0B2",
-        "Rue d'Espinasse": "#6F5854",
-        "Rue des Gestes": "#82C8E6",
-        "Quai de la Daurade": "#007852",
-        "Rue Bédelières": "#9457A6",
-        "Rue Merlane": "#FFCD00",
-        "Rue Vélane": "#6EC4E8",
-        "Rue Etroite": "#62259D",
-        "Rue des Tourneurs": "#FFCD00",
-        "Rue de la Trinité": "#FBB03B",*/
-    };
+    const ligneColors = {};
 
     // Couleurs par défaut
     const defaultLineColor = '#A9A9A9'; // Gris clair pour les rues
     const defaultMarkerColor = '#696969'; // Gris foncé pour les arrêts
+    const itineraireColor = '#00FF00'; // Vert pour l'itinéraire
 
     // Regrouper les points par rue
     const groupedPoints = {};
@@ -106,4 +80,41 @@ document.addEventListener("DOMContentLoaded", function() {
             `);
         });
     }
+
+    // Tracer l'itinéraire
+    const itinerairePoints = itineraire.map(id => [arretsCoords[id].lat, arretsCoords[id].lon]);
+    L.polyline(itinerairePoints, { color: itineraireColor, weight: 5, pane: 'itinerairePane' }).addTo(map);
+
+    // Ajouter des marqueurs pour les arrêts de l'itinéraire
+    itinerairePoints.forEach(point => {
+        L.circleMarker(point, {
+            radius: 7,
+            fillColor: itineraireColor,
+            color: '#000',
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.9,
+            pane: 'itinerairePane'
+        }).addTo(map)
+            .bindPopup(`<span style="color: ${itineraireColor}">${arretsCoords[itineraire.find(id => arretsCoords[id].lat === point[0] && arretsCoords[id].lon === point[1])].libelle}</span>`);
+    });
+
+    // Ajouter le point animé qui parcourt l'itinéraire
+    let currentIndex = 0;
+    const movingMarker = L.circleMarker(itinerairePoints[0], {
+        radius: 10,
+        fillColor: '#FF0000', // Couleur rouge pour le point animé
+        color: '#000',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 1,
+        pane: 'itinerairePane'
+    }).addTo(map);
+
+    function moveMarker() {
+        currentIndex = (currentIndex + 1) % itinerairePoints.length;
+        movingMarker.setLatLng(itinerairePoints[currentIndex]);
+    }
+
+    setInterval(moveMarker, 1000); // Déplace le marqueur toutes les secondes*/
 });

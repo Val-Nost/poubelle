@@ -35,6 +35,6 @@ public class RueController {
         model.addAttribute("arrets", arrets);
         model.addAttribute("rueArrets", rueArrets);
 
-        return "carte";
+        return "ramassageGlobal";
     }
 }

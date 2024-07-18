@@ -17,11 +17,10 @@
 </head>
 <body>
 <header th:replace="~{fragments/navbar :: navbar}"></header>
-<h1>Carte de la ville</h1>
+<h1>Itinéraire de <span th:text="${utilisateur.prenom}"></span></h1>
 <div id="mynetwork"></div>
 <script th:inline="javascript">
     /*<![CDATA[*/
-    let rues = /*[[${rues}]]*/ [];
     let arrets = /*[[${arrets}]]*/ [];
     let rueArrets = /*[[${rueArrets}]]*/ [];
     /*]]>*/
