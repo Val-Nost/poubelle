@@ -18,15 +18,10 @@ public class Itineraire {
     @ManyToOne
     @JoinColumn(name = "ramassageCyclisteVelo")
     private RamassageCyclisteVelo ramassageCyclisteVelo;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name="itineraire_arret",
-            joinColumns = @JoinColumn( name="itineraire"),
-            inverseJoinColumns = @JoinColumn( name="arret")
-    )
-    private List<Arret> arrets;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "itineraire")
+    private List<ItineraireArret> itineraireArrets;
 
     public Itineraire() {
-        arrets = new ArrayList<>();
+        itineraireArrets = new ArrayList<>();
     }
 }
