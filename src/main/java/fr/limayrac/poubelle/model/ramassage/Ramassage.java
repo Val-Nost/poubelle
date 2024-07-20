@@ -12,7 +12,7 @@ public class Ramassage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(mappedBy = "ramassage", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "ramassage", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<RamassageCyclisteVelo> ramassageCyclisteVelos;
     private Boolean enCours;
     @OneToMany(mappedBy = "ramassage")
