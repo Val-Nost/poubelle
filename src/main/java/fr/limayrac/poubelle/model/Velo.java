@@ -26,7 +26,7 @@ public class Velo {
         return Objects.equals(charge, chargeMax);
     }
 
-    public void reduireAutonomie(Double distance) {
-
+    public Double autonomieRestante() {
+        return autonomieMax - autonomie;
     }
 }
