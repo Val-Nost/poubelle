@@ -15,11 +15,14 @@ public class Passage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
+    @JoinColumn(name = "ramassage")
     private Ramassage ramassage;
     @ManyToOne
+    @JoinColumn(name = "arret")
     private Arret arret;
     private Boolean ramasse;
     private LocalDateTime datePassage;
     @ManyToOne
+    @JoinColumn(name = "ramasseur")
     private Utilisateur ramasseur;
 }

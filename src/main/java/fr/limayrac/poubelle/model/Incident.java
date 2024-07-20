@@ -13,11 +13,15 @@ public class Incident {
     private Long id;
     private String libelle;
     @ManyToOne
+    @JoinColumn(name = "cycliste")
     private Utilisateur cycliste;
     @ManyToOne
+    @JoinColumn(name = "velo")
     private Velo velo;
     @ManyToOne
+    @JoinColumn(name = "arret")
     private Arret arret;
     @ManyToOne
+    @JoinColumn(name = "ramassage")
     private Ramassage ramassage;
 }
