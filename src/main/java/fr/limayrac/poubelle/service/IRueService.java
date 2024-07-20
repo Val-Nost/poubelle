@@ -7,4 +7,5 @@ import java.util.List;
 public interface IRueService {
 
     List<Rue> findAllOrderById();
+    Rue findById(Long id);
 }
