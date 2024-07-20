@@ -1,7 +1,6 @@
 package fr.limayrac.poubelle.dto;
 
 import fr.limayrac.poubelle.model.Arret;
-import fr.limayrac.poubelle.model.ArretVoisin;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,27 +40,14 @@ public class CheminPossibleDto {
         arrets.add(arret);
     }
 
-    public Arret removeArret() {
+    public void removeArret() {
         Arret arret = arrets.get(arrets.size()-1);
         if (arret.isCarrefour()) {
-            boolean allRamasse = true;
-            for (ArretVoisin arretVoisin : arret.getArretVoisinsPrecedent()) {
-                if (!arretVoisin.getArret().getRamasse()) {
-                    allRamasse = false;
-                }
-            }
-            for (ArretVoisin arretVoisin : arret.getArretVoisinsSuivant()) {
-                if (!arretVoisin.getArretSuivant().getRamasse()) {
-                    allRamasse = false;
-                }
-            }
-            if (allRamasse) {
-                arrets.remove(arret);
-            }
-        } else {
-            arrets.remove(arret);
+            compteurCarrefour--;
         }
-        return arret;
+        compteurArret--;
+        arrets.remove(arret);
+
     }
 
     public Arret dernierArret() {
@@ -70,5 +56,26 @@ public class CheminPossibleDto {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof CheminPossibleDto) {
+            return arrets.equals(((CheminPossibleDto) object).arrets);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = prime;
+        if (arrets != null) {
+            for (Arret arret : arrets) {
+                result += arret.hashCode();
+            }
+        }
+        return result;
     }
 }
