@@ -1,80 +1,38 @@
 package fr.limayrac.poubelle.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-@Getter
-@Setter
+@Getter @Setter
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Arret {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String libelle;
-
     @OneToMany(mappedBy = "arret", fetch = FetchType.EAGER)
-    private List<ArretVoisin> arretVoisinsSuivant;
-    @OneToMany(mappedBy = "arretSuivant", fetch = FetchType.EAGER)
-    private List<ArretVoisin> arretVoisinsPrecedent;
+    @JsonIgnore
+    private List<ArretRue> arretVoisinsSuivant;
     @OneToMany(mappedBy = "arret", fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<ArretAdjacent> arretAdjacents;
     private Boolean ramasse;
 
     public Boolean isCarrefour() {
-        // TODO demander si un arrêt terminus (qui n'a pas d'arrêt suivant) mais qui à deux arrêts précédents, est-il considéré comme un carrefour ?
-//        return arretVoisinsSuivant.size() <= 1 && arretVoisinsPrecedent.size() <= 1;
-        return  arretAdjacents.size() > 1;
-    }
-
-    public Set<Arret> arretsAdjacentDifferent() {
-        Set<Arret> arretsDistinct = new HashSet<>();
-        for (ArretAdjacent arretAdjacent : arretAdjacents) {
-            arretsDistinct.add(arretAdjacent.getArretAdjacent());
-        }
-        return arretsDistinct;
-    }
-
-    public Boolean arretVoisinsPrecedentIdentique() {
-        Arret arret = null;
-        for (ArretVoisin arretVoisin : arretVoisinsPrecedent) {
-            if (arret == null) {
-                // On affecte le premier arrêt qu'on trouve
-                arret = arretVoisin.getArret();
-            } else {
-                // On compare le premier arrêt trouvé avec les suivants
-                // Si un seul arrêt est différent, alors les arrêts voisins ne sont pas identiques
-                if (!arret.equals(arretVoisin.getArret())) {
-                    return false;
-                }
-            }
-        }
-        // Si la boucle est fini, alors les arrêts voisins sont tous identiques
-        // Attention, si la liste d'arretvoisin est vide, alors true est renvoyé
-        return true;
-    }
-
-    public Boolean arretVoisinsSuivantIdentique() {
-        Arret arret = null;
-        for (ArretVoisin arretVoisin : arretVoisinsSuivant) {
-            if (arret == null) {
-                // On affecte le premier arrêt qu'on trouve
-                arret = arretVoisin.getArretSuivant();
-            } else {
-                // On compare le premier arrêt trouvé avec les suivants
-                // Si un seul arrêt est différent, alors les arrêts voisins ne sont pas identiques
-                if (!arret.equals(arretVoisin.getArretSuivant())) {
-                    return false;
-                }
-            }
-        }
-        // Si la boucle est fini, alors les arrêts voisins sont tous identiques
-        // Attention, si la liste d'arretvoisin est vide, alors true est renvoyé
-        return true;
+        // Terminaus = 1 arrêt adjacent
+        // Liaison = 2 arrets adjacents
+        // Carrefour = >2 arrets adjacents
+        return  arretAdjacents.size() > 2;
     }
 
     @Override
@@ -94,7 +52,7 @@ public class Arret {
         return result;
     }
 
-    // TODO à supprimer
+    // TODO à supprimer, simplifie le debug
     @Override
     public String toString() {
         return libelle;

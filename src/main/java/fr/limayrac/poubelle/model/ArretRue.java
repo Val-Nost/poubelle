@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class ArretVoisin {
+public class ArretRue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -15,8 +15,5 @@ public class ArretVoisin {
     @ManyToOne
     @JoinColumn(name = "rue")
     private Rue rue;
-    @ManyToOne
-    @JoinColumn(name = "arretSuivant")
-    private Arret arretSuivant;
     private Integer ordre;
 }
