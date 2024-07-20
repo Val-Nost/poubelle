@@ -7,6 +7,7 @@ import fr.limayrac.poubelle.service.IItineraireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -17,5 +18,10 @@ public class ItineraireService implements IItineraireService {
     @Override
     public List<Itineraire> findByRamassage(Ramassage ramassage) {
         return itineraireDao.findByRamassage(ramassage);
+    }
+
+    @Override
+    public List<Itineraire> saveAll(Collection<Itineraire> itineraire) {
+        return (List<Itineraire>) itineraireDao.saveAll(itineraire);
     }
 }
