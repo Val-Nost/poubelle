@@ -1,17 +1,17 @@
 package fr.limayrac.poubelle.controller;
 
+import fr.limayrac.poubelle.dto.CheminPossibleDto;
 import fr.limayrac.poubelle.model.*;
-import fr.limayrac.poubelle.model.ramassage.Passage;
 import fr.limayrac.poubelle.model.ramassage.Ramassage;
 import fr.limayrac.poubelle.model.ramassage.RamassageCyclisteVelo;
 import fr.limayrac.poubelle.service.*;
+import fr.limayrac.poubelle.utils.ItineraireUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/ramassage")
@@ -32,6 +32,8 @@ public class RamassageController {
     private IRueService rueService;
     @Autowired
     private IIncidentService incidentService;
+    @Autowired
+    private IItineraireService itineraireService;
 
     @GetMapping
     public String ramassage(Model model) {
@@ -52,7 +54,6 @@ public class RamassageController {
 
         Ramassage ramassage = new Ramassage();
         ramassage.setEnCours(true);
-        ramassage = ramassageService.save(ramassage);
 
         // On attribue chaque velos à chaque cycliste choisie
         /*
@@ -67,21 +68,55 @@ public class RamassageController {
             ramassageCyclisteVelo.setVelo(velos.get(i));
             ramassageCyclisteVelos.add(ramassageCyclisteVelo);
         }
-        ramassageCyclisteVeloService.saveAll(ramassageCyclisteVelos);
+        // On sauvegarde en cascades
+        ramassage.setRamassageCyclisteVelos(ramassageCyclisteVelos);
+        ramassage = ramassageService.save(ramassage);
 
-        // On ajoute les arrets du ramassage
-        /*
-        Remarque on crée une liste pour éviter les appels multiples vers la BDD
-        Il est peut recommandé de faire appel à un DAO dans une boucle
-        */
-        List<Passage> passages = new ArrayList<>();
-        for (Arret arret : arretService.findAll()) {
-            Passage passage = new Passage();
-            passage.setArret(arret);
-            passage.setRamassage(ramassage);
-            passage.setRamasse(false);
+
+        // On calcule les itinéraires de chaque cycliste
+        Arret arretDepart = arretService.findById(161L); // Porte d'Ivry
+        List<Arret> terminus = arretService.findFeuille();
+        // TODO Voir pour inclure un booléen si l'arrêt est inaccessible
+        // FIXME Modifier cette ligne une fois les tests finis
+        Set<Arret> arretsARamasser = new HashSet<>();
+        arretsARamasser.addAll(arretService.findByRue(rueService.findById(5L)));
+        arretsARamasser.addAll(arretService.findByRue(rueService.findById(8L)));
+        arretsARamasser.addAll(arretService.findByRue(rueService.findById(19L)));
+
+        // La liste complète des chemins possibles
+        List<CheminPossibleDto> cheminPossibleDtos = new ArrayList<>();
+        // On crée un premier chemin auquel on ajoute l'arrêt de départ, pour ensuite l'ajouter à la liste de chemins possibles
+        CheminPossibleDto cheminPossibleDto = new CheminPossibleDto();
+        cheminPossibleDto.addArret(arretDepart);
+        cheminPossibleDtos.add(cheminPossibleDto);
+
+        // Fonction récursive qui cherche les chemins possibles à partir d'un arrêt donné et les affecte à la liste passé en argument
+        ItineraireUtils.chercheChemin(arretDepart, 0, cheminPossibleDtos);
+
+        cheminPossibleDtos.removeIf(cheminPossibleDto1 -> !terminus.contains(cheminPossibleDto1.dernierArret()));
+
+        Map<RamassageCyclisteVelo, Itineraire> itineraireMap = new HashMap<>();
+        Set<Arret> arretsRamasses = new HashSet<>();
+
+        while (!arretsRamasses.containsAll(arretsARamasser)) {
+            for (RamassageCyclisteVelo ramassageCyclisteVelo : ramassage.getRamassageCyclisteVelos()) {
+                if (!itineraireMap.containsKey(ramassageCyclisteVelo)) {
+                    itineraireMap.put(ramassageCyclisteVelo, new Itineraire());
+                    itineraireMap.get(ramassageCyclisteVelo).setRamassageCyclisteVelo(ramassageCyclisteVelo);
+                }
+                List<Arret> arrets = ItineraireUtils.ramasseCharge(ramassageCyclisteVelo, cheminPossibleDtos, arretsRamasses);
+                if (arrets != null) {
+                    for (Arret arret : arrets) {
+                        ItineraireArret itineraireArret = new ItineraireArret();
+                        itineraireArret.setItineraire(itineraireMap.get(ramassageCyclisteVelo));
+                        itineraireArret.setArret(arret);
+                        itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets().add(itineraireArret);
+                    }
+                }
+            }
         }
-        ramassageArretService.saveAll(passages);
+
+        itineraireService.saveAll(itineraireMap.values());
 
         return "redirect:/ramassage/liste";
     }
@@ -91,6 +126,9 @@ public class RamassageController {
         Ramassage ramassage = ramassageService.findById(idRamassage);
         model.addAttribute("ramassage", ramassage);
         model.addAttribute("rues", rueService.findAllOrderById());
+
+        // Itinéraire
+        model.addAttribute("itineraires", itineraireService.findByRamassage(ramassage));
 
         // Cyclistes
         model.addAttribute("velosRestants", veloService.findVeloNotAffectedToRamassage(ramassage));
