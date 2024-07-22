@@ -227,15 +227,20 @@
             <td class="px-6 py-4 whitespace-nowrap" th:text="${utilisateur.role.libelle}"></td>
             <td class="px-6 py-4 whitespace-nowrap" th:if="${#authorization.expression('hasRole(''ROLE_Admin'')')}">
                 <div class="flex justify-center items-center gap-4">
-                    <a id="show-popup-[[${utilisateur.id}]]"
+                    <!-- Bouton de modification -->
+                    <a id="show-popup-modify-[[${utilisateur.id}]]"
                        th:if="${utilisateur.id == #authentication.principal.utilisateur.id}"
                        sec:authorize="hasRole('ROLE_Admin')"
-                       th:href="${'/utilisateurs/modifier/'+#authentication.principal.utilisateur.id}"> <img
-                            src="/pen.png" alt="Modifier" width="40" height="40"></a>
-                    <button type="button" class="open-popup" data-id="[[${utilisateur.id}]]"><img src="/delete.png"
-                                                                                                  alt="Supprimer"
-                                                                                                  width="40"
-                                                                                                  height="40"></button>
+                       th:href="${'/utilisateurs/modifier/'+#authentication.principal.utilisateur.id}">
+                        <img src="/pen.png" alt="Modifier" width="40" height="40">
+                    </a>
+
+                    <!-- Bouton de suppression -->
+                    <button type="button" class="open-popup" data-id="[[${utilisateur.id}]]">
+                        <img src="/delete.png" alt="Supprimer" width="40" height="40">
+                    </button>
+
+                    <!-- Formulaire de suppression -->
                     <form id="delete-form-[[${utilisateur.id}]]" sec:authorize="hasRole('ROLE_Admin')"
                           th:action="${'/utilisateurs/supprimer/'+utilisateur.id}" method="post" class="hidden">
                         <input type="submit" value="Supprimer"/>
@@ -249,15 +254,17 @@
 
 <div class="cd-popup" id="popup">
     <div class="cd-popup-container">
-        <p>Voulez vous supprimer cette enregistrement ?</p>
+        <p>Voulez-vous supprimer cet enregistrement ?</p>
         <ul class="cd-buttons">
-            <li><a href="#0" id="confirm-delete">Oui</a></li>
-            <li><a href="#0" id="cancel-delete">Non</a></li>
+            <li><button type="button" id="confirm-delete">Oui</button></li>
+            <li><button type="button" id="cancel-delete">Non</button></li>
         </ul>
-        <a href="#0" class="cd-popup-close" id="close-popup"><i class="fas fa-times"></i></a>
+        <button type="button" class="cd-popup-close" id="close-popup"><i class="fas fa-times"></i></button>
     </div>
 </div>
-
+<div th:if="${errorMessageIntegrityViolation}" class="error-message">
+    <p th:text="${errorMessageIntegrityViolation}"></p>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 
 <script>
@@ -273,12 +280,13 @@
 
         document.querySelectorAll('.open-popup').forEach(button => {
             button.addEventListener('click', (event) => {
-                const userId = event.target.getAttribute('data-id');
+                const userId = event.target.closest('.open-popup').getAttribute('data-id');
                 formToDelete = document.getElementById(`delete-form-${userId}`);
                 popup.classList.add('is-visible');
             });
         });
 
+        // Confirmer la suppression
         confirmDeleteBtn.addEventListener('click', (event) => {
             event.preventDefault();
             if (formToDelete) {

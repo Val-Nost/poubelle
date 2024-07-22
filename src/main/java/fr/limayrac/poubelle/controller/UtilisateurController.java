@@ -4,6 +4,7 @@ import fr.limayrac.poubelle.UtilisateurDao;
 import fr.limayrac.poubelle.model.Utilisateur;
 import fr.limayrac.poubelle.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import fr.limayrac.poubelle.security.UserSpringSecurity;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/utilisateurs")
@@ -77,8 +79,13 @@ public class UtilisateurController {
         return "redirect:/accueil";
     }
     @PostMapping("/supprimer/{id}")
-    public String supprimerUtilisateur(@PathVariable Long id) {
-        utilisateurDao.deleteById(id);
-        return "redirect:/accueil";
+    public String supprimerUtilisateur(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            utilisateurDao.deleteById(id);
+            return "redirect:/accueil";
+        } catch (DataIntegrityViolationException e) {
+            redirectAttributes.addFlashAttribute("errorMessageIntegrityViolation", "Impossible de supprimer un utilisateur lié à un ramassage.");
+            return "redirect:/accueil";
+        }
     }
 }
