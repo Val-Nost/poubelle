@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
           rel="stylesheet">
     <style>
@@ -24,6 +27,10 @@
             width: 90px;
             height: auto;
             margin-left: 120px;
+        }
+
+        .hidden-integrity-message {
+            display: none;
         }
 
         .cd-popup {
@@ -263,7 +270,7 @@
     </div>
 </div>
 <div th:if="${errorMessageIntegrityViolation}" class="error-message">
-    <p th:text="${errorMessageIntegrityViolation}"></p>
+    <p th:text="${errorMessageIntegrityViolation}" th:class="'hidden-integrity-message'"></p>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 
@@ -293,6 +300,23 @@
                 formToDelete.submit();
             }
         });
+
+        const errorMessageElement = document.querySelector('.error-message p');
+        if (errorMessageElement && errorMessageElement.textContent.trim() !== '') {
+            Swal.fire({
+                icon: 'info',
+                title: 'Problème de suppression d\'un utilisateur',
+                text: errorMessageElement.textContent.trim(),
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+                willClose: () => {
+                    Swal.hideLoading();
+                }
+            });
+        }
 
         const closePopup = () => {
             popup.classList.remove('is-visible');
