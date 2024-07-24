@@ -17,7 +17,7 @@
 <div id="Itinéraire" class="tabcontent">
     <div th:each="itineraire : ${itineraires}">
         <h3 th:text="${itineraire.ramassageCyclisteVelo.cycliste.nom + ' ' + itineraire.ramassageCyclisteVelo.cycliste.prenom + ' - ID Vélo : ' + itineraire.ramassageCyclisteVelo.velo.id}"/>
-        <p>Cliquez pour vois l'itinéraire du cycliste</p>
+        <a th:href="${itineraire.ramassageCyclisteVelo.ramassage.id} + '/itineraire/' + ${itineraire.id}">Cliquez pour voir les arrêts</a>
     </div>
 </div>
 <div id="Cyclistes" class="tabcontent">
