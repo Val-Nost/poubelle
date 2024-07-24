@@ -206,4 +206,10 @@ public class RamassageController {
 
         return "redirect:/ramassage/{idRamassage}?tab=Incidents";
     }
+
+    @GetMapping("/{idRamassage}/itineraire/{idItineraire}")
+    public String infoItineraire(Model model, @PathVariable Long idRamassage, @PathVariable Long idItineraire) {
+        model.addAttribute(itineraireService.findById(idItineraire));
+        return "infoItineraire";
+    }
 }

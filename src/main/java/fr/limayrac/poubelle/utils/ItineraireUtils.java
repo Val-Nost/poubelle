@@ -87,13 +87,13 @@ public class ItineraireUtils {
                     removeArrets(allCheminsPossibles, cheminPossibleLePlusCourt.getArrets().get(i));
                 }
             }
-
             // Fin code à déplacer
 
             // TODO c'est ici qu'il faut remettre l'autonomie à 0 en fonction de la réponse du prof
 //            ramassageCyclisteVelo.getVelo().setAutonomie(0.0);
 
-            if (cheminPossibleLePlusCourt.getArrets().isEmpty()) {
+            // Si tous les arrêts restant du chemins sont ramassés, inutile d'y repasser
+            if (cheminPossibleLePlusCourt.getArrets().isEmpty() || arretsRamasse.containsAll(cheminPossibleLePlusCourt.getArrets())) {
                 allCheminsPossibles.remove(cheminPossibleLePlusCourt);
             }
             // Si la charge max n'est pas atteinte on recommence sur un autre chemin
