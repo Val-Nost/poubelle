@@ -8,19 +8,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
-          rel="stylesheet">
-    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/ramassage.css">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 </head>
 <body>
-<header th:replace="fragments/navbar :: navbar"></header>
-<div class="container">
-    <h1>Ramassage en cours</h1>
-    <div class="card" th:each="rammassageEnCours : ${ramassagesEnCours}">
-        <h3><a th:href="${'/ramassage/' + rammassageEnCours.id}" th:text="${'Ramassage n°' + rammassageEnCours.id}"/></h3>
+<th:block th:replace="fragments/navbar :: navbar"></th:block>
+<div class="text-center">
+    <h1 class="text-3xl">Ramassage en cours</h1>
+    <div class="rounded-md bg-orange-200 m-2 text-center" th:each="rammassageEnCours : ${ramassagesEnCours}">
+        <h3 class="text-xl"><a th:href="${'/ramassage/' + rammassageEnCours.id}" th:text="${'Ramassage n°' + rammassageEnCours.id}"/></h3>
     </div>
-    <h1>Ramassage terminé</h1>
-    <div class="card" th:each="rammassageTermine : ${ramassagesTermine}">
+    <h1 class="text-3xl">Ramassage terminé</h1>
+    <div class="rounded-md bg-green-200 m-2 w-48" th:each="rammassageTermine : ${ramassagesTermine}">
         <h3><a th:href="${'/ramassage/' + rammassageTermine.id}" th:text="${'Ramassage n°' + rammassageTermine.id}"/></h3>
     </div>
 </div>
