@@ -6,62 +6,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
-          rel="stylesheet">
-    <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
     <link rel="stylesheet" href="/css/ruesArrets.css">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
     <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        ul, li {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .list-container ul {
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out;
-            max-height: 0;
-            padding: 0;
-        }
-
-        .list-container.expanded ul {
-            max-height: 1000px;
-        }
-
-        .list-container ul li {
-            display: none;
-        }
-
-        .list-container.expanded ul li {
-            display: list-item;
-            margin-left: 20px;
-        }
-
-        .toggleBtn {
-            cursor: pointer;
-            position: relative;
-        }
-
-        .toggleBtn i {
-            position: absolute;
-            right: -20px;
-            top: 50%;
-            transform: translateY(-50%);
-            transition: transform 0.3s;
-        }
-
-        .list-container.expanded .toggleBtn i.fa-chevron-down {
-            transform: translateY(-50%) rotate(180deg);
-        }
-
-        .list-container.expanded .toggleBtn i.fa-chevron-up {
-            transform: translateY(-50%) rotate(0deg);
-        }
-    </style>
 </head>
 <body>
 <header th:replace="fragments/navbar :: navbar"></header>

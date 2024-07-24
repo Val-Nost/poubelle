@@ -1,3 +1,9 @@
+.logo {
+    width: 90px!important;
+    height: auto;
+    margin-left: 120px;
+}
+
 .list-container-z {
     text-align: center;
 }
@@ -5,4 +11,51 @@
 .list-container-z ul {
     list-style-type: none;
     padding: 0;
+}
+
+ul, li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.list-container ul {
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+    max-height: 0;
+    padding: 0;
+}
+
+.list-container.expanded ul {
+    max-height: 1000px;
+}
+
+.list-container ul li {
+    display: none;
+}
+
+.list-container.expanded ul li {
+    display: list-item;
+    margin-left: 20px;
+}
+
+.toggleBtn {
+    cursor: pointer;
+    position: relative;
+}
+
+.toggleBtn i {
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.3s;
+}
+
+.list-container.expanded .toggleBtn i.fa-chevron-down {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.list-container.expanded .toggleBtn i.fa-chevron-up {
+    transform: translateY(-50%) rotate(0deg);
 }
