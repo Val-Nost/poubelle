@@ -1,72 +1,120 @@
-body, html {
-    margin: 0;
-    padding: 0;
+a {
+    font-family: "EB Garamond", serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 25px;
+}
+
+.logo {
+    width: 90px!important;
+    height: auto;
+    margin-left: 120px;
+}
+
+.hidden-integrity-message {
+    display: none;
+}
+
+.cd-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s 0s, visibility 0s 0.3s;
+    z-index: 1000;
 }
 
-.accueil h1, .accueil h2 {
-    color: #333;
+.cd-popup.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s 0s, visibility 0s 0s;
 }
 
-.accueil a {
-    margin: 10px;
-    padding: 8px 16px;
-    background-color: #5c67f2;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
+.cd-popup-container {
+    position: relative;
+    width: 90%;
+    max-width: 400px;
+    margin: 100px auto;
+    background: #fff;
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+    transform: translateY(-40px);
+    transition: transform 0.3s;
 }
 
-.accueil a:hover {
-    background-color: #4a54e1;
+.is-visible .cd-popup-container {
+    transform: translateY(0);
 }
 
-.accueil ul {
-    list-style-type: none;
+.cd-buttons {
+    list-style: none;
     padding: 0;
+    margin: 20px 0 0;
 }
 
-.accueil li {
-    background: white;
-    margin: 10px 0;
-    padding: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    border-radius: 4px;
-    width: 100%;
-    max-width: 600px;
-}
-
-.accueil form {
+.cd-buttons li {
     display: inline-block;
+    margin: 0 10px;
 }
 
-.accueil input[type="submit"] {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #e53e3e;
+.cd-buttons a {
+    text-decoration: none;
+    padding: 10px 20px;
+    color: black;
+    border-radius: 3px;
+    transition: background 0.3s;
+}
+
+#confirm-delete {
+    background: green;
     color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 15px 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-.accueil input[type="submit"]:hover {
-    background-color: #c53030;
+#confirm-delete:hover {
+    background: green;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-@media (max-width: 768px) {
-    .accueil {
-        align-items: stretch;
-    }
-    .accueil li {
-        padding: 10px;
-        width: auto;
-    }
+#cancel-delete {
+    background: orangered;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 15px 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+#cancel-delete:hover {
+    background: orangered;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.cd-popup-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #aaa;
+}
+
+.cd-popup-close:hover {
+    color: #000;
+}
+
+.cd-popup-close .fa-times {
+    font-size: 24px;
 }
