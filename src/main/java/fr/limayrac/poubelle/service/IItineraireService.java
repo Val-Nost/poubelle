@@ -10,4 +10,6 @@ public interface IItineraireService {
     List<Itineraire> findByRamassage(Ramassage ramassage);
 
     List<Itineraire> saveAll(Collection<Itineraire> itineraire);
+
+    Itineraire findById(Long idItineraire);
 }

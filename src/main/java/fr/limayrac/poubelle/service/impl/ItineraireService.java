@@ -24,4 +24,9 @@ public class ItineraireService implements IItineraireService {
     public List<Itineraire> saveAll(Collection<Itineraire> itineraire) {
         return (List<Itineraire>) itineraireDao.saveAll(itineraire);
     }
+
+    @Override
+    public Itineraire findById(Long idItineraire) {
+        return itineraireDao.findById(idItineraire).orElse(null);
+    }
 }
