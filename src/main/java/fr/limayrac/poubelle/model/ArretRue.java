@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class ArretVoisin {
+public class ArretRue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

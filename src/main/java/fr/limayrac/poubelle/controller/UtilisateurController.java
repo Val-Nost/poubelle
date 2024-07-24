@@ -1,15 +1,16 @@
 package fr.limayrac.poubelle.controller;
 
-import fr.limayrac.poubelle.UtilisateurDao;
-import fr.limayrac.poubelle.model.Utilisateur;
+import fr.limayrac.poubelle.dao.IUtilisateurDao;
 import fr.limayrac.poubelle.model.Role;
+import fr.limayrac.poubelle.model.Utilisateur;
+import fr.limayrac.poubelle.security.UserSpringSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UtilisateurController {
 
     @Autowired
-    private UtilisateurDao utilisateurDao;
+    private IUtilisateurDao utilisateurDao;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

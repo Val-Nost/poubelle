@@ -1,6 +1,6 @@
 package fr.limayrac.poubelle.controller;
 
-import fr.limayrac.poubelle.UtilisateurDao;
+import fr.limayrac.poubelle.dao.IUtilisateurDao;
 import fr.limayrac.poubelle.model.Utilisateur;
 import fr.limayrac.poubelle.security.UserSpringSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class IndexController {
     @Autowired
-    private UtilisateurDao utilisateurDao;
+    private IUtilisateurDao utilisateurDao;
 
     @GetMapping("/accueil")
     public String accueil(Model model) {

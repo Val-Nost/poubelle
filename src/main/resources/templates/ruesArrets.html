@@ -24,7 +24,7 @@
             <span th:text="${rue.libelle}"></span>
         </span>
         <ul>
-            <li th:each="arretVoisin : ${rue.arretVoisins}" th:text="${arretVoisin.arret.libelle}"></li>
+            <li th:each="arretVoisin : ${rue.arretRues}" th:text="${arretVoisin.arret.libelle}"></li>
         </ul>
     </li>
 </ul>

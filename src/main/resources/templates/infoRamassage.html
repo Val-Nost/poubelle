@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Détail ramassage</title>
-    <link rel="stylesheet" href="/css/navbar.css">
     <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/css/ramassage.css">
 </head>
@@ -12,13 +11,36 @@
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'Itinéraire')">Itinéraire</button>
     <button class="tablinks" onclick="openTab(event, 'Cyclistes')">Cyclistes</button>
-    <button class="tablinks" onclick="openTab(event, 'Rues et Arrêts')">Rues et Arrêts</button>
+    <button class="tablinks" onclick="openTab(event, 'RuesEtArrêts')">Rues et Arrêts</button>
     <button class="tablinks" onclick="openTab(event, 'Incidents')">Incidents</button>
 </div>
-<div id="Itinéraire" class="tabcontent" style="display: block!important;">
-    <p>Ici sera affiché le graphe des arrêts à parcourir</p>
+<div id="Itinéraire" class="tabcontent">
+    <div th:each="itineraire : ${itineraires}">
+        <h3 th:text="${itineraire.ramassageCyclisteVelo.cycliste.nom + ' ' + itineraire.ramassageCyclisteVelo.cycliste.prenom + ' - ID Vélo : ' + itineraire.ramassageCyclisteVelo.velo.id}"/>
+        <a th:href="${itineraire.ramassageCyclisteVelo.ramassage.id} + '/itineraire/' + ${itineraire.id}">Cliquez pour voir les arrêts</a>
+    </div>
 </div>
 <div id="Cyclistes" class="tabcontent">
+    <div class="formfield center" th:if="${ramassage.enCours}">
+        <button onclick="addVelo(this)">Ajouter</button>
+    </div>
+    <form id="ajoutCyclisteVelo" method="post"  onsubmit="addVeloValidate(event)" th:action="${'/ramassage/' + ramassage.id + '/ajoutCyclisteVelo'}" style="display: none"  th:if="${ramassage.enCours}">
+        <div class="formfield">
+            <label for="cyclisteRestant">Cycliste à ajouter</label>
+            <select id="cyclisteRestant" name="cyclisteRestant">
+                <option th:each="cycliste : ${cyclistesRestants}" th:value="${cycliste.id}" th:text="${cycliste.nom + ' ' + cycliste.prenom}"/>
+            </select>
+        </div>
+        <div class="formfield">
+            <label for="veloRestant">Vélo à ajouter</label>
+            <select id="veloRestant" name="veloRestant">
+                <option th:each="velo : ${velosRestants}" th:text="${velo.id}"/>
+            </select>
+        </div>
+        <div class="formfield center">
+            <input value="Valider" type="submit">
+        </div>
+    </form>
     <table>
         <thead>
         <tr>
@@ -42,8 +64,7 @@
         </tbody>
     </table>
 </div>
-<div id="Rues et Arrêts" class="tabcontent">
-    <p>Ici seront affichés les arrêts parcourus et non parcourus</p>
+<div id="RuesEtArrêts" class="tabcontent">
     <table>
         <thead>
         <tr>
@@ -55,12 +76,11 @@
         <tbody>
         <th:block th:each="rue : ${rues}">
             <tr>
-                <td style="border: #333333 1px solid" th:rowspan="${rue.arretVoisins.size()+1}" th:text="${rue.libelle}"></td>
+                <td style="border: #333333 1px solid" th:rowspan="${rue.getArretRues.size()+1}" th:text="${rue.libelle}"></td>
             </tr>
-            <tr th:each="arretVoisin : ${rue.arretVoisins}">
+            <tr th:each="arretVoisin : ${rue.getArretRues}">
                 <td style="border: #333333 1px solid" th:text="${arretVoisin.arret.libelle}"></td>
-                <td style="border: #333333 1px solid" th:text="${arretVoisin.arret.ramasse ? 'Oui' : 'Non'}" th:class="${arretVoisin.arret.ramasse ? 'ok' : 'ko
-                }"></td>
+                <td style="border: #333333 1px solid" th:text="${arretVoisin.arret.ramasse ? 'Oui' : 'Non'}" th:class="${arretVoisin.arret.ramasse ? 'ok' : 'ko'}"></td>
             </tr>
         </th:block>
         </tbody>
@@ -113,7 +133,19 @@
         <input type="submit" value="Valider">
     </form>
 </div>
+
+
+
 <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has("tab")) {
+        document.getElementById(urlParams.get("tab")).style.display = "block"
+    } else {
+        document.getElementById("Itinéraire").style.display = 'block'
+    }
+
+    let ajoutVelo = document.querySelector('#ajoutCyclisteVelo')
+
     let veloConcerne = document.querySelector('#veloConcerne');
     let veloRemplacant = document.querySelector('#veloRemplacant');
 
@@ -125,6 +157,9 @@
     let divArret = document.querySelector("#arretDiv")
 
     function openTab(evt, tapName) {
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set("tab", tapName)
+        window.location.search = urlParams;
         // Declare all variables
         var i, tabcontent, tablinks;
 
@@ -145,6 +180,34 @@
         evt.currentTarget.className += "active";
     }
 
+    // Tab Cyclistes
+    function addVelo(button) {
+        if (button.textContent === "Ajouter") {
+            button.innerHTML = "Annuler"
+            ajoutVelo.style.display = 'block'
+        } else {
+            button.innerHTML = "Ajouter"
+            ajoutVelo.style.display = 'none'
+        }
+    }
+    function addVeloValidate(evt) {
+        let veloRestant = document.querySelectorAll('#veloRestant option')
+        let cyclisteRestant = document.querySelectorAll('#cyclisteRestant option')
+
+        let message = ""
+        console.log(message)
+        if (veloRestant.length === 0) {
+            message = message.concat("Aucun vélo n'est actuellement disponible\n")
+        }
+        if (cyclisteRestant.length === 0) {
+            message = message.concat("Aucun cycliste n'est actuellement disponible")
+        }
+        if (veloRestant.length === 0 || cyclisteRestant.length === 0) {
+            evt.preventDefault()
+            alert(message)
+        }
+    }
+    // Tab Incidents
     function selectVelo(element) {
         if (element.value === "") {
             divVelo.style.display = 'none';
@@ -160,7 +223,6 @@
             }
         }
     }
-
     function selectCycliste(element) {
         if (element.value === "") {
             divCycliste.style.display = 'none';
@@ -176,7 +238,6 @@
             }
         }
     }
-
     function selectArret(element) {
         if (element.value === "") {
             divArret.style.display = 'none'
