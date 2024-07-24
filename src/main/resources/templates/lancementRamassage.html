@@ -8,14 +8,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/css/ramassage.css">
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
           rel="stylesheet">
-    <link rel="stylesheet" href="/css/navbar.css">
 </head>
 <body>
-<header th:replace="fragments/navbar :: navbar"></header>
-<div class="container">
-    <h1>Lancer un ramassage</h1>
+<th:block th:replace="fragments/navbar :: navbar"></th:block>
+<div class="text-center">
+    <h1 class="text-2xl">Lancer un ramassage</h1>
     <!-- On peut lancer un ramassage seulement si un n'est pas déjà en cours -->
     <form th:if="${ramassagesEnCours.size() == 0}" action="ramassage/choixCycliste" method="post">
         <div id="Etape1" class="etape">
@@ -86,9 +86,9 @@
     //     // On montre l'étape suivante
     //     if (etapeCourante < etapes.length) {
     //         // On cache l'étape courante
-    //         etapes[etapeCourante].classList.add("hidden");
+    //         etapes[etapeCourante].classList.add("cache");
     //         etapeCourante++;
-    //         etapes[etapeCourante].classList.remove("hidden");
+    //         etapes[etapeCourante].classList.remove("cache");
     //     }
     // })
     //
@@ -97,9 +97,9 @@
     //     suivant.disabled = false
     //
     //     if (etapeCourante > 0) {
-    //         etapes[etapeCourante].classList.add("hidden");
+    //         etapes[etapeCourante].classList.add("cache");
     //         etapeCourante--;
-    //         etapes[etapeCourante].classList.remove("hidden");
+    //         etapes[etapeCourante].classList.remove("cache");
     //     }
     //
     //     // On atteint la première étape
