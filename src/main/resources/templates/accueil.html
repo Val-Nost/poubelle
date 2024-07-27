@@ -61,12 +61,12 @@
                     <a id="show-popup-modify-[[${utilisateur.id}]]"
                        th:if="${utilisateur.id == #authentication.principal.utilisateur.id or #authorization.expression('hasRole(''ROLE_Admin'')')}" sec:authorize="hasRole('ROLE_Admin')"
                        th:href="${'/utilisateurs/modifier/'+#authentication.principal.utilisateur.id}">
-                        <img src="/pen.png" alt="Modifier" width="40" height="40">
+                        <img src="/image/pen.png" alt="Modifier" width="40" height="40">
                     </a>
 
                     <!-- Bouton de suppression -->
                     <button type="button" class="open-popup" data-id="[[${utilisateur.id}]]">
-                        <img src="/delete.png" alt="Supprimer" width="40" height="40">
+                        <img src="/image/delete.png" alt="Supprimer" width="40" height="40">
                     </button>
 
                     <!-- Formulaire de suppression -->
