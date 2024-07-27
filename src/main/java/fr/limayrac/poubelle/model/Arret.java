@@ -1,9 +1,6 @@
 package fr.limayrac.poubelle.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,24 +9,24 @@ import java.util.List;
 
 @Getter @Setter
 @Entity
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 public class Arret {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String libelle;
+
     @OneToMany(mappedBy = "arret", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<ArretRue> arretVoisinsSuivant;
+
     @OneToMany(mappedBy = "arret", fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @JsonIgnore
     private List<ArretAdjacent> arretAdjacents;
     private Double latitude;
     private Double longitude;
     private Boolean ramasse;
 
+    @JsonIgnore
     public Boolean isCarrefour() {
         // Terminaus = 1 arrêt adjacent
         // Liaison = 2 arrets adjacents

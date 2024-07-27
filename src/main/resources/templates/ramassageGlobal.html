@@ -64,6 +64,10 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         let arrets = /*[[${arrets}]]*/ [];
+        fetch('/arrets').then(
+            (data) => {
+                arrets = data.json()
+            });
         let rueArrets = /*[[${rueArrets}]]*/ [];
         /*]]>*/
     </script>
