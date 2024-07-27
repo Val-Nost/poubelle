@@ -52,7 +52,7 @@
         <div id="mynetwork"></div>
         <div class="cyclistes-list">
             <div class="card-container" th:if="${not #lists.isEmpty(cyclistes)}">
-                <div class="cycliste-card" th:each="cycliste : ${cyclistes}">
+                <div class="cycliste-card" th:each="cycliste : ${cyclistes}" th:data-cycliste-id="${cycliste.id}">
                     <h3 th:text="${cycliste.prenom} + ' ' + ${cycliste.nom}"></h3>
                     <p>Cycliste</p>
                 </div>

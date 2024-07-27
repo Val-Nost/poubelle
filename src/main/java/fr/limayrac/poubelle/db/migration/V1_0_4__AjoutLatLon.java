@@ -4,12 +4,21 @@ import org.flywaydb.core.api.migration.BaseJavaMigration;
 import org.flywaydb.core.api.migration.Context;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class V1_0_5__AjoutLatLon extends BaseJavaMigration implements SpringJDBCTemplateProvider {
+public class V1_0_4__AjoutLatLon extends BaseJavaMigration implements SpringJDBCTemplateProvider {
 
     @Override
     public void migrate(Context context) throws Exception {
         JdbcTemplate jdbcTemplate = jdbcTemplate(context);
+        updateTable(jdbcTemplate);
         ajoutDonnees(jdbcTemplate);
+
+    }
+
+    public void updateTable(final JdbcTemplate jdbcTemplate) {
+        jdbcTemplate.execute("ALTER TABLE arret " +
+                "ADD latitude double, " +
+                "ADD longitude double;"
+                );
     }
 
 
