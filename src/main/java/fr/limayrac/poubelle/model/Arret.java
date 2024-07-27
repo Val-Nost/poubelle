@@ -26,6 +26,8 @@ public class Arret {
     @OneToMany(mappedBy = "arret", fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<ArretAdjacent> arretAdjacents;
+    private Double latitude;
+    private Double longitude;
     private Boolean ramasse;
 
     public Boolean isCarrefour() {

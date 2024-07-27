@@ -31,6 +31,8 @@ public class RamassageController {
     @Autowired
     private IRueService rueService;
     @Autowired
+    private IRueArretService rueArretService;
+    @Autowired
     private IIncidentService incidentService;
     @Autowired
     private IItineraireService itineraireService;
@@ -211,5 +213,35 @@ public class RamassageController {
     public String infoItineraire(Model model, @PathVariable Long idRamassage, @PathVariable Long idItineraire) {
         model.addAttribute(itineraireService.findById(idItineraire));
         return "infoItineraire";
+    }
+
+    @GetMapping("/ramassages")
+    public String getAllRuesArrets(Model model) {
+        List<Rue> rues = rueService.findAll();
+        List<Arret> arrets = arretService.findAll();
+        List<RueArret> rueArrets = rueArretService.findAll();
+        List<Utilisateur> cyclistes = utilisateurService.findByRole(Role.Cycliste);
+
+        model.addAttribute("rues", rues);
+        model.addAttribute("arrets", arrets);
+        model.addAttribute("rueArrets", rueArrets);
+        model.addAttribute("cyclistes", cyclistes);
+
+        return "ramassageGlobal";
+    }
+
+    @GetMapping("/ramassageByUser/{idUser}")
+    public String getRamasseByUser(@PathVariable Long idUser, Model model) {
+        List<Rue> rues = rueService.findAll();
+        List<Arret> arrets = arretService.findAll();
+        List<RueArret> rueArrets = rueArretService.findAll();
+        Utilisateur utilisateur = utilisateurService.findById(idUser);
+
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("rues", rues);
+        model.addAttribute("arrets", arrets);
+        model.addAttribute("rueArrets", rueArrets);
+
+        return "ramassageByUser";
     }
 }

@@ -19,7 +19,12 @@ public class RueService implements IRueService {
     }
 
     @Override
+    public List<Rue> findAll() {
+        return (List<Rue>) rueDao.findAll();
+    }
+
+    @Override
     public Rue findById(Long id) {
-        return rueDao.findById(id).orElse(null);
+        return null;
     }
 }

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Carte de la ville</title>
+    <link rel="stylesheet" href="/css/listeUtilisateur.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/vis-network/styles/vis-network.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 250px; /* 1 fraction pour la carte, 250px pour la liste des cyclistes */
+            gap: 20px; /* Espace entre la carte et la liste */
+            width: 95%;
+
+        }
+
+        #mynetwork {
+            width: 100%; /* La carte occupe toute la largeur de sa colonne */
+            height: 750px;
+            border: 1px solid lightgray;
+        }
+
+        .cyclistes-list {
+            display: flex; /* Permet de placer les cartes côte à côte */
+            flex-wrap: wrap; /* Les cartes passent à la ligne suivante si l'espace est insuffisant */
+            gap: 20px; /* Espace entre les cartes */
+        }
+
+        .cycliste-card {
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px; /* Coins arrondis */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
+            flex: 1 1 200px; /* Chaque carte prend au moins 200px de largeur et peut grandir pour remplir l'espace */
+            min-width: 250px; /* Largeur minimale de la carte */
+            max-width: 350px; /* Largeur maximale de la carte */
+        }
+
+        .cycliste-card h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <header th:replace="~{fragments/navbar :: navbar}"></header>
+    <h1>Carte de la ville</h1>
+
+    <div class="container">
+        <div id="mynetwork"></div>
+        <div class="cyclistes-list">
+            <div class="card-container" th:if="${not #lists.isEmpty(cyclistes)}">
+                <div class="cycliste-card" th:each="cycliste : ${cyclistes}" th:data-cycliste-id="${cycliste.id}">
+                    <h3 th:text="${cycliste.prenom} + ' ' + ${cycliste.nom}"></h3>
+                    <p>Cycliste</p>
+                </div>
+            </div>
+            <p th:unless="${not #lists.isEmpty(cyclistes)}">Aucun cycliste trouvé.</p>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let arrets = /*[[${arrets}]]*/ [];
+        let rueArrets = /*[[${rueArrets}]]*/ [];
+        /*]]>*/
+    </script>
+    <script src="/js/fragments/navbar.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script src="/js/ruesArrets.js"></script>
+</body>
+</html>
