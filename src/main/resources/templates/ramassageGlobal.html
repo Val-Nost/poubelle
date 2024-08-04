@@ -3,11 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Carte de la ville</title>
-    <link rel="stylesheet" href="/css/listeUtilisateur.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/vis-network/styles/vis-network.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <style>
         html, body {
             height: 90%;
@@ -23,6 +27,12 @@
         .container {
             display: flex;
             height: 100%;
+        }
+
+        .logo {
+            width: 90px!important;
+            height: auto;
+            margin-left: 120px;
         }
 
         #mynetwork {
@@ -65,6 +75,17 @@
             <p th:unless="${not #lists.isEmpty(ramassagesCyclistesVelos)}">Aucun cycliste trouvé.</p>
         </div>
     </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let arrets = /*[[${arrets}]]*/ [];
+        fetch('/arrets').then(
+            (data) => {
+                arrets = data.json()
+            });
+        let rueArrets = /*[[${rueArrets}]]*/ [];
+        /*]]>*/
+    </script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <script src="/js/ruesArretsGlobal.js"></script>
