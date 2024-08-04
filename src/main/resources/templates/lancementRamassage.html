@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Lancement Ramassage</title>
-    <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/css/ramassage.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="/css/ramassage.css">
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 </head>
 <body>
-<th:block th:replace="fragments/navbar :: navbar"></th:block>
+<th:block th:replace="~{fragments/navbar :: navbar}"/>
 <div class="text-center">
     <h1 class="text-3xl">Lancer un ramassage</h1>
     <!-- On peut lancer un ramassage seulement si un n'est pas déjà en cours -->

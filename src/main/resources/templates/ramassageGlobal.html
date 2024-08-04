@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Carte de la ville</title>
-    <link rel="stylesheet" href="/css/listeUtilisateur.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/vis-network/styles/vis-network.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <style>
         .container {
             display: grid;
@@ -14,6 +19,12 @@
             gap: 20px; /* Espace entre la carte et la liste */
             width: 95%;
 
+        }
+
+        .logo {
+            width: 90px!important;
+            height: auto;
+            margin-left: 120px;
         }
 
         #mynetwork {
@@ -45,7 +56,7 @@
     </style>
 </head>
 <body>
-    <header th:replace="~{fragments/navbar :: navbar}"></header>
+<header th:replace="fragments/navbar :: navbar"></header>
     <h1>Carte de la ville</h1>
 
     <div class="container">
@@ -71,7 +82,6 @@
         let rueArrets = /*[[${rueArrets}]]*/ [];
         /*]]>*/
     </script>
-    <script src="/js/fragments/navbar.js"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <script src="/js/ruesArrets.js"></script>
