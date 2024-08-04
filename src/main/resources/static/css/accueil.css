@@ -11,6 +11,18 @@ a {
     margin-left: 120px;
 }
 
+.remove-user, .edit-user {
+    max-width: 35px;
+    max-height: 35px;
+}
+
+@media only screen and (max-width: 768px) {
+    .remove-user, .edit-user {
+        max-width: 30px;
+        max-height: 30px;
+    }
+}
+
 .hidden-integrity-message {
     display: none;
 }
