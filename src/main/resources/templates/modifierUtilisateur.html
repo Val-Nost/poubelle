@@ -37,10 +37,11 @@
                     <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
                 </select>
             </div>
-            <div sec:authorize="hasAnyRole('ROLE_RH', 'ROLE_Gestionnaire', 'ROLE_Admin')"
-                    class="checkbox-container">
+            <div sec:authorize="hasAnyRole('ROLE_Admin')"
+                 class="checkbox-container">
                 <label for="actif">Actif:</label>
-                <input type="checkbox" id="actif" th:field="*{actif}" />
+                <input type="checkbox" id="actif" th:field="*{actif}"
+                       th:disabled="${utilisateur.id == utilisateurConnecte.id}" />
             </div>
             <input type="submit" value="Modifier">
         </form>
