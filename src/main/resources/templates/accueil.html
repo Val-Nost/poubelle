@@ -56,17 +56,17 @@
             <td class="px-6 py-4 whitespace-nowrap" th:text="${utilisateur.role.libelle}"></td>
             <td class="px-6 py-4 whitespace-nowrap" sec:authorize="hasAnyRole('ROLE_Admin')">
                 <div class="flex justify-center items-center gap-4">
-                    <a th:href="${'/ramassage/ramassageByUser/'+utilisateur.id}">Ramasse</a>
                     <a id="show-popup-modify-[[${utilisateur.id}]]"
-                       th:if="${utilisateur.id == #authentication.principal.utilisateur.id or #authorization.expression('hasRole(''ROLE_Admin'')')}" sec:authorize="hasRole('ROLE_Admin')"
-                       th:href="${'/utilisateurs/modifier/'+ utilisateur.id}">
+                       th:if="${utilisateur.id != utilisateurConnecte.id}" sec:authorize="hasRole('ROLE_Admin')"
+                       th:href="@{/utilisateurs/modifier/{id}(id=${utilisateur.id})}">
                         <img src="/image/pen.png" alt="Modifier" class="edit-user">
                     </a>
-                    <button type="button" class="open-popup" data-id="[[${utilisateur.id}]]">
+                    <button type="button" class="open-popup" data-id="[[${utilisateur.id}]]"
+                            th:if="${utilisateur.id != utilisateurConnecte.id}" sec:authorize="hasRole('ROLE_Admin')">
                         <img src="/image/delete.png" alt="Supprimer" class="remove-user">
                     </button>
                     <form id="delete-form-[[${utilisateur.id}]]" sec:authorize="hasRole('ROLE_Admin')"
-                          th:action="${'/utilisateurs/supprimer/'+utilisateur.id}" method="post" class="hidden">
+                          th:action="@{/utilisateurs/supprimer/{id}(id=${utilisateur.id})}" method="post" class="hidden">
                         <input type="submit" value="Supprimer"/>
                     </form>
                 </div>
