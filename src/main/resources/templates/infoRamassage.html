@@ -27,7 +27,7 @@
 </div>
 <div id="Cyclistes" class="tabcontent">
     <div class="formfield center" th:if="${ramassage.enCours}">
-        <button class="bg-blue-500 rounded-sm" onclick="addVelo(this)">Ajouter</button>
+        <button class="rounded-sm blueButton" onclick="addVelo(this)">Ajouter</button>
     </div>
     <form id="ajoutCyclisteVelo" method="post"  onsubmit="addVeloValidate(event)" th:action="${'/ramassage/' + ramassage.id + '/ajoutCyclisteVelo'}" style="display: none"  th:if="${ramassage.enCours}">
         <div class="formfield center">
@@ -43,7 +43,7 @@
             </select>
         </div>
         <div class="formfield center">
-            <input class="bg-green-500 rounded-sm" value="Valider" type="submit">
+            <input class="rounded-sm greenButton" value="Valider" type="submit">
         </div>
     </form>
     <table>

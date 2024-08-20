@@ -25,6 +25,6 @@ public class RueService implements IRueService {
 
     @Override
     public Rue findById(Long id) {
-        return null;
+        return rueDao.findById(id).orElse(null);
     }
 }

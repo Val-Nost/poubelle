@@ -61,36 +61,29 @@ public class ItineraireUtils {
             // TODO à vérifier, il est sans doute possible de n'utiliser que cette fonction
             CheminPossibleDto cheminPossibleLePlusCourt = chercheCheminPlusCourt(cheminPlusCourtParArret);
 
-            // Le velo a assez d'autonomie pour faire l'allez-retour
-            if (ramassageCyclisteVelo.getVelo().autonomieRestante() >= cheminPossibleLePlusCourt.calculDistance()) {
-                // TODO mettre le code en dessous ici
-            }
-
-            // Début code à déplacer
-
-            // On calcule l'autonomie
-            ramassageCyclisteVelo.getVelo().setAutonomie(ramassageCyclisteVelo.getVelo().getAutonomie() + cheminPossibleLePlusCourt.calculDistance());
-
             // La liste des arrêts parcourus
             List<Arret> arrets = new ArrayList<>(cheminPossibleLePlusCourt.getArrets());
 
-            // On retire le dernier vu qu'il est ajouté en dessous
-            arrets.remove(arrets.size()-1);
-            for (int i = cheminPossibleLePlusCourt.getArrets().size()-1; i >= 0; i--) {
-                arrets.add(cheminPossibleLePlusCourt.getArrets().get(i));
-                // Si la charge max n'est pas atteinte on ramasse l'arrêt
-                if (!ramassageCyclisteVelo.getVelo().chargeMaxAtteint()) {
-                    arretsRamasse.add(cheminPossibleLePlusCourt.getArrets().get(i));
-                    // On supprime l'arrêt du chemin
-                    ramassageCyclisteVelo.getVelo().setCharge(ramassageCyclisteVelo.getVelo().getCharge() + 50);
-                    // On supprime l'arrêt pour tout les chemins dont il est la dernier arrêt
-                    removeArrets(allCheminsPossibles, cheminPossibleLePlusCourt.getArrets().get(i));
-                }
-            }
-            // Fin code à déplacer
+            // Le velo a assez d'autonomie pour faire l'allez-retour
+            if (ramassageCyclisteVelo.getVelo().getAutonomie() >= cheminPossibleLePlusCourt.calculDistance()) {
+                // On calcule l'autonomie
+                ramassageCyclisteVelo.getVelo().setAutonomie(ramassageCyclisteVelo.getVelo().getAutonomie() + cheminPossibleLePlusCourt.calculDistance());
 
-            // TODO c'est ici qu'il faut remettre l'autonomie à 0 en fonction de la réponse du prof
-//            ramassageCyclisteVelo.getVelo().setAutonomie(0.0);
+                // On retire le dernier vu qu'il est ajouté en dessous
+                arrets.remove(arrets.size()-1);
+                for (int i = cheminPossibleLePlusCourt.getArrets().size()-1; i >= 0; i--) {
+                    arrets.add(cheminPossibleLePlusCourt.getArrets().get(i));
+                    // Si la charge max n'est pas atteinte on ramasse l'arrêt
+                    if (!ramassageCyclisteVelo.getVelo().chargeMaxAtteint()) {
+                        arretsRamasse.add(cheminPossibleLePlusCourt.getArrets().get(i));
+                        // On supprime l'arrêt du chemin
+                        ramassageCyclisteVelo.getVelo().setCharge(ramassageCyclisteVelo.getVelo().getCharge() + 50);
+                        // On supprime l'arrêt pour tout les chemins dont il est la dernier arrêt
+                        removeArrets(allCheminsPossibles, cheminPossibleLePlusCourt.getArrets().get(i));
+                    }
+                }
+                ramassageCyclisteVelo.getVelo().setAutonomie(50.0);
+            }
 
             // Si tous les arrêts restant du chemins sont ramassés, inutile d'y repasser
             if (cheminPossibleLePlusCourt.getArrets().isEmpty() || arretsRamasse.containsAll(cheminPossibleLePlusCourt.getArrets())) {
@@ -106,10 +99,9 @@ public class ItineraireUtils {
                     arrets.addAll(arretsRecursif);
                 }
             } else {
-//            cheminPlusCourtParArret.remove(cheminPossibleLePlusCourt);
                 // On vide la charge
                 ramassageCyclisteVelo.getVelo().setCharge(0);
-                // TODO, demander si à chaque fois que l'on passe par l'arrêt de départ on change la batterie
+                ramassageCyclisteVelo.getVelo().setAutonomie(50.0);
             }
             return arrets;
         }

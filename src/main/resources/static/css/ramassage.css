@@ -77,3 +77,23 @@
 .center{
     text-align: center;
 }
+
+.blueButton {
+    background-color: #5c67f2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.greenButton {
+    background-color: greenyellow;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
