@@ -240,6 +240,14 @@ public class RamassageController {
         List<RueArret> rueArrets = rueArretService.findAll();
         Utilisateur utilisateur = utilisateurService.findById(idUser);
 
+        List<Ramassage> ramassages = ramassageService.findByEnCours(true);
+        Ramassage ramassage = ramassages.get(0);
+
+        Itineraire itineraire = itineraireService.findItineraireByCycliste(ramassage, utilisateur);
+        for (ItineraireArret itineraireArret : itineraire.getItineraireArrets()) {
+
+        }
+
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("rues", rues);
         model.addAttribute("arrets", arrets);
