@@ -102,6 +102,7 @@ public class RamassageController {
 
         while (!arretsRamasses.containsAll(arretsARamasser)) {
             for (RamassageCyclisteVelo ramassageCyclisteVelo : ramassage.getRamassageCyclisteVelos()) {
+                int ordreRamassage = 0;
                 if (!itineraireMap.containsKey(ramassageCyclisteVelo)) {
                     itineraireMap.put(ramassageCyclisteVelo, new Itineraire());
                     itineraireMap.get(ramassageCyclisteVelo).setRamassageCyclisteVelo(ramassageCyclisteVelo);
@@ -112,6 +113,8 @@ public class RamassageController {
                         ItineraireArret itineraireArret = new ItineraireArret();
                         itineraireArret.setItineraire(itineraireMap.get(ramassageCyclisteVelo));
                         itineraireArret.setArret(arret);
+                        itineraireArret.setOrdre(ordreRamassage);
+                        ordreRamassage++;
                         itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets().add(itineraireArret);
                     }
                 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="fr">
 <head>
     <title>Modifier Utilisateur</title>
     <link rel="stylesheet" href="/css/modifierUtilisateur.css">
@@ -9,15 +9,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
-          rel="stylesheet">
-    <link rel="stylesheet" href="/css/navbar.css">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
     <div class="modifierUtilisateur">
-        <h1>Modifier Utilisateur</h1>
-        <form th:action="@{/utilisateurs/update/{id}(id=${utilisateur.id})}" th:object="${utilisateur}" method="post">
+        <h1 class="text-3xl">Modifier Utilisateur</h1>
+        <form th:action="@{/utilisateurs/update/{id}(id=${utilisateur.id})}" th:object="${utilisateur}" method="post" onsubmit="onSubmit(event)">
             <label for="nom">Nom:</label>
             <input type="text" id="nom" th:field="*{nom}" />
             <label for="prenom">Prénom:</label>
@@ -30,20 +28,21 @@
                 <label for="confirmPassword">Confirm Password:</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" oninput="checkPasswordMatch();"/>
             </div>
-            <div sec:authorize="hasAnyRole('ROLE_RH', 'ROLE_Gestionnaire', 'ROLE_Admin')">
-                <label for="role">Role:</label>
+            <div sec:authorize="hasAnyRole('ROLE_RH', 'ROLE_Gestionnaire', 'ROLE_Admin')" th:if="${utilisateurConnecte.id != utilisateur.id}">
+                <label for="role">Role : </label>
                 <select id="role" th:field="*{role}">
-                    <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+                    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.libelle}"></option>
                 </select>
             </div>
-            <div sec:authorize="hasAnyRole('ROLE_RH', 'ROLE_Gestionnaire', 'ROLE_Admin')"
-                    class="checkbox-container">
-                <label for="actif">Actif:</label>
-                <input type="checkbox" id="actif" th:field="*{actif}" />
-            </div>
+<!--            <div sec:authorize="hasAnyRole('ROLE_RH', 'ROLE_Gestionnaire', 'ROLE_Admin')"-->
+<!--                    class="checkbox-container">-->
+<!--                <label for="actif">Actif:</label>-->
+<!--                <input type="checkbox" id="actif" th:field="*{actif}" />-->
+<!--            </div>-->
             <input type="submit" value="Modifier">
         </form>
     </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 </body>
 </html>
 <script>
@@ -57,5 +56,12 @@
             confirmPasswordField.style.borderColor = 'green';
         }
     }
+
+    function onSubmit(event) {
+        var password = document.getElementById('password');
+        var confirmPasswordField = document.getElementById('confirmPassword');
+        if (password.value !== confirmPasswordField.value) {
+            event.preventDefault()
+        }
+    }
 </script>
-<script src="/js/fragments/navbar.js"></script>

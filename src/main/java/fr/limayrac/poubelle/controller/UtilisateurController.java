@@ -7,15 +7,10 @@ import fr.limayrac.poubelle.security.UserSpringSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import fr.limayrac.poubelle.security.UserSpringSecurity;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -24,9 +19,6 @@ public class UtilisateurController {
 
     @Autowired
     private IUtilisateurDao utilisateurDao;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/userListe")
     public String userListe(Model model) {
@@ -49,7 +41,8 @@ public class UtilisateurController {
 
     @PostMapping("/creer")
     public String creerUtilisateur(@ModelAttribute Utilisateur utilisateur) {
-        String encodedPassword = passwordEncoder.encode(utilisateur.getPassword());
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = bCryptPasswordEncoder.encode(utilisateur.getPassword());
         utilisateur.setPassword(encodedPassword);
         utilisateurDao.save(utilisateur);
         return "redirect:/accueil";
@@ -59,11 +52,11 @@ public class UtilisateurController {
     public String modifierUtilisateurForm(@PathVariable Long id, Model model) {
         UserSpringSecurity userSpringSecurity = (UserSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Utilisateur utilisateurConnecte = userSpringSecurity.getUtilisateur();
-        model.addAttribute("utilisateurConnecte", utilisateurConnecte);
         Utilisateur utilisateur = utilisateurDao.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        model.addAttribute("utilisateurConnecte", utilisateurConnecte);
         model.addAttribute("utilisateur", utilisateur);
-        model.addAttribute("role", Role.values());
+        model.addAttribute("roles", Role.values());
         return "modifierUtilisateur";
     }
     @PostMapping("/update/{id}")
@@ -73,7 +66,8 @@ public class UtilisateurController {
         utilisateur.setNom(utilisateurForm.getNom());
         utilisateur.setPrenom(utilisateurForm.getPrenom());
         utilisateur.setLogin(utilisateurForm.getLogin());
-        utilisateur.setPassword(passwordEncoder.encode(utilisateurForm.getPassword()));
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        utilisateur.setPassword(bCryptPasswordEncoder.encode(utilisateurForm.getPassword()));
         utilisateur.setRole(utilisateurForm.getRole());
         utilisateur.setActif(utilisateurForm.getActif());
         utilisateurDao.save(utilisateur);
