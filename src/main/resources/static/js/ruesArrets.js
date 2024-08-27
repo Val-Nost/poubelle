@@ -170,6 +170,42 @@ function afficherItineraire(map, rueArrets, arretsCoords, itinerairesCycliste) {
         });
     }
 
+    const arretsList = document.getElementById('arrets-list');
+    arretsList.innerHTML = '';
+
+    let currentRue = null;
+    itinerairesCycliste.forEach(arretId => {
+        const arretLibelle = arretsCoords[arretId]?.libelle;
+
+        if (arretLibelle) {
+            // Trouver la rue associée à cet arrêt dans groupedPoints
+            const rueAssociee = Object.keys(groupedPoints).find(rue => {
+                return groupedPoints[rue].some(pointData => pointData.arretLibelle === arretLibelle);
+            });
+
+            if (rueAssociee) {
+                // Afficher le nom de la rue uniquement si elle change
+                if (rueAssociee !== currentRue) {
+                    const rueListItem = document.createElement('li');
+                    rueListItem.textContent = rueAssociee;
+                    rueListItem.classList.add('changement-de-rue'); // Ajouter la classe pour le style
+                    arretsList.appendChild(rueListItem);
+                    currentRue = rueAssociee;
+                }
+
+                // Afficher le nom de l'arrêt
+                const arretListItem = document.createElement('li');
+                arretListItem.textContent = arretLibelle;
+                arretsList.appendChild(arretListItem);
+            } else {
+                console.warn(`Aucune rue associée trouvée pour l'arrêt ${arretLibelle} (ID: ${arretId})`);
+            }
+
+        } else {
+            console.warn(`Arrêt avec l'ID ${arretId} non trouvé dans les données.`);
+        }
+    });
+
     // Zoom sur l'itinéraire
     if (allPoints.length > 0) {
         const bounds = L.latLngBounds(allPoints);
