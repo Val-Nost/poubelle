@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Prochains arrêts</title>
+    <link href="/css/itineraire.css" rel="stylesheet">
+    <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+</head>
+<body>
+<th:block th:replace="~{fragments/navbar :: navbar}"/>
+<h1 class="text-2xl" th:text="${message}"></h1>
+<div class="flex justify-center">
+    <table>
+        <thead>
+        <tr>
+            <th></th>
+            <th>Libellé de l'arrêt</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${arretPrecedent != null}">
+            <td class="text-xl text-green-500">Arret précédent</td>
+            <td th:text="${arretPrecedent.arret.libelle}"></td>
+        </tr>
+        <tr th:if="${arretCourant != null}">
+            <td class="text-xl text-blue-500">Arret courant</td>
+            <td th:text="${arretCourant.arret.libelle}"></td>
+        </tr>
+        <tr th:if="${arretSuivant != null}">
+            <td class="text-xl text-orange-500">Prochain arrêt</td>
+            <td th:text="${arretSuivant.arret.libelle}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+</body>
+</html>

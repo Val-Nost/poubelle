@@ -18,8 +18,21 @@ public class IndexController {
     public String accueil(Model model) {
         UserSpringSecurity userSpringSecurity = (UserSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Utilisateur utilisateurConnecte = userSpringSecurity.getUtilisateur();
-        model.addAttribute("utilisateurs", utilisateurDao.findAll());
-        model.addAttribute("utilisateurConnecte", utilisateurConnecte);
-        return "accueil";
+        switch (utilisateurConnecte.getRole()) {
+            case Cycliste -> {
+                return "redirect:/itineraire/derniersArrets";
+            }
+            case RH, Admin -> {
+                model.addAttribute("utilisateurs", utilisateurDao.findAll());
+                model.addAttribute("utilisateurConnecte", utilisateurConnecte);
+                return "listeUtilisateur";
+            }
+            case Gestionnaire -> {
+                return "redirect:/ramassage/ramassages";
+            }
+            default -> {
+                return "accueil";
+            }
+        }
     }
 }

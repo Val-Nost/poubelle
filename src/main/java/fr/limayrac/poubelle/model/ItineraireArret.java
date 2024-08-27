@@ -16,4 +16,5 @@ public class ItineraireArret {
     @ManyToOne
     @JoinColumn(name = "arret")
     private Arret arret;
+    private Integer ordre;
 }

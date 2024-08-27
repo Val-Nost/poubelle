@@ -10,7 +10,9 @@ import java.util.List;
 
 @Getter @Setter
 @Entity
-public class Itineraire {
+public class
+
+Itineraire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
