@@ -4,6 +4,20 @@
     margin-left: 120px;
 }
 
+a {
+    font-family: "EB Garamond", serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 25px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
 .modifierUtilisateur {
     width: 100%;
 }
