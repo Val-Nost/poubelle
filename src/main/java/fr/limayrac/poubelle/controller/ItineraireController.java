@@ -48,10 +48,10 @@ public class ItineraireController {
                     // L'arrêt courant n'est  le premier de la liste
                     if (itineraire.getItineraireArrets().indexOf(arretCourant) != 0) {
                         arretPrecedent = itineraire.getItineraireArrets().get(itineraire.getItineraireArrets().indexOf(arretCourant)-1);
-                        // L'arrêt courant n'est pas le dernier
-                        if (itineraire.getItineraireArrets().indexOf(arretCourant) != (itineraire.getItineraireArrets().size()-1)) {
-                            arretSuivant = itineraire.getItineraireArrets().get(itineraire.getItineraireArrets().indexOf(arretCourant)+1);
-                        }
+                    }
+                    // L'arrêt courant n'est pas le dernier
+                    if (itineraire.getItineraireArrets().indexOf(arretCourant) != (itineraire.getItineraireArrets().size()-1)) {
+                        arretSuivant = itineraire.getItineraireArrets().get(itineraire.getItineraireArrets().indexOf(arretCourant)+1);
                     }
                     // Tout a été ramassé
                 } else {

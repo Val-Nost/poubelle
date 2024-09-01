@@ -4,6 +4,7 @@ import fr.limayrac.poubelle.dao.IItineraireDao;
 import fr.limayrac.poubelle.model.Itineraire;
 import fr.limayrac.poubelle.model.Utilisateur;
 import fr.limayrac.poubelle.model.ramassage.Ramassage;
+import fr.limayrac.poubelle.model.ramassage.RamassageCyclisteVelo;
 import fr.limayrac.poubelle.service.IItineraireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,5 +35,9 @@ public class ItineraireService implements IItineraireService {
     @Override
     public Itineraire findItineraireByCycliste(Ramassage ramassage, Utilisateur utilisateur) {
         return itineraireDao.findByRamassageAndCycliste(ramassage, utilisateur);
+    }
+    @Override
+    public Itineraire findByRamassageCyclisteVelo(RamassageCyclisteVelo ramassageCyclisteVelo) {
+        return itineraireDao.findByRamassageCyclisteVelo(ramassageCyclisteVelo);
     }
 }

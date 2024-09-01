@@ -12,4 +12,6 @@ public interface IArretService {
 
     List<Arret> findFeuille();
     List<Arret> findByRue(Rue rue);
+
+    Arret save(Arret arret);
 }

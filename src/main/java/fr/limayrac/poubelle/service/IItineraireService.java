@@ -3,6 +3,7 @@ package fr.limayrac.poubelle.service;
 import fr.limayrac.poubelle.model.Itineraire;
 import fr.limayrac.poubelle.model.Utilisateur;
 import fr.limayrac.poubelle.model.ramassage.Ramassage;
+import fr.limayrac.poubelle.model.ramassage.RamassageCyclisteVelo;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,4 +15,6 @@ public interface IItineraireService {
 
     Itineraire findById(Long idItineraire);
     Itineraire findItineraireByCycliste(Ramassage ramassage, Utilisateur utilisateur);
+
+    Itineraire findByRamassageCyclisteVelo(RamassageCyclisteVelo ramassageCyclisteVelo);
 }

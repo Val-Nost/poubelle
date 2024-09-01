@@ -255,4 +255,22 @@ public class RamassageController {
 
         return "ramassageByUser";
     }
+
+    @PostMapping("/ramassageDerniersArrets")
+    public String ramassageDerniersArrets() {
+        Ramassage ramassage = ramassageService.findByEnCours(true).get(0);
+        for (RamassageCyclisteVelo ramassageCyclisteVelo : ramassage.getRamassageCyclisteVelos()) {
+            Itineraire itineraire = itineraireService.findByRamassageCyclisteVelo(ramassageCyclisteVelo);
+            for (ItineraireArret itineraireArret : itineraire.getItineraireArrets()) {
+                if (!itineraireArret.getArret().getRamasse()) {
+                    Arret arret = arretService.findById(itineraireArret.getArret().getId());
+                    arret.setRamasse(true);
+                    arretService.save(arret);
+                    break;
+                }
+            }
+        }
+        // TODO, rediriger vers affichage carte individuelle
+        return "";
+    }
 }
