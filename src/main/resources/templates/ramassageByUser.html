@@ -47,11 +47,12 @@
         .changement-de-rue {
             font-style: italic;
             color: #777;
-            margin-top: 10px; /* Ajouter une marge supérieure pour séparer les rues des arrêts */
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
+<th:block th:replace="~{fragments/navbar :: navbar}"/>
 <h1>Itinéraire de <span th:text="${utilisateur.prenom}"></span></h1>
 <div class="container">
     <div id="mynetwork"></div>
@@ -60,7 +61,7 @@
         <ul id="arrets-list"></ul>
     </div>
 </div>
-<script src="/js/fragments/navbar.js"></script>
+<script src="./fragments/navbar.html"></script>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
 <script src="/js/ruesArrets.js"></script>

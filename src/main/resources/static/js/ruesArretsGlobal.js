@@ -15,35 +15,42 @@ document.addEventListener("DOMContentLoaded", async function() {
     map.getPane('animatedPointPane').style.zIndex = 550;
 
     try {
-        // Charger les données
+        // Charger les données des arrêts et des rues
         let arrets = await fetchData('/arrets');
         let rueArrets = await fetchData('/arret-rue');
+
         // Initialiser les coordonnées des arrêts
         let arretsCoords = {};
         arrets.forEach(arret => {
             arretsCoords[arret.id] = { lat: arret.latitude, lon: arret.longitude, libelle: arret.libelle };
         });
 
-        // Extraire le chemin de l'URL
+        // Ajout des gestionnaires d'événements pour les cartes utilisateur
+        document.querySelectorAll('.cycliste-card').forEach(card => {
+            card.addEventListener('click', async function() {
+                const cyclisteId = this.getAttribute('data-cycliste-id');
+
+                // Charger l'itinéraire du cycliste sélectionné
+                let rammassages = await fetchData(`/rammassages/${cyclisteId}/arrets`);
+                console.log(rammassages);
+
+                const itinerairesCycliste = rammassages.map(ramassage => ramassage.id);
+                console.log(itinerairesCycliste);
+
+                // Convertir le tableau en Set pour éliminer les doublons
+                const uniqueItinerairesCycliste = [...new Set(itinerairesCycliste)];
+
+                // Afficher l'itinéraire spécifique
+                afficherItineraire(map, rueArrets, arretsCoords, uniqueItinerairesCycliste);
+            });
+        });
+
+        // Si vous voulez afficher une carte globale par défaut
         const pathname = window.location.pathname;
-
-        if (pathname.includes('/ramassage/ramassageByUser/')) {
-            // Extraire l'ID utilisateur de l'URL
-            const userId = pathname.split('/').pop();
-
-            let rammassages = await fetchData(`/rammassages/${userId}/arrets`);
-            console.log(rammassages)
-
-            const itinerairesCycliste = rammassages.map(ramassage => ramassage.id);
-            console.log(itinerairesCycliste)
-            // Convertir le tableau en Set pour éliminer les doublons
-            const uniqueItinerairesCycliste = [...new Set(itinerairesCycliste)];
-            // Afficher l'itinéraire spécifique
-            afficherItineraire(map, rueArrets, arretsCoords, uniqueItinerairesCycliste);
-        } else if (pathname.includes('/ramassage/ramassages')) {
-            // Afficher la carte globale
+        if (pathname.includes('/ramassage/ramassages')) {
             afficherCarteGlobale(map, rueArrets, arretsCoords);
         }
+
     } catch (error) {
         console.error('Erreur lors du chargement des données:', error);
     }
@@ -162,26 +169,6 @@ function afficherItineraire(map, rueArrets, arretsCoords, itinerairesCycliste) {
         // Ajouter le marqueur avec l'icône personnalisée
         const marker = L.marker(pointData.coords, { icon: numberIcon, pane: 'itinerairePane' }).addTo(map);
         markers.push({ marker, arretId: pointData.arretId }); // Stocker le marqueur pour un changement ultérieur
-    });
-
-    const arretsList = document.getElementById('arrets-list');
-    arretsList.innerHTML = '';
-
-    let currentRue = null;
-    groupedPoints.forEach(pointData => {
-        const { arretLibelle, rueLibelle } = pointData;
-
-        if (rueLibelle !== currentRue) {
-            const rueListItem = document.createElement('li');
-            rueListItem.textContent = rueLibelle;
-            rueListItem.classList.add('changement-de-rue'); // Ajouter la classe pour le style
-            arretsList.appendChild(rueListItem);
-            currentRue = rueLibelle;
-        }
-
-        const arretListItem = document.createElement('li');
-        arretListItem.textContent = arretLibelle;
-        arretsList.appendChild(arretListItem);
     });
 
     if (allPoints.length > 0) {
