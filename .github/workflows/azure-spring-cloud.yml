@@ -34,7 +34,7 @@ jobs:
         with:
           azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
           action: Deploy
-          service-name: <service instance name>
-          app-name: <app name>
+          service-name: poubelle-service
+          app-name: poubelle-spring
           use-staging-deployment: false
           package: ${{ env.ASC_PACKAGE_PATH }}/**/*.jar
