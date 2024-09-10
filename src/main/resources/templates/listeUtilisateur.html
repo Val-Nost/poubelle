@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 </head>
@@ -79,6 +80,8 @@
     </table>
 </div>
 
+<div id="error-message" th:if="${error}" th:text="${error}" style="display: none;"></div>
+
 <div class="cd-popup" id="popup">
     <div class="cd-popup-container">
         <p>Voulez-vous supprimer cet enregistrement ?</p>
@@ -94,6 +97,23 @@
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 <script src="/js/listeUtilisateur.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Récupérer le message d'erreur
+        var errorMessage = document.getElementById('error-message');
+        if (errorMessage) {
+            var message = errorMessage.textContent.trim();
+            if (message) {
+                Swal.fire({
+                    icon: "info",
+                    title: "Information ramassage d'un utilisateur",
+                    text: message,
+                    confirmButtonText: 'OK', // Texte du bouton de confirmation
+                    confirmButtonColor: '#f57c00'
+                });
+            }
+        }
+    });
+</script>
 </body>
 </html>
