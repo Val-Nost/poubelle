@@ -1,6 +1,6 @@
 .container {
     display: grid;
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr 300px; /* Colonne de gauche flexible, colonne de droite fixe à 300px */
     gap: 20px;
 }
 
@@ -10,6 +10,12 @@
     border: 1px solid lightgray;
 }
 
+.logo {
+    width: 90px!important;
+    height: auto;
+    margin-left: 120px;
+}
+
 #itineraire-details {
     background-color: #f0f0f0;
     padding: 15px;
@@ -17,18 +23,92 @@
 }
 
 #itineraire-details h2 {
-    font-size: 1.2em;
+    font-size: 1.2em; /* Augmenter la taille du titre */
     font-weight: bold;
     margin-top: 0;
-    margin-bottom: 15px;
+    margin-bottom: 15px; /* Ajouter une marge inférieure */
 }
 
 #arrets-list {
     list-style: none;
-    padding: 10px;
-    line-height: 1.5;
+    padding: 10px; /* Ajouter un padding interne */
+    line-height: 1.5; /* Augmenter l'espacement entre les lignes */
 }
 
 #arrets-list li {
     margin-bottom: 5px;
+}
+
+.changement-de-rue {
+    font-style: italic;
+    color: #777;
+    margin-top: 10px;
+}
+
+/* Responsive pour tablettes */
+@media screen and (max-width: 1024px) {
+    .container {
+        grid-template-columns: 1fr 250px; /* La colonne de droite devient plus étroite à 250px */
+        gap: 15px; /* Réduire l'écart */
+    }
+
+    #mynetwork {
+        height: 600px; /* Hauteur de la carte réduite pour les tablettes */
+    }
+
+    #itineraire-details {
+        padding: 10px; /* Réduction du padding pour mieux s'adapter */
+    }
+
+    #itineraire-details h2 {
+        font-size: 1.1em; /* Taille légèrement réduite pour les tablettes */
+    }
+}
+
+/* Responsive pour petites tablettes et grands smartphones */
+@media screen and (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr; /* Les colonnes s'empilent, la carte occupe toute la largeur */
+        gap: 10px; /* Réduction de l'écart entre les éléments */
+    }
+
+    #mynetwork {
+        height: 450px; /* Hauteur plus réduite pour les petits écrans */
+    }
+
+    #itineraire-details {
+        padding: 10px;
+    }
+
+    #itineraire-details h2 {
+        font-size: 1em; /* Taille réduite pour s'adapter aux petits écrans */
+    }
+}
+
+/* Responsive pour smartphones */
+@media screen and (max-width: 480px) {
+    .container {
+        grid-template-columns: 1fr; /* La carte et les détails d'itinéraire sont empilés */
+        gap: 10px;
+    }
+
+    #mynetwork {
+        height: 300px; /* Hauteur encore plus réduite pour les petits smartphones */
+    }
+
+    #itineraire-details {
+        padding: 8px; /* Réduction supplémentaire du padding */
+    }
+
+    #itineraire-details h2 {
+        font-size: 0.9em; /* Taille réduite pour les très petits écrans */
+    }
+
+    #arrets-list {
+        padding: 5px; /* Moins de padding pour les petits écrans */
+    }
+
+    #arrets-list li {
+        margin-bottom: 3px; /* Réduire l'espacement entre les éléments de la liste */
+    }
 }
