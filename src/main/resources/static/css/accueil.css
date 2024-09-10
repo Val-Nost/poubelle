@@ -21,6 +21,12 @@ a {
         max-width: 30px;
         max-height: 30px;
     }
+
+
+    .edit-user-logo,.delete-user-logo {
+        width: 20px; /* Réduire la taille des images sur petits écrans */
+        height: 20px;
+    }
 }
 
 .hidden-integrity-message {
