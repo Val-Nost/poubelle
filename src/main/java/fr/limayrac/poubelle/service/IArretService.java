@@ -14,4 +14,6 @@ public interface IArretService {
     List<Arret> findByRue(Rue rue);
 
     Arret save(Arret arret);
+
+    List<Arret> findByAccessible(boolean accessible);
 }

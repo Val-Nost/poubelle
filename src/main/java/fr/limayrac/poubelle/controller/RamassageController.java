@@ -6,6 +6,8 @@ import fr.limayrac.poubelle.model.ramassage.Ramassage;
 import fr.limayrac.poubelle.model.ramassage.RamassageCyclisteVelo;
 import fr.limayrac.poubelle.service.*;
 import fr.limayrac.poubelle.utils.ItineraireUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import java.util.*;
 @Controller
 @RequestMapping("/ramassage")
 public class RamassageController {
+    private static final Logger logger = LoggerFactory.getLogger(RamassageController.class);
     @Autowired
     private IUtilisateurService utilisateurService;
     @Autowired
@@ -47,6 +50,7 @@ public class RamassageController {
 
     @PostMapping("/choixCycliste")
     public String choixCyclistes(Model model, @RequestParam List<Long> cyclistes) {
+        logger.info("Début du calcul des itinéraires");
         List<Utilisateur> cyclistesObj = new ArrayList<>();
         List<Velo> velos = veloService.findByStatut(StatutVelo.UTILISABLE);
 
@@ -81,8 +85,11 @@ public class RamassageController {
         // TODO Voir pour inclure un booléen si l'arrêt est inaccessible
         // FIXME Modifier cette ligne une fois les tests finis
         Set<Arret> arretsARamasser = new HashSet<>();
+//        List<Arret> arretsARamasser = arretService.findByAccessible(true);
         arretsARamasser.addAll(arretService.findByRue(rueService.findById(5L)));
+        arretsARamasser.addAll(arretService.findByRue(rueService.findById(7L)));
         arretsARamasser.addAll(arretService.findByRue(rueService.findById(8L)));
+        arretsARamasser.addAll(arretService.findByRue(rueService.findById(10L)));
         arretsARamasser.addAll(arretService.findByRue(rueService.findById(19L)));
 
         // La liste complète des chemins possibles
@@ -122,7 +129,7 @@ public class RamassageController {
         }
 
         itineraireService.saveAll(itineraireMap.values());
-
+        logger.info("Fin du calcul des itinéraires");
         return "redirect:/ramassage/liste";
     }
 

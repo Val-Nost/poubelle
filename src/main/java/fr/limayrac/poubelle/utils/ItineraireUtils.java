@@ -70,7 +70,11 @@ public class ItineraireUtils {
                 ramassageCyclisteVelo.getVelo().setAutonomie(ramassageCyclisteVelo.getVelo().getAutonomie() + cheminPossibleLePlusCourt.calculDistance());
 
                 // On retire le dernier vu qu'il est ajouté en dessous
-                arrets.remove(arrets.size()-1);
+                try {
+                    arrets.remove(arrets.size()-1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 for (int i = cheminPossibleLePlusCourt.getArrets().size()-1; i >= 0; i--) {
                     arrets.add(cheminPossibleLePlusCourt.getArrets().get(i));
                     // Si la charge max n'est pas atteinte on ramasse l'arrêt
@@ -109,11 +113,16 @@ public class ItineraireUtils {
     }
 
     private static void removeArrets(List<CheminPossibleDto> cheminPossibleDtos, Arret arrets) {
+        List<CheminPossibleDto> toRemove = new ArrayList<>();
         for (CheminPossibleDto cheminPossibleDto : cheminPossibleDtos) {
             if (arrets.equals(cheminPossibleDto.dernierArret())) {
                 cheminPossibleDto.removeArret();
+                if (cheminPossibleDto.getArrets().isEmpty()) {
+                    toRemove.add(cheminPossibleDto);
+                }
             }
         }
+        cheminPossibleDtos.removeAll(toRemove);
     }
 
     /**
