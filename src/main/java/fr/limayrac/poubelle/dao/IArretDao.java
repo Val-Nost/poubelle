@@ -14,4 +14,6 @@ public interface IArretDao extends CrudRepository<Arret, Long> {
 
     @Query("select a from Arret a join ArretRue av on av.arret = a where av.rue = :rue")
     List<Arret> findArretsByRue(Rue rue);
+
+    List<Arret> findByAccessible(boolean accessible);
 }

@@ -25,6 +25,7 @@ public class Arret {
     private Double latitude;
     private Double longitude;
     private Boolean ramasse;
+    private Boolean accessible;
 
     @JsonIgnore
     public Boolean isCarrefour() {

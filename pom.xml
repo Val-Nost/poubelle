@@ -121,6 +121,35 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.microsoft.azure</groupId>
+                <artifactId>azure-spring-apps-maven-plugin</artifactId>
+                <version>1.14.0</version>
+                <configuration>
+                    <subscriptionId>1b2d7f22-8300-480a-a657-1c41dbe513f1</subscriptionId>
+                    <resourceGroup>poubelle-app</resourceGroup>
+                    <clusterName>poubelle-service</clusterName>
+                    <appName>poubelle-spring</appName>
+                    <isPublic>true</isPublic>
+                    <deployment>
+                        <cpu>1</cpu>
+                        <memoryInGB>1</memoryInGB>
+                        <instanceCount>1</instanceCount>
+                        <runtimeVersion>Java 17</runtimeVersion>
+                        <resources>
+                            <resource>
+                                <filtering/>
+                                <mergeId/>
+                                <targetPath/>
+                                <directory>${project.basedir}/target</directory>
+                                <includes>
+                                    <include>*.jar</include>
+                                </includes>
+                            </resource>
+                        </resources>
+                    </deployment>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

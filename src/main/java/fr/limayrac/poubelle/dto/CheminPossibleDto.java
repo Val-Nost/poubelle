@@ -47,7 +47,6 @@ public class CheminPossibleDto {
         }
         compteurArret--;
         arrets.remove(arret);
-
     }
 
     public Arret dernierArret() {
