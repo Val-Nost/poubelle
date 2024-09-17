@@ -90,7 +90,9 @@ public class RamassageController {
         arretsARamasser.addAll(arretService.findByRue(rueService.findById(7L)));
         arretsARamasser.addAll(arretService.findByRue(rueService.findById(8L)));
         arretsARamasser.addAll(arretService.findByRue(rueService.findById(10L)));
+        arretsARamasser.addAll(arretService.findByRue(rueService.findById(16L)));
         arretsARamasser.addAll(arretService.findByRue(rueService.findById(19L)));
+        arretsARamasser.addAll(arretService.findByRue(rueService.findById(22L)));
 
         // La liste complète des chemins possibles
         List<CheminPossibleDto> cheminPossibleDtos = new ArrayList<>();

@@ -70,11 +70,7 @@ public class ItineraireUtils {
                 ramassageCyclisteVelo.getVelo().setAutonomie(ramassageCyclisteVelo.getVelo().getAutonomie() + cheminPossibleLePlusCourt.calculDistance());
 
                 // On retire le dernier vu qu'il est ajouté en dessous
-                try {
-                    arrets.remove(arrets.size()-1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                arrets.remove(arrets.size()-1);
                 for (int i = cheminPossibleLePlusCourt.getArrets().size()-1; i >= 0; i--) {
                     arrets.add(cheminPossibleLePlusCourt.getArrets().get(i));
                     // Si la charge max n'est pas atteinte on ramasse l'arrêt
@@ -94,9 +90,9 @@ public class ItineraireUtils {
                 allCheminsPossibles.remove(cheminPossibleLePlusCourt);
             }
             // Si la charge max n'est pas atteinte on recommence sur un autre chemin
+            arrets.remove(arrets.size()-1);
             if (!ramassageCyclisteVelo.getVelo().chargeMaxAtteint()) {
                 // Il faut retirer le point de départ sinon il apparaît deux fois aussi
-                arrets.remove(arrets.size()-1);
                 // On retire le chemin que l'on vient de parcourir de la liste
                 List<Arret> arretsRecursif = ramasseCharge(ramassageCyclisteVelo, allCheminsPossibles, arretsRamasse);
                 if (arretsRecursif != null) {

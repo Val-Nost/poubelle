@@ -235,34 +235,34 @@ public class V1_0_2__AjoutArretRue extends BaseJavaMigration implements SpringJD
 
     public void ajoutArretAdjacent(JdbcTemplate jdbcTemplate) {
         // Rue Croix-Baragnon
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(1, 1, 2), (1, 2, 3), (1, 3, 4), (1, 4, 5), (1, 5, 6), (1, 6, 7), (1, 7, 8), (1, 8, 9), (1, 9, 10), (1, 10, 11), (1, 11, 12), (1, 12, 13), (1, 13, 14), (1, 14, 15), (1, 15, 16), (1, 16, 17), (1, 17, 18), (1, 18, 19), (1, 19, 20), (1, 20, 21), (1, 21, 22), (1, 22, 23), (1, 23, 24), (1, 24, 25)");
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(1, 2, 1), (1, 3, 2), (1, 4, 3), (1, 5, 4), (1, 6, 5), (1, 7, 6), (1, 8, 7), (1, 9, 8), (1, 10, 9), (1, 11, 10), (1, 12, 11), (1, 13, 12), (1, 14, 13), (1, 15, 14), (1, 16, 15), (1, 17, 16), (1, 18, 17), (1, 19, 18), (1, 20, 19), (1, 21, 20), (1, 22, 21), (1, 23, 22), (1, 24, 23), (1, 25, 24)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(1, 1, 2), (1, 2, 3), (1, 3, 4), (1, 4, 5), (1, 5, 6), (1, 6, 7), (1, 7, 8), (1, 8, 9), (1, 9, 10), (1, 10, 11), (1, 11, 12), (1, 12, 13), (1, 13, 14), (1, 14, 15), (1, 15, 16), (1, 16, 17), (1, 17, 18), (1, 18, 19), (1, 19, 20), (1, 20, 21), (1, 21, 22), (1, 22, 23), (1, 23, 24), (1, 24, 25)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(1, 2, 1), (1, 3, 2), (1, 4, 3), (1, 5, 4), (1, 6, 5), (1, 7, 6), (1, 8, 7), (1, 9, 8), (1, 10, 9), (1, 11, 10), (1, 12, 11), (1, 13, 12), (1, 14, 13), (1, 15, 14), (1, 16, 15), (1, 17, 16), (1, 18, 17), (1, 19, 18), (1, 20, 19), (1, 21, 20), (1, 22, 21), (1, 23, 22), (1, 24, 23), (1, 25, 24)");
         // Terminus
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(1, null, 1), (1, 25, null)");
         // Rue des Arts
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(2, 26, 27), (2, 27, 7), (2, 7, 28), (2, 28, 29), (2, 29, 30), (2, 30, 31), (2, 31, 32), (2, 32, 33), (2, 33, 34), (2, 34, 35), (2, 35, 36), (2, 36, 37), (2, 37, 38), (2, 38, 39), (2, 39, 40), (2, 40, 41), (2, 41, 42), (2, 42, 43), (2, 43, 44), (2, 44, 45), (2, 45, 46), (2, 46, 47), (2, 47, 48), (2, 48, 21)");
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(2, 27, 26), (2, 7, 27), (2, 28, 7), (2, 29, 28), (2, 30, 29), (2, 31, 30), (2, 32, 31), (2, 33, 32), (2, 34, 33), (2, 35, 34), (2, 36, 35), (2, 37, 36), (2, 38, 37), (2, 39, 38), (2, 40, 39), (2, 41, 40), (2, 42, 41), (2, 43, 42), (2, 44, 43), (2, 45, 44), (2, 45, 46), (2, 47, 46), (2, 48, 47), (2, 21, 48)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(2, 26, 27), (2, 27, 7), (2, 7, 28), (2, 28, 29), (2, 29, 30), (2, 30, 31), (2, 31, 32), (2, 32, 33), (2, 33, 34), (2, 34, 35), (2, 35, 36), (2, 36, 37), (2, 37, 38), (2, 38, 39), (2, 39, 40), (2, 40, 41), (2, 41, 42), (2, 42, 43), (2, 43, 44), (2, 44, 45), (2, 45, 46), (2, 46, 47), (2, 47, 48), (2, 48, 21)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(2, 27, 26), (2, 7, 27), (2, 28, 7), (2, 29, 28), (2, 30, 29), (2, 31, 30), (2, 32, 31), (2, 33, 32), (2, 34, 33), (2, 35, 34), (2, 36, 35), (2, 37, 36), (2, 38, 37), (2, 39, 38), (2, 40, 39), (2, 41, 40), (2, 42, 41), (2, 43, 42), (2, 44, 43), (2, 45, 44), (2, 45, 46), (2, 47, 46), (2, 48, 47), (2, 21, 48)");
         // Terminus
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(2, null, 26), (2, 21, null)");
         // Rue Pargaminières
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(3, 49, 50), (3, 50, 51), (3, 51, 52), (3, 52, 53), (3, 53, 54), (3, 54, 55), (3, 55, 31), (3, 31, 56), (3, 56, 57), (3, 57, 58), (3, 58, 59), (3, 59, 60), (3, 60, 61), (3, 61, 62), (3, 62, 63), (3, 63, 64), (3, 64, 65), (3, 65, 66), (3, 66, 67), (3, 67, 68), (3, 68, 45), (3, 45, 69), (3, 69, 70), (3, 70, 71)");
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(3, 50, 49), (3, 51, 50), (3, 52, 51), (3, 53, 52), (3, 54, 53), (3, 55, 54), (3, 31, 55), (3, 56, 31), (3, 57, 56), (3, 58, 57), (3, 59, 58), (3, 60, 59), (3, 61, 60), (3, 62, 61), (3, 63, 62), (3, 64, 63), (3, 65, 64), (3, 66, 65), (3, 67, 66), (3, 68, 67), (3, 45, 68), (3, 69, 45), (3, 70, 69), (3, 71, 70)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(3, 49, 50), (3, 50, 51), (3, 51, 52), (3, 52, 53), (3, 53, 54), (3, 54, 55), (3, 55, 31), (3, 31, 56), (3, 56, 57), (3, 57, 58), (3, 58, 59), (3, 59, 60), (3, 60, 61), (3, 61, 62), (3, 62, 63), (3, 63, 64), (3, 64, 65), (3, 65, 66), (3, 66, 67), (3, 67, 68), (3, 68, 45), (3, 45, 69), (3, 69, 70), (3, 70, 71)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(3, 50, 49), (3, 51, 50), (3, 52, 51), (3, 53, 52), (3, 54, 53), (3, 55, 54), (3, 31, 55), (3, 56, 31), (3, 57, 56), (3, 58, 57), (3, 59, 58), (3, 60, 59), (3, 61, 60), (3, 62, 61), (3, 63, 62), (3, 64, 63), (3, 65, 64), (3, 66, 65), (3, 67, 66), (3, 68, 67), (3, 45, 68), (3, 69, 45), (3, 70, 69), (3, 71, 70)");
         // Terminus
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(3, null, 49), (3, 71, null)");
         // Rue Saint-Rome
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(4, 69, 72), (4, 72, 73), (4, 73, 74)");
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(4, 72, 69), (4, 73, 72), (4, 74, 73)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(4, 69, 72), (4, 72, 73), (4, 73, 74)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(4, 72, 69), (4, 73, 72), (4, 74, 73)");
         // Terminus
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(4, null, 69), (4, 74, null)");
@@ -275,10 +275,10 @@ public class V1_0_2__AjoutArretRue extends BaseJavaMigration implements SpringJD
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(5, null, 75), (1, 97, null)");
         // Rue de la Fonderie
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(6, 98, 99), (6, 99, 100), (6, 100, 101), (6, 101, 102), (6, 102, 103), (6, 103, 104), (6, 104, 40), (6, 40, 39), (6, 39, 79), (6, 79, 80), (6, 80, 105), (6, 105, 66), (6, 66, 106), (6, 106, 107), (6, 107, 108), (6, 108, 18), (6, 18, 109), (6, 109, 110), (6, 110, 111), (6, 111, 112), (6, 112, 113)");
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(6, 99, 98), (6, 100, 99), (6, 101, 100), (6, 102, 101), (6, 103, 102), (6, 104, 103), (6, 40, 104), (6, 39, 40), (6, 79, 39), (6, 80, 79), (6, 105, 80), (6, 66, 105), (6, 106, 66), (6, 107, 106), (6, 108, 107), (6, 18, 108), (6, 109, 18), (6, 110, 109), (6, 111, 110), (6, 112, 111), (6, 113, 112)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(6, 98, 99), (6, 99, 100), (6, 100, 101), (6, 101, 102), (6, 102, 103), (6, 103, 104), (6, 104, 40), (6, 40, 39), (6, 39, 79), (6, 79, 80), (6, 80, 105), (6, 105, 66), (6, 66, 106), (6, 106, 107), (6, 107, 108), (6, 108, 18), (6, 18, 109), (6, 109, 110), (6, 110, 111), (6, 111, 112), (6, 112, 113)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(6, 99, 98), (6, 100, 99), (6, 101, 100), (6, 102, 101), (6, 103, 102), (6, 104, 103), (6, 40, 104), (6, 39, 40), (6, 79, 39), (6, 80, 79), (6, 105, 80), (6, 66, 105), (6, 106, 66), (6, 107, 106), (6, 108, 107), (6, 18, 108), (6, 109, 18), (6, 110, 109), (6, 111, 110), (6, 112, 111), (6, 113, 112)");
         // Terminus
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(6, null, 98), (6, 113, null)");
@@ -299,10 +299,10 @@ public class V1_0_2__AjoutArretRue extends BaseJavaMigration implements SpringJD
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(8, null, 136), (8, 163, null)");
         // Rue d'Alsace-Lorraine
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(9, 143, 40), (9, 40, 164), (9, 164, 165), (9, 165, 166), (9, 166, 167), (9, 167, 168)");
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(9, 40, 143), (9, 164, 40), (9, 165, 164), (9, 166, 165), (9, 167, 166), (9, 168, 167)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(9, 143, 40), (9, 40, 164), (9, 164, 165), (9, 165, 166), (9, 166, 167), (9, 167, 168)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(9, 40, 143), (9, 164, 40), (9, 165, 164), (9, 166, 165), (9, 167, 166), (9, 168, 167)");
         // Terminus
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(9, null, 143), (9, 168, null)");
@@ -315,42 +315,42 @@ public class V1_0_2__AjoutArretRue extends BaseJavaMigration implements SpringJD
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(10, null, 169), (10, 197, null)");
         // Rue du Taur
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(11, 198, 199), (11, 199, 200), (11, 200, 201), (11, 201, 202), (11, 202, 203), (11, 203, 204), (11, 204, 205), (11, 205, 206), (11, 206, 207), (11, 207, 208), (11, 208, 116), (11, 116, 209), (11, 209, 210), (11, 210, 9), (11, 9, 211), (11, 211, 212), (11, 212, 213), (11, 213, 58), (11, 58, 148), (11, 148, 178), (11, 178, 179), (11, 179, 180), (11, 180, 82), (11, 82, 66), (11, 66, 106), (11, 106, 214), (11, 214, 215), (11, 215, 216), (11, 216, 217), (11, 217, 21), (11, 21, 218), (11, 218, 219), (11, 219, 220), (11, 220, 221), (11, 221, 22), (11, 222, 223)");
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(11, 199, 198), (11, 200, 199), (11, 201, 200), (11, 202, 201), (11, 203, 202), (11, 204, 203), (11, 205, 204), (11, 206, 205), (11, 207, 206), (11, 208, 207), (11, 116, 208), (11, 209, 116), (11, 210, 209), (11, 9, 210), (11, 211, 9), (11, 211, 212), (11, 213, 212), (11, 58, 213), (11, 148, 58), (11, 178, 148), (11, 179, 178), (11, 180, 179), (11, 82, 180), (11, 66, 80), (11, 106, 66), (11, 214, 106), (11, 215, 214), (11, 216, 215), (11, 217, 216), (11, 21, 217), (11, 218, 21), (11, 219, 218), (11, 220, 219), (11, 221, 220), (11, 22, 221), (11, 223, 222)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(11, 198, 199), (11, 199, 200), (11, 200, 201), (11, 201, 202), (11, 202, 203), (11, 203, 204), (11, 204, 205), (11, 205, 206), (11, 206, 207), (11, 207, 208), (11, 208, 116), (11, 116, 209), (11, 209, 210), (11, 210, 9), (11, 9, 211), (11, 211, 212), (11, 212, 213), (11, 213, 58), (11, 58, 148), (11, 148, 178), (11, 178, 179), (11, 179, 180), (11, 180, 82), (11, 82, 66), (11, 66, 106), (11, 106, 214), (11, 214, 215), (11, 215, 216), (11, 216, 217), (11, 217, 21), (11, 21, 218), (11, 218, 219), (11, 219, 220), (11, 220, 221), (11, 221, 22), (11, 222, 223)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(11, 199, 198), (11, 200, 199), (11, 201, 200), (11, 202, 201), (11, 203, 202), (11, 204, 203), (11, 205, 204), (11, 206, 205), (11, 207, 206), (11, 208, 207), (11, 116, 208), (11, 209, 116), (11, 210, 209), (11, 9, 210), (11, 211, 9), (11, 211, 212), (11, 213, 212), (11, 58, 213), (11, 148, 58), (11, 178, 148), (11, 179, 178), (11, 180, 179), (11, 82, 180), (11, 66, 80), (11, 106, 66), (11, 214, 106), (11, 215, 214), (11, 216, 215), (11, 217, 216), (11, 21, 217), (11, 218, 21), (11, 219, 218), (11, 220, 219), (11, 221, 220), (11, 22, 221), (11, 223, 222)");
         // Terminus
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(11, null, 198), (11, 223, null)");
         // Allée Jean Jaurès
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(12, 224, 225), (12, 225, 226), (12, 226, 204), (12, 204, 227), (12, 227, 228), (12, 228, 229), (12, 229, 230), (12, 230, 231), (12, 231, 232), (12, 232, 233), (12, 233, 234), (12, 234, 235), (12, 235, 87), (12, 87, 236), (12, 236, 237), (12, 237, 238), (12, 238, 153), (12, 153, 110)");
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(12, 225, 224), (12, 226, 225), (12, 204, 226), (12, 227, 204), (12, 228, 227), (12, 229, 228), (12, 230, 229), (12, 231, 230), (12, 232, 231), (12, 233, 232), (12, 234, 233), (12, 235, 234), (12, 87, 235), (12, 236, 87), (12, 237, 236), (12, 238, 237), (12, 153, 238), (12, 110, 153)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(12, 224, 225), (12, 225, 226), (12, 226, 204), (12, 204, 227), (12, 227, 228), (12, 228, 229), (12, 229, 230), (12, 230, 231), (12, 231, 232), (12, 232, 233), (12, 233, 234), (12, 234, 235), (12, 235, 87), (12, 87, 236), (12, 236, 237), (12, 237, 238), (12, 238, 153), (12, 153, 110)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(12, 225, 224), (12, 226, 225), (12, 204, 226), (12, 227, 204), (12, 228, 227), (12, 229, 228), (12, 230, 229), (12, 231, 230), (12, 232, 231), (12, 233, 232), (12, 234, 233), (12, 235, 234), (12, 87, 235), (12, 236, 87), (12, 237, 236), (12, 238, 237), (12, 153, 238), (12, 110, 153)");
         // Terminus
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(12, null, 224), (12, 110, null)");
         // Rue du May
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(13, 15, 16), (13, 16, 239), (13, 239, 64), (13, 64, 66), (13, 66, 240), (13, 240, 42), (13, 42, 241), (13, 241, 242), (13, 242, 167), (13, 167, 243), (13, 243, 74), (13, 74, 244)");
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(13, 16, 15), (13, 239, 16), (13, 64, 239), (13, 66, 64), (13, 240, 66), (13, 42, 240), (13, 241, 42), (13, 242, 241), (13, 167, 242), (13, 243, 167), (13, 74, 243), (13, 244, 74)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(13, 15, 16), (13, 16, 239), (13, 239, 64), (13, 64, 66), (13, 66, 240), (13, 240, 42), (13, 42, 241), (13, 241, 242), (13, 242, 167), (13, 167, 243), (13, 243, 74), (13, 74, 244)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(13, 16, 15), (13, 239, 16), (13, 64, 239), (13, 66, 64), (13, 240, 66), (13, 42, 240), (13, 241, 42), (13, 242, 241), (13, 167, 242), (13, 243, 167), (13, 74, 243), (13, 244, 74)");
         // Terminus
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(13, null, 15), (13, 244, null)");
         // Rue des Filatiers
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(14, 245, 246), (14, 246, 77), (14, 77, 247), (14, 247, 248), (14, 248, 249), (14, 249, 35), (14, 35, 250), (14, 250, 251), (14, 251, 252), (14, 252, 57), (14, 57, 177), (14, 177, 11), (14, 11, 253), (14, 253, 254), (14, 254, 255), (14, 255, 234), (14, 234, 256), (14, 256, 257), (14, 257, 91), (14, 91, 258), (14, 258, 123), (14, 123, 259), (14, 259, 260), (14, 260, 261), (14, 261, 262), (14, 262, 263), (14, 263, 264)");
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(14, 246, 245), (14, 77, 246), (14, 247, 77), (14, 248, 247), (14, 249, 248), (14, 35, 249), (14, 250, 35), (14, 251, 250), (14, 252, 251), (14, 57, 252), (14, 177, 57), (14, 11, 177), (14, 253, 11), (14, 254, 253), (14, 255, 254), (14, 234, 255), (14, 256, 234), (14, 257, 256), (14, 91, 257), (14, 258, 91), (14, 123, 258), (14, 259, 123), (14, 260, 259), (14, 261, 260), (14, 262, 261), (14, 263, 262), (14, 264, 263)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(14, 245, 246), (14, 246, 77), (14, 77, 247), (14, 247, 248), (14, 248, 249), (14, 249, 35), (14, 35, 250), (14, 250, 251), (14, 251, 252), (14, 252, 57), (14, 57, 177), (14, 177, 11), (14, 11, 253), (14, 253, 254), (14, 254, 255), (14, 255, 234), (14, 234, 256), (14, 256, 257), (14, 257, 91), (14, 91, 258), (14, 258, 123), (14, 123, 259), (14, 259, 260), (14, 260, 261), (14, 261, 262), (14, 262, 263), (14, 263, 264)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(14, 246, 245), (14, 77, 246), (14, 247, 77), (14, 248, 247), (14, 249, 248), (14, 35, 249), (14, 250, 35), (14, 251, 250), (14, 252, 251), (14, 57, 252), (14, 177, 57), (14, 11, 177), (14, 253, 11), (14, 254, 253), (14, 255, 254), (14, 234, 255), (14, 256, 234), (14, 257, 256), (14, 91, 257), (14, 258, 91), (14, 123, 258), (14, 259, 123), (14, 260, 259), (14, 261, 260), (14, 262, 261), (14, 263, 262), (14, 264, 263)");
         // Terminus
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(14, null, 245), (14, 264, null)");
         // Rue Mage
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(15, 265, 266), (15, 266, 267), (15, 267, 268), (15, 268, 269), (15, 269, 270), (15, 270, 271), (15, 271, 272), (15, 272, 273), (15, 273, 33), (15, 33, 274), (15, 274, 57), (15, 57, 212), (15, 212, 10), (15, 10, 176), (15, 176, 275), (15, 275, 276), (15, 276, 232), (15, 232, 91), (15, 91, 277), (15, 277, 278), (15, 278, 279), (15, 279, 280), (15, 280, 281), (15, 281, 282), (15, 282, 283)");
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(15, 266, 265), (15, 267, 266), (15, 268, 267), (15, 269, 268), (15, 270, 269), (15, 271, 270), (15, 272, 271), (15, 273, 272), (15, 33, 273), (15, 274, 33), (15, 57, 274), (15, 212, 57), (15, 10, 212), (15, 176, 10), (15, 275, 176), (15, 276, 275), (15, 232, 276), (15, 91, 232), (15, 277, 91), (15, 278, 277), (15, 279, 278), (15, 280, 279), (15, 281, 280), (15, 282, 281), (15, 283, 282)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(15, 265, 266), (15, 266, 267), (15, 267, 268), (15, 268, 269), (15, 269, 270), (15, 270, 271), (15, 271, 272), (15, 272, 273), (15, 273, 33), (15, 33, 274), (15, 274, 57), (15, 57, 212), (15, 212, 10), (15, 10, 176), (15, 176, 275), (15, 275, 276), (15, 276, 232), (15, 232, 91), (15, 91, 277), (15, 277, 278), (15, 278, 279), (15, 279, 280), (15, 280, 281), (15, 281, 282), (15, 282, 283)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(15, 266, 265), (15, 267, 266), (15, 268, 267), (15, 269, 268), (15, 270, 269), (15, 271, 270), (15, 272, 271), (15, 273, 272), (15, 33, 273), (15, 274, 33), (15, 57, 274), (15, 212, 57), (15, 10, 212), (15, 176, 10), (15, 275, 176), (15, 276, 275), (15, 232, 276), (15, 91, 232), (15, 277, 91), (15, 278, 277), (15, 279, 278), (15, 280, 279), (15, 281, 280), (15, 282, 281), (15, 283, 282)");
         // Terminus
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(15, null, 265), (15, 283, null)");
@@ -363,18 +363,18 @@ public class V1_0_2__AjoutArretRue extends BaseJavaMigration implements SpringJD
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(16, null, 57), (16, 286, null)");
         // Rue des Gestes
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(17, 287, 288), (17, 288, 289), (17, 289, 266), (17, 266, 290), (17, 290, 291), (17, 291, 292), (17, 292, 293), (17, 293, 284), (17, 294, 295), (17, 295, 296), (17, 296, 136), (17, 136, 297), (17, 297, 298), (17, 298, 299), (17, 299, 300), (17, 300, 301), (17, 301, 302), (17, 302, 303), (17, 303, 304), (17, 304, 98), (17, 98, 305), (17, 305, 306), (17, 306, 307), (17, 307, 308), (17, 308, 309)");
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(17, 288, 287), (17, 289, 288), (17, 266, 289), (17, 290, 266), (17, 291, 290), (17, 292, 291), (17, 293, 292), (17, 284, 293), (17, 295, 294), (17, 296, 295), (17, 136, 296), (17, 297, 136), (17, 298, 297), (17, 299, 298), (17, 300, 299), (17, 301, 300), (17, 302, 301), (17, 303, 302), (17, 304, 303), (17, 98, 304), (17, 305, 98), (17, 306, 305), (17, 307, 306), (17, 308, 307), (17, 309, 308)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(17, 287, 288), (17, 288, 289), (17, 289, 266), (17, 266, 290), (17, 290, 291), (17, 291, 292), (17, 292, 293), (17, 293, 284), (17, 294, 295), (17, 295, 296), (17, 296, 136), (17, 136, 297), (17, 297, 298), (17, 298, 299), (17, 299, 300), (17, 300, 301), (17, 301, 302), (17, 302, 303), (17, 303, 304), (17, 304, 98), (17, 98, 305), (17, 305, 306), (17, 306, 307), (17, 307, 308), (17, 308, 309)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(17, 288, 287), (17, 289, 288), (17, 266, 289), (17, 290, 266), (17, 291, 290), (17, 292, 291), (17, 293, 292), (17, 284, 293), (17, 295, 294), (17, 296, 295), (17, 136, 296), (17, 297, 136), (17, 298, 297), (17, 299, 298), (17, 300, 299), (17, 301, 300), (17, 302, 301), (17, 303, 302), (17, 304, 303), (17, 98, 304), (17, 305, 98), (17, 306, 305), (17, 307, 306), (17, 308, 307), (17, 309, 308)");
         // Terminus
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(17, null, 287), (17, 309, null)");
         // Quai de la Daurade
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(18, 1, 310), (18, 310, 311), (18, 311, 312), (18, 312, 313), (18, 313, 314), (18, 314, 315), (18, 315, 316), (18, 316, 317), (18, 317, 318), (18, 318, 319), (18, 319, 320), (18, 320, 321), (18, 321, 169), (18, 169, 262)");
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(18, 310, 1), (18, 311, 310), (18, 312, 311), (18, 313, 312), (18, 314, 313), (18, 315, 314), (18, 316, 315), (18, 317, 316), (18, 318, 317), (18, 319, 318), (18, 320, 319), (18, 321, 320), (18, 169, 321), (18, 262, 169)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(18, 1, 310), (18, 310, 311), (18, 311, 312), (18, 312, 313), (18, 313, 314), (18, 314, 315), (18, 315, 316), (18, 316, 317), (18, 317, 318), (18, 318, 319), (18, 319, 320), (18, 320, 321), (18, 321, 169), (18, 169, 262)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(18, 310, 1), (18, 311, 310), (18, 312, 311), (18, 313, 312), (18, 314, 313), (18, 315, 314), (18, 316, 315), (18, 317, 316), (18, 318, 317), (18, 319, 318), (18, 320, 319), (18, 321, 320), (18, 169, 321), (18, 262, 169)");
         // Terminus
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(18, null, 1), (18, 262, null)");
@@ -387,18 +387,18 @@ public class V1_0_2__AjoutArretRue extends BaseJavaMigration implements SpringJD
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(19, null, 322), (19, 22, null)");
         // Rue Merlane
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(20, 1, 7), (20, 7, 333), (20, 333, 334), (20, 334, 19), (20, 19, 94)");
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(20, 7, 1), (20, 333, 7), (20, 334, 333), (20, 19, 334), (20, 94, 19)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(20, 1, 7), (20, 7, 333), (20, 333, 334), (20, 334, 19), (20, 19, 94)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(20, 7, 1), (20, 333, 7), (20, 334, 333), (20, 19, 334), (20, 94, 19)");
         // Terminus
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(20, null, 1), (20, 94, null)");
         // Rue Vélane
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(21, 79, 334), (21, 334, 86), (21, 86, 335), (21, 335, 336), (21, 336, 94), (21, 94, 329)");
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(21, 334, 79), (21, 86, 334), (21, 335, 86), (21, 336, 335), (21, 94, 336), (21, 329, 94)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(21, 79, 334), (21, 334, 86), (21, 86, 335), (21, 335, 336), (21, 336, 94), (21, 94, 329)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(21, 334, 79), (21, 86, 334), (21, 335, 86), (21, 336, 335), (21, 94, 336), (21, 329, 94)");
         // Terminus
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(21, null, 79), (21, 329, null)");
@@ -411,14 +411,14 @@ public class V1_0_2__AjoutArretRue extends BaseJavaMigration implements SpringJD
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(22, null, 337), (22, 285, null)");
         // Rue des Tourneurs
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(23, 79, 334), (23, 334, 19), (23, 334, 79), (23, 19, 334)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(23, 79, 334), (23, 334, 19), (23, 334, 79), (23, 19, 334)");
         // Terminus
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(23, null, 79), (23, 334, null)");
         // Rue des Tourneurs
-        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
-                "(24, 57, 79), (24, 79, 57)");
+//        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
+//                "(24, 57, 79), (24, 79, 57)");
         // Terminus
 //        jdbcTemplate.execute("INSERT INTO arret_adjacent(rue, arret, arret_adjacent) VALUES " +
 //                "(24, null, 57), (24, 79, null)");
