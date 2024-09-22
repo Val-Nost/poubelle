@@ -233,11 +233,12 @@ public class RamassageController {
         List<Arret> arrets = arretService.findAll();
         List<RueArret> rueArrets = rueArretService.findAll();
         List<Utilisateur> cyclistes = utilisateurService.findByRole(Role.Cycliste);
+        Ramassage ramassageEnCours = ramassageService.findByEnCours(true).get(0);
 
         model.addAttribute("rues", rues);
         model.addAttribute("arrets", arrets);
         model.addAttribute("rueArrets", rueArrets);
-        model.addAttribute("cyclistes", cyclistes);
+        model.addAttribute("ramassagesCyclistesVelos", ramassageEnCours.getRamassageCyclisteVelos());
 
         return "ramassageGlobal";
     }

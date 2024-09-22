@@ -24,6 +24,7 @@ public class Arret {
     private List<ArretAdjacent> arretAdjacents;
     private Double latitude;
     private Double longitude;
+
     private Boolean ramasse;
     private Boolean accessible;
 

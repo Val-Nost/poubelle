@@ -56,13 +56,13 @@
     <div class="container">
         <div id="mynetwork"></div>
         <div class="cyclistes-list">
-            <div class="card-container" th:if="${not #lists.isEmpty(cyclistes)}">
-                <div class="cycliste-card" th:each="cycliste : ${cyclistes}" th:data-cycliste-id="${cycliste.id}">
-                    <h3 th:text="${cycliste.prenom} + ' ' + ${cycliste.nom}"></h3>
+            <div class="card-container" th:if="${not #lists.isEmpty(ramassagesCyclistesVelos)}">
+                <div class="cycliste-card" th:each="ramassageCyclisteVelo : ${ramassagesCyclistesVelos}" th:data-cycliste-id="${ramassageCyclisteVelo.cycliste.id}">
+                    <h3 th:text="${ramassageCyclisteVelo.cycliste.prenom} + ' ' + ${ramassageCyclisteVelo.cycliste.nom}"></h3>
                     <p>Cycliste</p>
                 </div>
             </div>
-            <p th:unless="${not #lists.isEmpty(cyclistes)}">Aucun cycliste trouvé.</p>
+            <p th:unless="${not #lists.isEmpty(ramassagesCyclistesVelos)}">Aucun cycliste trouvé.</p>
         </div>
     </div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>

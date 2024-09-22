@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", async function() {
+document.addEventListener("DOMContentLoaded", async function () {
     // Initialisation de la carte
     let map = L.map('mynetwork').setView([48.8566, 2.3522], 12);
 
@@ -14,6 +14,12 @@ document.addEventListener("DOMContentLoaded", async function() {
     map.getPane('itinerairePane').style.zIndex = 500;
     map.getPane('animatedPointPane').style.zIndex = 550;
 
+    // Variables to store the current itinerary markers and polylines
+    let currentMarkers = [];
+    let currentPolylines = [];
+    let currentAnimatedMarker = null;
+    let animationFrameId = null;
+
     try {
         // Charger les données des arrêts et des rues
         let arrets = await fetchData('/arrets');
@@ -27,18 +33,20 @@ document.addEventListener("DOMContentLoaded", async function() {
 
         // Ajout des gestionnaires d'événements pour les cartes utilisateur
         document.querySelectorAll('.cycliste-card').forEach(card => {
-            card.addEventListener('click', async function() {
+            card.addEventListener('click', async function () {
                 const cyclisteId = this.getAttribute('data-cycliste-id');
 
                 // Charger l'itinéraire du cycliste sélectionné
                 let rammassages = await fetchData(`/rammassages/${cyclisteId}/arrets`);
-                console.log(rammassages);
-
                 const itinerairesCycliste = rammassages.map(ramassage => ramassage.id);
-                console.log(itinerairesCycliste);
+                console.log("itinerairesCycliste", itinerairesCycliste)
 
                 // Convertir le tableau en Set pour éliminer les doublons
                 const uniqueItinerairesCycliste = [...new Set(itinerairesCycliste)];
+                console.log("uniqueItinerairesCycliste", uniqueItinerairesCycliste)
+
+                // Clear the previous itinerary before showing the new one
+                clearPreviousItinerary();
 
                 // Afficher l'itinéraire spécifique
                 afficherItineraire(map, rueArrets, arretsCoords, uniqueItinerairesCycliste);
@@ -54,8 +62,28 @@ document.addEventListener("DOMContentLoaded", async function() {
     } catch (error) {
         console.error('Erreur lors du chargement des données:', error);
     }
-});
 
+    // Clear previous markers, polylines, and animated markers before displaying a new itinerary
+    function clearPreviousItinerary() {
+        // Remove all current markers from the map
+        currentMarkers.forEach(marker => map.removeLayer(marker));
+        currentMarkers = [];
+
+        // Remove all current polylines from the map
+        currentPolylines.forEach(polyline => map.removeLayer(polyline));
+        currentPolylines = [];
+
+        // Remove the animated marker if it exists
+        if (currentAnimatedMarker) {
+            map.removeLayer(currentAnimatedMarker);
+            currentAnimatedMarker = null;
+        }
+        // Cancel any ongoing animation
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+    }
 async function fetchData(url) {
     const response = await fetch(url);
     return await response.json();
@@ -118,8 +146,6 @@ function afficherCarteGlobale(map, rueArrets, arretsCoords) {
 function afficherItineraire(map, rueArrets, arretsCoords, itinerairesCycliste) {
     const groupedPoints = [];
     const allPoints = [];
-    const markers = [];
-    const polylines = [];
 
     itinerairesCycliste.forEach((arretId, index) => {
         const arret = rueArrets.find(rueArret => rueArret.arret.id === arretId);
@@ -145,30 +171,28 @@ function afficherItineraire(map, rueArrets, arretsCoords, itinerairesCycliste) {
     const color = '#00FF00'; // Vert pour l'itinéraire
 
     const polyline = L.polyline(points, { color: color, pane: 'itinerairePane' }).addTo(map);
-    polylines.push(polyline); // Ajouter à la liste des polylines pour un changement ultérieur
+    currentPolylines.push(polyline); // Ajouter la polyline pour suppression ultérieure
 
     groupedPoints.forEach(pointData => {
-        // Créer un divIcon personnalisé avec la puce verte et le numéro
         const numberIcon = L.divIcon({
             className: 'number-icon',
             html: `<div style="
-                width: 30px;
-                height: 30px;
-                background-color: ${color};
-                color: black;
-                text-align: center;
-                line-height: 30px;
-                border-radius: 50%;
-                border: 2px solid #000;
-                font-weight: bold;
-                font-size: 14px;">${pointData.order}</div>`,
+                    width: 30px;
+                    height: 30px;
+                    background-color: ${color};
+                    color: black;
+                    text-align: center;
+                    line-height: 30px;
+                    border-radius: 50%;
+                    border: 2px solid #000;
+                    font-weight: bold;
+                    font-size: 14px;">${pointData.order}</div>`,
             iconSize: [30, 30], // Taille du conteneur
             iconAnchor: [15, 15] // Positionner le centre de l'icône au point de coordonnées
         });
 
-        // Ajouter le marqueur avec l'icône personnalisée
         const marker = L.marker(pointData.coords, { icon: numberIcon, pane: 'itinerairePane' }).addTo(map);
-        markers.push({ marker, arretId: pointData.arretId }); // Stocker le marqueur pour un changement ultérieur
+        currentMarkers.push(marker); // Stocker le marqueur pour suppression ultérieure
     });
 
     if (allPoints.length > 0) {
@@ -177,12 +201,12 @@ function afficherItineraire(map, rueArrets, arretsCoords, itinerairesCycliste) {
     }
 
     // Passer les polylines et marqueurs à la fonction d'animation
-    animerItineraire(map, points, markers, polylines);
+    animerItineraire(map, points);
 }
 
-function animerItineraire(map, points, markers, polylines) {
+function animerItineraire(map, points) {
     // Créer un marqueur qui se déplacera le long de l'itinéraire
-    const marker = L.circleMarker(points[0], {
+    currentAnimatedMarker = L.circleMarker(points[0], {
         radius: 7,
         fillColor: '#FF0000', // Rouge pour être visible
         color: '#000',
@@ -208,46 +232,20 @@ function animerItineraire(map, points, markers, polylines) {
                 const lat = start[0] + t * (end[0] - start[0]);
                 const lon = start[1] + t * (end[1] - start[1]);
 
-                marker.setLatLng([lat, lon]);
+                currentAnimatedMarker.setLatLng([lat, lon]);
 
-                // Vérifier si le point animé a atteint l'arrêt ou la rue
                 if (t >= 1) {
-                    // Changer la couleur du marqueur atteint
-                    const reachedMarker = markers[index];
-                    if (reachedMarker) {
-                        reachedMarker.marker.setIcon(L.divIcon({
-                            className: 'number-icon',
-                            html: `<div style="
-                                width: 30px;
-                                height: 30px;
-                                background-color: #FFA500; /* Changer la couleur à orange */
-                                color: black;
-                                text-align: center;
-                                line-height: 30px;
-                                border-radius: 50%;
-                                border: 2px solid #000;
-                                font-weight: bold;
-                                font-size: 14px;">${index + 1}</div>`,
-                            iconSize: [30, 30],
-                            iconAnchor: [15, 15]
-                        }));
-                    }
-
-                    // Changer la couleur de la polyline
-                    if (index < polylines.length) {
-                        polylines[index].setStyle({ color: '#FFA500' }); // Changer la couleur à orange
-                    }
-
                     index++;
                     setTimeout(moveMarker, 500); // Petite pause entre les segments
                 } else {
-                    requestAnimationFrame(animate);
+                    animationFrameId = requestAnimationFrame(animate);
                 }
             }
 
-            requestAnimationFrame(animate);
+            animationFrameId = requestAnimationFrame(animate);
         }
     }
 
     moveMarker();
 }
+});

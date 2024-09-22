@@ -2,7 +2,9 @@ package fr.limayrac.poubelle.controller;
 
 import fr.limayrac.poubelle.dao.IUtilisateurDao;
 import fr.limayrac.poubelle.model.Utilisateur;
+import fr.limayrac.poubelle.model.ramassage.Ramassage;
 import fr.limayrac.poubelle.security.UserSpringSecurity;
+import fr.limayrac.poubelle.service.IRamassageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
