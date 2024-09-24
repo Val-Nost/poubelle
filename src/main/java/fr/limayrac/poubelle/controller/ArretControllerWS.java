@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,8 @@ public class ArretControllerWS {
     private IUtilisateurService utilisateurService;
     @Autowired
     private IItineraireService itineraireService;
+    @Autowired
+    private IItineraireArretService itineraireArretService;
 
     @GetMapping(value = "/arrets", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Arret> getArrets() {
@@ -72,15 +75,22 @@ public class ArretControllerWS {
     @PostMapping("/ramassageDerniersArrets")
     public Boolean ramassageDerniersArrets() {
         Ramassage ramassage = ramassageService.findByEnCours(true).get(0);
+        ItineraireArret toUpdate = null;
         for (RamassageCyclisteVelo ramassageCyclisteVelo : ramassage.getRamassageCyclisteVelos()) {
             Itineraire itineraire = itineraireService.findByRamassageCyclisteVelo(ramassageCyclisteVelo);
             for (ItineraireArret itineraireArret : itineraire.getItineraireArrets()) {
                 if (!itineraireArret.getArret().getRamasse()) {
+                    toUpdate = itineraireArret;
                     Arret arret = arretService.findById(itineraireArret.getArret().getId());
                     arret.setRamasse(true);
                     arretService.save(arret);
                     break;
                 }
+            }
+            // On enregistre la date de passage
+            if (toUpdate != null) {
+                toUpdate.setDatePassage(LocalDateTime.now());
+                itineraireArretService.save(toUpdate);
             }
         }
         // TODO, rediriger vers affichage carte individuelle
