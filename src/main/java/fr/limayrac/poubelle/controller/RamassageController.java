@@ -1,24 +1,20 @@
 package fr.limayrac.poubelle.controller;
 
-import fr.limayrac.poubelle.dto.CheminPossibleDto;
 import fr.limayrac.poubelle.model.*;
 import fr.limayrac.poubelle.model.ramassage.Ramassage;
 import fr.limayrac.poubelle.model.ramassage.RamassageCyclisteVelo;
 import fr.limayrac.poubelle.service.*;
-import fr.limayrac.poubelle.utils.ItineraireUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/ramassage")
 public class RamassageController {
-    private static final Logger logger = LoggerFactory.getLogger(RamassageController.class);
     @Autowired
     private IUtilisateurService utilisateurService;
     @Autowired
@@ -29,8 +25,6 @@ public class RamassageController {
     private IRamassageCyclisteVeloService ramassageCyclisteVeloService;
     @Autowired
     private IArretService arretService;
-    @Autowired
-    private IPassageService ramassageArretService;
     @Autowired
     private IRueService rueService;
     @Autowired
@@ -50,9 +44,7 @@ public class RamassageController {
 
     @PostMapping("/choixCycliste")
     public String choixCyclistes(Model model, @RequestParam List<Long> cyclistes) {
-        logger.info("Début du calcul des itinéraires");
         List<Utilisateur> cyclistesObj = new ArrayList<>();
-        List<Velo> velos = veloService.findByStatut(StatutVelo.UTILISABLE);
 
         for (Long id : cyclistes) {
             cyclistesObj.add(utilisateurService.findById(id));
@@ -61,77 +53,9 @@ public class RamassageController {
         Ramassage ramassage = new Ramassage();
         ramassage.setEnCours(true);
 
-        // On attribue chaque velos à chaque cycliste choisie
-        /*
-        Remarque on crée une liste pour éviter les appels multiples vers la BDD
-        Il est peut recommandé de faire appel à un DAO dans une boucle
-        */
-        List<RamassageCyclisteVelo> ramassageCyclisteVelos = new ArrayList<>();
-        for (int i = 0; i < cyclistesObj.size(); i++) {
-            RamassageCyclisteVelo ramassageCyclisteVelo = new RamassageCyclisteVelo();
-            ramassageCyclisteVelo.setRamassage(ramassage);
-            ramassageCyclisteVelo.setCycliste(cyclistesObj.get(i));
-            ramassageCyclisteVelo.setVelo(velos.get(i));
-            ramassageCyclisteVelos.add(ramassageCyclisteVelo);
-        }
-        // On sauvegarde en cascades
-        ramassage.setRamassageCyclisteVelos(ramassageCyclisteVelos);
-        ramassage = ramassageService.save(ramassage);
+        itineraireService.calculItineraire(ramassage, cyclistesObj);
 
 
-        // On calcule les itinéraires de chaque cycliste
-        Arret arretDepart = arretService.findById(161L); // Porte d'Ivry
-        List<Arret> terminus = arretService.findFeuille();
-        // TODO Voir pour inclure un booléen si l'arrêt est inaccessible
-        // FIXME Modifier cette ligne une fois les tests finis
-        Set<Arret> arretsARamasser = new HashSet<>();
-//        List<Arret> arretsARamasser = arretService.findByAccessible(true);
-        arretsARamasser.addAll(arretService.findByRue(rueService.findById(5L)));
-        arretsARamasser.addAll(arretService.findByRue(rueService.findById(7L)));
-        arretsARamasser.addAll(arretService.findByRue(rueService.findById(8L)));
-        arretsARamasser.addAll(arretService.findByRue(rueService.findById(10L)));
-        arretsARamasser.addAll(arretService.findByRue(rueService.findById(16L)));
-        arretsARamasser.addAll(arretService.findByRue(rueService.findById(19L)));
-        arretsARamasser.addAll(arretService.findByRue(rueService.findById(22L)));
-
-        // La liste complète des chemins possibles
-        List<CheminPossibleDto> cheminPossibleDtos = new ArrayList<>();
-        // On crée un premier chemin auquel on ajoute l'arrêt de départ, pour ensuite l'ajouter à la liste de chemins possibles
-        CheminPossibleDto cheminPossibleDto = new CheminPossibleDto();
-        cheminPossibleDto.addArret(arretDepart);
-        cheminPossibleDtos.add(cheminPossibleDto);
-
-        // Fonction récursive qui cherche les chemins possibles à partir d'un arrêt donné et les affecte à la liste passé en argument
-        ItineraireUtils.chercheChemin(arretDepart, 0, cheminPossibleDtos);
-
-        cheminPossibleDtos.removeIf(cheminPossibleDto1 -> !terminus.contains(cheminPossibleDto1.dernierArret()));
-
-        Map<RamassageCyclisteVelo, Itineraire> itineraireMap = new HashMap<>();
-        Set<Arret> arretsRamasses = new HashSet<>();
-
-        while (!arretsRamasses.containsAll(arretsARamasser)) {
-            for (RamassageCyclisteVelo ramassageCyclisteVelo : ramassage.getRamassageCyclisteVelos()) {
-                int ordreRamassage = 0;
-                if (!itineraireMap.containsKey(ramassageCyclisteVelo)) {
-                    itineraireMap.put(ramassageCyclisteVelo, new Itineraire());
-                    itineraireMap.get(ramassageCyclisteVelo).setRamassageCyclisteVelo(ramassageCyclisteVelo);
-                }
-                List<Arret> arrets = ItineraireUtils.ramasseCharge(ramassageCyclisteVelo, cheminPossibleDtos, arretsRamasses);
-                if (arrets != null) {
-                    for (Arret arret : arrets) {
-                        ItineraireArret itineraireArret = new ItineraireArret();
-                        itineraireArret.setItineraire(itineraireMap.get(ramassageCyclisteVelo));
-                        itineraireArret.setArret(arret);
-                        itineraireArret.setOrdre(ordreRamassage);
-                        ordreRamassage++;
-                        itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets().add(itineraireArret);
-                    }
-                }
-            }
-        }
-
-        itineraireService.saveAll(itineraireMap.values());
-        logger.info("Fin du calcul des itinéraires");
         return "redirect:/ramassage/liste";
     }
 
