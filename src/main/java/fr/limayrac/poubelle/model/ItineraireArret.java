@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter @Setter
 public class ItineraireArret {
@@ -17,4 +19,5 @@ public class ItineraireArret {
     @JoinColumn(name = "arret")
     private Arret arret;
     private Integer ordre;
+    private LocalDateTime datePassage;
 }
