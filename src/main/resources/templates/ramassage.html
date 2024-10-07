@@ -9,19 +9,35 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/css/ramassage.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 </head>
 <body>
 <th:block th:replace="fragments/navbar :: navbar"></th:block>
 <div class="text-center">
-    <h1 class="text-3xl">Ramassage en cours</h1>
-    <div class="rounded-md bg-orange-200 m-2 text-center" th:each="rammassageEnCours : ${ramassagesEnCours}">
-        <h3 class="text-xl"><a th:href="${'/ramassage/' + rammassageEnCours.id}" th:text="${'Ramassage n°' + rammassageEnCours.id}"/></h3>
-    </div>
-    <h1 class="text-3xl">Ramassage terminé</h1>
-    <div class="rounded-md bg-green-200 m-2 w-48" th:each="rammassageTermine : ${ramassagesTermine}">
-        <h3><a th:href="${'/ramassage/' + rammassageTermine.id}" th:text="${'Ramassage n°' + rammassageTermine.id}"/></h3>
-    </div>
+        <h1 class="text-3xl">Ramassage en cours</h1>
+        <!-- Afficher les ramassages en cours -->
+        <div th:if="${ramassagesEnCours.size() > 0}">
+            <div class="rounded-md bg-orange-200 m-2 text-center" th:each="ramassageEnCours : ${ramassagesEnCours}">
+                <h3 class="text-xl"><a th:href="${'/ramassage/' + ramassageEnCours.id}" th:text="${'Ramassage n°' + ramassageEnCours.id}"/></h3>
+            </div>
+        </div>
+        <!-- Message si aucun ramassage en cours -->
+        <div th:if="${ramassagesEnCours.size() == 0}">
+            <p>Aucun ramassage en cours.</p>
+        </div>
+
+        <h1 class="text-3xl">Ramassage terminé</h1>
+        <!-- Afficher les ramassages terminés -->
+        <div th:if="${ramassagesTermine.size() > 0}">
+            <div class="rounded-md bg-green-200 m-2 w-48" th:each="ramassageTermine : ${ramassagesTermine}">
+                <h3><a th:href="${'/ramassage/' + ramassageTermine.id}" th:text="${'Ramassage n°' + ramassageTermine.id}"/></h3>
+            </div>
+        </div>
+        <!-- Message si aucun ramassage terminé -->
+        <div th:if="${ramassagesTermine.size() == 0}">
+            <p>Aucun ramassage terminé.</p>
+        </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 </body>

@@ -9,7 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
+          rel="stylesheet">
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
@@ -43,25 +44,6 @@
         </form>
     </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+<script src="/js/modifierUtilisateur.js"></script>
 </body>
 </html>
-<script>
-    function checkPasswordMatch() {
-        var password = document.getElementById('password').value;
-        var confirmPasswordField = document.getElementById('confirmPassword');
-
-        if (password !== confirmPasswordField.value) {
-            confirmPasswordField.style.borderColor = 'red';
-        } else {
-            confirmPasswordField.style.borderColor = 'green';
-        }
-    }
-
-    function onSubmit(event) {
-        var password = document.getElementById('password');
-        var confirmPasswordField = document.getElementById('confirmPassword');
-        if (password.value !== confirmPasswordField.value) {
-            event.preventDefault()
-        }
-    }
-</script>

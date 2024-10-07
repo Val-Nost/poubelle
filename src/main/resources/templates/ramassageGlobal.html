@@ -3,53 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Carte de la ville</title>
-    <link rel="stylesheet" href="/css/listeUtilisateur.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/vis-network/styles/vis-network.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="/css/ramassageGlobal.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        html, body {
-            height: 90%;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .container {
-            display: flex;
-            height: 100%;
-        }
-
-        #mynetwork {
-            flex: 1; /* La carte occupe tout l'espace restant */
-            height: 100%; /* Hauteur de la carte égale à la hauteur de la page */
-            border: 1px solid lightgray;
-        }
-
-        .cyclistes-list {
-            width: 250px; /* Largeur fixe pour la liste des cyclistes */
-            overflow-y: auto; /* Défilement vertical pour la liste des cyclistes */
-            padding: 10px; /* Pour ajouter un peu d'espace autour de la liste */
-        }
-
-        .cycliste-card {
-            background-color: white;
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 8px; /* Coins arrondis */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
-            margin-bottom: 10px; /* Espace entre les cartes */
-        }
-
-        .cycliste-card h3 {
-            margin-top: 0;
-        }
-    </style>
 </head>
 <body>
     <header th:replace="~{fragments/navbar :: navbar}"></header>
@@ -68,6 +31,8 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <script src="/js/ruesArretsGlobal.js"></script>
+    <script src="/js/ramassageGlobal.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 </body>
 </html>

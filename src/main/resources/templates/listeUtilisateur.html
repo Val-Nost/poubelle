@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
-    <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
@@ -54,19 +53,20 @@
             <td class="px-6 py-4 whitespace-nowrap" th:text="${utilisateur.nom}"></td>
             <td class="px-6 py-4 whitespace-nowrap" th:text="${utilisateur.prenom}"></td>
             <td class="px-6 py-4 whitespace-nowrap" th:text="${utilisateur.role.libelle}"></td>
-            <td class="px-6 py-4 whitespace-nowrap" sec:authorize="hasAnyRole('ROLE_Admin')">
-                <div class="flex justify-center items-center gap-4">
+            <td class="px-6 py-4 whitespace-nowrap sec:authorize='hasAnyRole('ROLE_Admin')'">
+                <div class="flex flex-wrap justify-center items-center gap-4">
                     <a th:href="${'/ramassage/ramassageByUser/'+utilisateur.id}">Ramasse</a>
+
                     <!-- Bouton de modification -->
                     <a id="show-popup-modify-[[${utilisateur.id}]]"
                        th:if="${(utilisateur.id == #authentication.principal.utilisateur.id) or #authorization.expression('hasAnyRole(''ROLE_Admin'', ''ROLE_RH'')')}"
                        th:href="${'/utilisateurs/modifier/'+ utilisateur.id}">
-                        <img src="/image/pen.png" alt="Modifier" width="40" height="40">
+                        <img class="edit-user-logo" src="/image/pen.png" alt="Modifier" width="40" height="40">
                     </a>
 
                     <!-- Bouton de suppression -->
                     <button type="button" class="open-popup" data-id="[[${utilisateur.id}]]">
-                        <img src="/image/delete.png" alt="Supprimer" width="40" height="40">
+                        <img class="delete-user-logo" src="/image/delete.png" alt="Supprimer" width="40" height="40">
                     </button>
 
                     <!-- Formulaire de suppression -->
@@ -77,9 +77,12 @@
                 </div>
             </td>
         </tr>
+
         </tbody>
     </table>
 </div>
+
+<div id="error-message" th:if="${error}" th:text="${error}" style="display: none;"></div>
 
 <div class="cd-popup" id="popup">
     <div class="cd-popup-container">
@@ -95,97 +98,23 @@
     <p th:text="${errorMessageIntegrityViolation}" th:class="'hidden-integrity-message'"></p>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+<script src="/js/listeUtilisateur.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const table = document.getElementById('myTable');
-        const headers = table.querySelectorAll('th');
-
-        const popup = document.getElementById('popup');
-        const confirmDeleteBtn = document.getElementById('confirm-delete');
-        const cancelDeleteBtn = document.getElementById('cancel-delete');
-        const closePopupBtn = document.getElementById('close-popup');
-        let formToDelete = null;
-
-        document.querySelectorAll('.open-popup').forEach(button => {
-            button.addEventListener('click', (event) => {
-                const userId = event.target.closest('.open-popup').getAttribute('data-id');
-                formToDelete = document.getElementById(`delete-form-${userId}`);
-                popup.classList.add('is-visible');
-            });
-        });
-
-        // Confirmer la suppression
-        confirmDeleteBtn.addEventListener('click', (event) => {
-            event.preventDefault();
-            if (formToDelete) {
-                formToDelete.submit();
-            }
-        });
-
-        const errorMessageElement = document.querySelector('.error-message p');
-        if (errorMessageElement && errorMessageElement.textContent.trim() !== '') {
-            Swal.fire({
-                icon: 'info',
-                title: 'Problème de suppression d\'un utilisateur',
-                text: errorMessageElement.textContent.trim(),
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: () => {
-                    Swal.showLoading();
-                },
-                willClose: () => {
-                    Swal.hideLoading();
-                }
-            });
-        }
-
-        const closePopup = () => {
-            popup.classList.remove('is-visible');
-            formToDelete = null;
-        };
-
-        closePopupBtn.addEventListener('click', (event) => {
-            event.preventDefault();
-            closePopup();
-        });
-
-        cancelDeleteBtn.addEventListener('click', (event) => {
-            event.preventDefault();
-            closePopup();
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target === popup) {
-                closePopup();
-            }
-        });
-
-        headers.forEach(header => {
-            header.addEventListener('click', () => {
-                const column = header.cellIndex;
-                let order = header.dataset.order;
-
-                const sortedRows = Array.from(table.rows).slice(1);
-                const sortMethod = (a, b) => {
-                    const aValue = a.cells[column].textContent.trim();
-                    const bValue = b.cells[column].textContent.trim();
-                    return order === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
-                };
-
-                sortedRows.sort(sortMethod);
-
-                header.dataset.order = order === 'asc' ? 'desc' : 'asc';
-
-                table.tBodies[0].innerHTML = '';
-                table.tBodies[0].append(...sortedRows);
-
-                headers.forEach(h => {
-                    h.classList.remove('bg-gray-200');
+    document.addEventListener('DOMContentLoaded', function() {
+        // Récupérer le message d'erreur
+        var errorMessage = document.getElementById('error-message');
+        if (errorMessage) {
+            var message = errorMessage.textContent.trim();
+            if (message) {
+                Swal.fire({
+                    icon: "info",
+                    title: "Information ramassage d'un utilisateur",
+                    text: message,
+                    confirmButtonText: 'OK', // Texte du bouton de confirmation
+                    confirmButtonColor: '#f57c00'
                 });
-
-                header.classList.add('bg-gray-200');
-            });
-        });
+            }
+        }
     });
 </script>
 </body>

@@ -1,14 +1,25 @@
-a {
-    font-family: "EB Garamond", serif;
-    font-weight: 500;
-    font-style: normal;
-    font-size: 25px;
-}
-
 .logo {
     width: 90px!important;
     height: auto;
     margin-left: 120px;
+}
+
+.remove-user, .edit-user {
+    max-width: 35px;
+    max-height: 35px;
+}
+
+@media only screen and (max-width: 768px) {
+    .remove-user, .edit-user {
+        max-width: 30px;
+        max-height: 30px;
+    }
+
+
+    .edit-user-logo,.delete-user-logo {
+        width: 20px; /* Réduire la taille des images sur petits écrans */
+        height: 20px;
+    }
 }
 
 .hidden-integrity-message {

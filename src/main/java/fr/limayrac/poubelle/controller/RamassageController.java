@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,25 +169,41 @@ public class RamassageController {
     }
 
     @GetMapping("/ramassageByUser/{idUser}")
-    public String getRamasseByUser(@PathVariable Long idUser, Model model) {
-        List<Rue> rues = rueService.findAll();
-        List<Arret> arrets = arretService.findAll();
-        List<RueArret> rueArrets = rueArretService.findAll();
-        Utilisateur utilisateur = utilisateurService.findById(idUser);
+    public String getRamasseByUser(@PathVariable Long idUser, Model model, RedirectAttributes redirectAttributes) {
+            List<Rue> rues = rueService.findAll();
+            List<Arret> arrets = arretService.findAll();
+            List<RueArret> rueArrets = rueArretService.findAll();
+            Utilisateur utilisateur = utilisateurService.findById(idUser);
 
-        List<Ramassage> ramassages = ramassageService.findByEnCours(true);
-        Ramassage ramassage = ramassages.get(0);
+            if (utilisateur == null) {
+                redirectAttributes.addFlashAttribute("error", "Utilisateur non trouvé.");
+                return "redirect:/accueil";
+            }
 
-        Itineraire itineraire = itineraireService.findItineraireByCycliste(ramassage, utilisateur);
-        for (ItineraireArret itineraireArret : itineraire.getItineraireArrets()) {
+            List<Ramassage> ramassages = ramassageService.findByEnCours(true);
+            if (ramassages.isEmpty()) {
+                // Formatez le message avec le nom de l'utilisateur
+                String errorMessage = String.format("Aucun ramassage en cours pour l'utilisateur %s %s.", utilisateur.getNom(), utilisateur.getPrenom());
+                redirectAttributes.addFlashAttribute("error", errorMessage);
+                return "redirect:/accueil";
+            }
 
-        }
+            Ramassage ramassage = ramassages.get(0);
+            Itineraire itineraire = itineraireService.findItineraireByCycliste(ramassage, utilisateur);
 
-        model.addAttribute("utilisateur", utilisateur);
-        model.addAttribute("rues", rues);
-        model.addAttribute("arrets", arrets);
-        model.addAttribute("rueArrets", rueArrets);
+            if (itineraire == null) {
+                // Formatez le message avec le nom de l'utilisateur
+                String errorMessage = String.format("Itinéraire non trouvé pour l'utilisateur %s %s.", utilisateur.getNom(), utilisateur.getPrenom());
+                redirectAttributes.addFlashAttribute("error", errorMessage);
+                return "redirect:/accueil";
+            }
 
-        return "ramassageByUser";
+            model.addAttribute("utilisateur", utilisateur);
+            model.addAttribute("rues", rues);
+            model.addAttribute("arrets", arrets);
+            model.addAttribute("rueArrets", rueArrets);
+            model.addAttribute("itineraire", itineraire);
+
+            return "ramassageByUser";
     }
 }
