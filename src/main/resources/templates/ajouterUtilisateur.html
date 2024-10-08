@@ -23,10 +23,10 @@
             <select id="role" name="role">
                 <option th:each="role : ${roles}" th:value="${role.name()}" th:text="${role.libelle}"></option>
             </select><br><br>
-            <div class="checkbox-container">
-                <label for="actif">Actif:</label>
-                <input type="checkbox" id="actif" name="actif" th:checked="*{actif}">
-            </div>
+<!--            <div class="checkbox-container">-->
+<!--                <label for="actif">Actif:</label>-->
+<!--                <input type="checkbox" id="actif" name="actif" th:checked="*{actif}">-->
+<!--            </div>-->
             <input type="submit" value="Créer">
         </form>
     </div>
