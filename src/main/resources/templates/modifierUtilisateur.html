@@ -13,7 +13,7 @@
           rel="stylesheet">
 </head>
 <body>
-<div th:replace="fragments/navbar :: navbar"></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
     <div class="modifierUtilisateur">
         <h1 class="text-3xl">Modifier Utilisateur</h1>
         <form th:action="@{/utilisateurs/update/{id}(id=${utilisateur.id})}" th:object="${utilisateur}" method="post" onsubmit="onSubmit(event)">
