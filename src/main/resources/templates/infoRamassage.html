@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Détail ramassage</title>
-    <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon"><link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/css/ramassage.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -20,7 +20,6 @@
     <button class="tablinks" onclick="openTab(event, 'Incidents')">Incidents</button>
 </div>
 <div id="Itinéraire" class="tabcontent">
-
     <a class="rounded-sm blueButton text-center" th:href="'/ramassage/' + ${ramassage.id} + '/recalculerItineraire'">Recalculer Itinéraires</a>
     <div th:each="itineraire : ${itineraires}">
         <h3 th:text="${itineraire.ramassageCyclisteVelo.cycliste.nom + ' ' + itineraire.ramassageCyclisteVelo.cycliste.prenom + ' - ID Vélo : ' + itineraire.ramassageCyclisteVelo.velo.id}"/>
@@ -139,7 +138,7 @@
                 <input id="pratiquableNon" name="pratiquable" type="radio" th:value="${false}" checked>
             </div>
         </div>
-        <input type="submit" value="Valider">
+        <input type="submit" value="Valider" class="formfield center bg-blue-500 text-white border border-blue-700 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 px-4 py-2 rounded-md">
     </form>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>

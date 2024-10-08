@@ -1,5 +1,12 @@
+function toggleList(button) {
+    const listContainer = button.parentElement;
+    $(button).find('i').toggleClass('fa-arrow-down fa-arrow-up');
+    listContainer.classList.toggle('expanded');
+}
+
 document.addEventListener("DOMContentLoaded", async function() {
     // Initialisation de la carte
+
     let map = L.map('mynetwork').setView([48.8566, 2.3522], 12);
 
     // Créer des panes personnalisés pour gérer l'ordre de dessin
