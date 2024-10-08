@@ -19,4 +19,10 @@ public interface IItineraireService {
     Itineraire findByRamassageCyclisteVelo(RamassageCyclisteVelo ramassageCyclisteVelo);
 
     void calculItineraire(Ramassage ramassage, List<Utilisateur> utilisateurs);
+
+    void recalculItineraire(Ramassage ramassage);
+
+    void deleteAll(List<Itineraire> itineraires);
+
+    Itineraire save(Itineraire itineraire);
 }

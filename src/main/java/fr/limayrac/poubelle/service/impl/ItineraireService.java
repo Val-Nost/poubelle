@@ -134,4 +134,79 @@ public class ItineraireService implements IItineraireService {
         saveAll(itineraireMap.values());
         logger.info("Fin du calcul des itinéraires");
     }
+
+    @Override
+    public void recalculItineraire(Ramassage ramassage) {
+        deleteAll(findByRamassage(ramassage));
+        ramassage = ramassageService.findById(ramassage.getId());
+
+        // On calcule les itinéraires de chaque cycliste
+        Arret arretDepart = arretService.findById(161L); // Porte d'Ivry
+        List<Arret> terminus = arretService.findFeuille();
+        // TODO Voir pour inclure un booléen si l'arrêt est inaccessible
+        // FIXME Modifier cette ligne une fois les tests finis
+        Set<Arret> arretsARamasser = new HashSet<>();
+//        List<Arret> arretsARamasser = arretService.findByAccessible(true);
+        arretsARamasser.addAll(arretService.findByRue(rueService.findById(5L)));
+        arretsARamasser.addAll(arretService.findByRue(rueService.findById(8L)));
+        arretsARamasser.addAll(arretService.findByRue(rueService.findById(19L)));
+
+        arretsARamasser.addAll(arretService.findByRue(rueService.findById(7L)));
+        arretsARamasser.addAll(arretService.findByRue(rueService.findById(10L)));
+        arretsARamasser.addAll(arretService.findByRue(rueService.findById(16L)));
+        arretsARamasser.addAll(arretService.findByRue(rueService.findById(22L)));
+
+        // La liste complète des chemins possibles
+        List<CheminPossibleDto> cheminPossibleDtos = new ArrayList<>();
+        // On crée un premier chemin auquel on ajoute l'arrêt de départ, pour ensuite l'ajouter à la liste de chemins possibles
+        CheminPossibleDto cheminPossibleDto = new CheminPossibleDto();
+        cheminPossibleDto.addArret(arretDepart);
+        cheminPossibleDtos.add(cheminPossibleDto);
+
+        logger.info("Début de la recherche des chemins possibles");
+        // Fonction récursive qui cherche les chemins possibles à partir d'un arrêt donné et les affecte à la liste passé en argument
+        ItineraireUtils.chercheChemin(arretDepart, 0, cheminPossibleDtos);
+        logger.info("Fin de la recherche des chemins possibles");
+
+
+        cheminPossibleDtos.removeIf(cheminPossibleDto1 -> !terminus.contains(cheminPossibleDto1.dernierArret()));
+
+        Map<RamassageCyclisteVelo, Itineraire> itineraireMap = new HashMap<>();
+        Set<Arret> arretsRamasses = new HashSet<>();
+
+        logger.info("Début de l'attribution des arrêts aux cyclistes");
+        while (!arretsRamasses.containsAll(arretsARamasser)) {
+            for (RamassageCyclisteVelo ramassageCyclisteVelo : ramassage.getRamassageCyclisteVelos()) {
+                int ordreRamassage = 0;
+                if (!itineraireMap.containsKey(ramassageCyclisteVelo)) {
+                    itineraireMap.put(ramassageCyclisteVelo, new Itineraire());
+                    itineraireMap.get(ramassageCyclisteVelo).setRamassageCyclisteVelo(ramassageCyclisteVelo);
+                }
+                List<Arret> arrets = ItineraireUtils.ramasseCharge(ramassageCyclisteVelo, cheminPossibleDtos, arretsRamasses);
+                if (arrets != null) {
+                    for (Arret arret : arrets) {
+                        ItineraireArret itineraireArret = new ItineraireArret();
+                        itineraireArret.setItineraire(itineraireMap.get(ramassageCyclisteVelo));
+                        itineraireArret.setArret(arret);
+                        itineraireArret.setOrdre(ordreRamassage);
+                        ordreRamassage++;
+                        itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets().add(itineraireArret);
+                    }
+                }
+            }
+        }
+        logger.info("Fin de l'attribution des arrêts aux cyclistes");
+        saveAll(itineraireMap.values());
+        logger.info("Fin du calcul des itinéraires");
+    }
+
+    @Override
+    public void deleteAll(List<Itineraire> itineraires) {
+        itineraireDao.deleteAll(itineraires);
+    }
+
+    @Override
+    public Itineraire save(Itineraire itineraire) {
+        return itineraireDao.save(itineraire);
+    }
 }

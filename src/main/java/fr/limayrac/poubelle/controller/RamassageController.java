@@ -108,24 +108,35 @@ public class RamassageController {
                                 @RequestParam(required = false) Long arret, @RequestParam(required = false) Boolean pratiquable) {
         Ramassage ramassage = ramassageService.findById(idRamassage);
 
+        RamassageCyclisteVelo ramassageCyclisteVeloR = null;
+        if (cyclisteRemplacant != null && veloRemplacant != null) {
+            Utilisateur cyclisteR =  utilisateurService.findById(cyclisteRemplacant);
+            Velo veloR = veloService.findById(veloRemplacant);
+            RamassageCyclisteVelo ramassageCyclisteVelo = new RamassageCyclisteVelo();
+            ramassageCyclisteVelo.setVelo(veloR);
+            ramassageCyclisteVelo.setCycliste(cyclisteR);
+            ramassageCyclisteVelo.setRamassage(ramassage);
+            ramassageCyclisteVeloR = ramassageCyclisteVeloService.save(ramassageCyclisteVelo);
+        }
+
         Utilisateur cyclisteC = null;
         if (cyclisteConcerne != null) {
             cyclisteC = utilisateurService.findById(cyclisteConcerne);
+            RamassageCyclisteVelo ramassageCyclisteVelo = ramassageCyclisteVeloService.findByRamassageAndCycliste(ramassage, cyclisteC);
+            Itineraire itineraire = itineraireService.findItineraireByCycliste(ramassage, cyclisteC);
+            if (ramassageCyclisteVeloR != null) {
+                itineraire.setRamassageCyclisteVelo(ramassageCyclisteVeloR);
+                itineraireService.save(itineraire);
+            }
+            ramassage = ramassageService.findById(idRamassage);
+            ramassage.getRamassageCyclisteVelos().remove(ramassageCyclisteVelo);
+            ramassageService.save(ramassage);
         }
 
-        Utilisateur cyclisteR = null;
-        if (cyclisteRemplacant != null) {
-            cyclisteR =  utilisateurService.findById(cyclisteRemplacant);
-        }
 
         Velo veloC = null;
         if (veloConcerne != null) {
             veloC = veloService.findById(veloConcerne);
-        }
-
-        Velo veloR = null;
-        if (veloRemplacant != null) {
-            veloR = veloService.findById(veloRemplacant);
         }
 
         Arret arretObj = null;
@@ -188,5 +199,12 @@ public class RamassageController {
         model.addAttribute("rueArrets", rueArrets);
 
         return "ramassageByUser";
+    }
+
+    @GetMapping("/{idRamassage}/recalculerItineraire")
+    public String recalculItineraire(@PathVariable Long idRamassage) {
+        Ramassage ramassage = ramassageService.findById(idRamassage);
+        itineraireService.recalculItineraire(ramassage);
+        return "redirect:/ramassages/" + idRamassage;
     }
 }

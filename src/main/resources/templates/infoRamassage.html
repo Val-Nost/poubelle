@@ -20,6 +20,8 @@
     <button class="tablinks" onclick="openTab(event, 'Incidents')">Incidents</button>
 </div>
 <div id="Itinéraire" class="tabcontent">
+
+    <a class="rounded-sm blueButton text-center" th:href="'/ramassage/' + ${ramassage.id} + '/recalculerItineraire'">Recalculer Itinéraires</a>
     <div th:each="itineraire : ${itineraires}">
         <h3 th:text="${itineraire.ramassageCyclisteVelo.cycliste.nom + ' ' + itineraire.ramassageCyclisteVelo.cycliste.prenom + ' - ID Vélo : ' + itineraire.ramassageCyclisteVelo.velo.id}"/>
         <a th:href="${itineraire.ramassageCyclisteVelo.ramassage.id} + '/itineraire/' + ${itineraire.id}">Cliquez pour voir les arrêts</a>
@@ -101,11 +103,12 @@
             <label for="cyclisteConcerne">Cycliste concerné : </label>
             <select id="cyclisteConcerne" name="cyclisteConcerne" onchange="selectCycliste(this)">
                 <option value="">Aucun</option>
-                <option th:each="cycliste : ${cyclistes}" th:value="${cycliste.id}" th:text="${cycliste.nom + ' ' + cycliste.prenom}"></option>
+                <option th:each="rammassageCycliste : ${ramassage.ramassageCyclisteVelos}" th:value="${rammassageCycliste.cycliste.id}" th:text="${rammassageCycliste.cycliste.nom + ' ' + rammassageCycliste.cycliste.prenom}"></option>
             </select>
             <div id="cyclisteRemplacantDiv" style="display: none">
                 <label for="cyclisteRemplacant">Cycliste remplaçant : </label>
                 <select id="cyclisteRemplacant" name="cyclisteRemplacant">
+                    <option th:each="cycliste : ${cyclistesRestants}" th:value="${cycliste.id}" th:text="${cycliste.nom + ' ' + cycliste.prenom}"></option>
                 </select>
             </div>
         </div>
@@ -113,11 +116,12 @@
             <label for="veloConcerne">Vélo concerné</label>
             <select id="veloConcerne" name="veloConcerne" onchange="selectVelo(this)">
                 <option value="">Aucun</option>
-                <option th:each="velo : ${velos}" th:value="${velo.id}" th:text="${velo.id}"></option>
+                <option th:each="ramasssageVelo : ${ramassage.ramassageCyclisteVelos}" th:value="${ramasssageVelo.velo.id}" th:text="${ramasssageVelo.velo.id}"></option>
             </select>
             <div id="veloRemplacantDiv" style="display: none">
                 <label for="veloRemplacant">Vélo remplaçant</label>
                 <select id="veloRemplacant" name="veloRemplacant">
+                    <option th:each="velo : ${velosRestants}" th:value="${velo.id}" th:text="${velo.id}"></option>
                 </select>
             </div>
         </div>
@@ -198,7 +202,6 @@
         let cyclisteRestant = document.querySelectorAll('#cyclisteRestant option')
 
         let message = ""
-        console.log(message)
         if (veloRestant.length === 0) {
             message = message.concat("Aucun vélo n'est actuellement disponible\n")
         }
@@ -217,13 +220,13 @@
             veloRemplacant.innerHTML = ""
         } else {
             divVelo.style.display = 'block';
-            veloRemplacant.innerHTML = ""
-            for (var i = 0; i < veloConcerne.length; i++){
-                var option = veloConcerne.options[i];
-                if (element.value !== veloConcerne.options[i].value) {
-                    veloRemplacant.appendChild(option.cloneNode(true))
-                }
-            }
+            // veloRemplacant.innerHTML = ""
+            // for (var i = 0; i < veloConcerne.length; i++){
+            //     var option = veloConcerne.options[i];
+            //     if (element.value !== veloConcerne.options[i].value) {
+            //         veloRemplacant.appendChild(option.cloneNode(true))
+            //     }
+            // }
         }
     }
     function selectCycliste(element) {
@@ -232,13 +235,13 @@
             cyclisteRemplacant.innerHTML = ""
         } else {
             divCycliste.style.display = 'block';
-            cyclisteRemplacant.innerHTML = ""
-            for (var i = 0; i < cyclisteConcerne.length; i++){
-                var option = cyclisteConcerne.options[i];
-                if (element.value !== cyclisteConcerne.options[i].value) {
-                    cyclisteRemplacant.appendChild(option.cloneNode(true))
-                }
-            }
+            // cyclisteRemplacant.innerHTML = ""
+            // for (var i = 0; i < cyclisteConcerne.length; i++){
+            //     var option = cyclisteConcerne.options[i];
+            //     if (element.value !== cyclisteConcerne.options[i].value) {
+            //         cyclisteRemplacant.appendChild(option.cloneNode(true))
+            //     }
+            // }
         }
     }
     function selectArret(element) {
