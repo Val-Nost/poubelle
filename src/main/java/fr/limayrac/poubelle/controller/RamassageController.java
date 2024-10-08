@@ -169,13 +169,16 @@ public class RamassageController {
         List<Rue> rues = rueService.findAll();
         List<Arret> arrets = arretService.findAll();
         List<RueArret> rueArrets = rueArretService.findAll();
-        List<Utilisateur> cyclistes = utilisateurService.findByRole(Role.Cycliste);
-        Ramassage ramassageEnCours = ramassageService.findByEnCours(true).get(0);
+        List<Ramassage> ramassages =  ramassageService.findByEnCours(true);
+        List<RamassageCyclisteVelo> ramassageCyclisteVelos = new ArrayList<>();
+        if (ramassages != null && !ramassages.isEmpty()) {
+            ramassageCyclisteVelos = ramassages.get(0).getRamassageCyclisteVelos();
+        }
 
         model.addAttribute("rues", rues);
         model.addAttribute("arrets", arrets);
         model.addAttribute("rueArrets", rueArrets);
-        model.addAttribute("ramassagesCyclistesVelos", ramassageEnCours.getRamassageCyclisteVelos());
+        model.addAttribute("ramassagesCyclistesVelos", ramassageCyclisteVelos);
 
         return "ramassageGlobal";
     }
@@ -223,6 +226,6 @@ public class RamassageController {
     public String recalculItineraire(@PathVariable Long idRamassage) {
         Ramassage ramassage = ramassageService.findById(idRamassage);
         itineraireService.recalculItineraire(ramassage);
-        return "redirect:/ramassages/" + idRamassage;
+        return "redirect:/ramassage/" + idRamassage;
     }
 }

@@ -53,9 +53,9 @@
             <td class="px-6 py-4 whitespace-nowrap" th:text="${utilisateur.nom}"></td>
             <td class="px-6 py-4 whitespace-nowrap" th:text="${utilisateur.prenom}"></td>
             <td class="px-6 py-4 whitespace-nowrap" th:text="${utilisateur.role.libelle}"></td>
-            <td class="px-6 py-4 whitespace-nowrap sec:authorize='hasAnyRole('ROLE_Admin')'">
+            <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex flex-wrap justify-center items-center gap-4">
-                    <a th:href="${'/ramassage/ramassageByUser/'+utilisateur.id}">Ramasse</a>
+                    <a sec:authorize="hasAnyRole('ROLE_Admin', 'ROLE_Gestionnaire')" th:href="${'/ramassage/ramassageByUser/'+utilisateur.id}">Ramasse</a>
 
                     <!-- Bouton de modification -->
                     <a id="show-popup-modify-[[${utilisateur.id}]]"
