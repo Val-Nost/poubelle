@@ -60,11 +60,11 @@
                        th:href="@{/utilisateurs/modifier/{id}(id=${utilisateur.id})}">
                         <img src="/image/pen.png" alt="Modifier" class="edit-user">
                     </a>
-                    <button type="button" class="open-popup" data-id="[[${utilisateur.id}]]"
+                    <button type="button" class="open-popup" th:data-id="${utilisateur.id}"
                             th:if="${utilisateur.id != utilisateurConnecte.id}" sec:authorize="hasRole('ROLE_Admin')">
                         <img src="/image/delete.png" alt="Supprimer" class="remove-user">
                     </button>
-                    <form id="delete-form-[[${utilisateur.id}]]" sec:authorize="hasRole('ROLE_Admin')"
+                    <form th:id="'delete-form-' + ${utilisateur.id}" sec:authorize="hasAnyRole('ROLE_Admin', 'ROLE_RH')"
                           th:action="@{/utilisateurs/supprimer/{id}(id=${utilisateur.id})}" method="post"
                           class="hidden">
                         <input type="submit" value="Supprimer"/>

@@ -44,6 +44,7 @@ public class UtilisateurController {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = bCryptPasswordEncoder.encode(utilisateur.getPassword());
         utilisateur.setPassword(encodedPassword);
+        utilisateur.setActif(true);
         utilisateurDao.save(utilisateur);
         return "redirect:/accueil";
     }

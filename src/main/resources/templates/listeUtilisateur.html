@@ -65,13 +65,13 @@
                     </a>
 
                     <!-- Bouton de suppression -->
-                    <button type="button" class="open-popup" data-id="[[${utilisateur.id}]]">
+                    <button type="button" class="open-popup" th:data-id="${utilisateur.id}">
                         <img class="delete-user-logo" src="/image/delete.png" alt="Supprimer" width="40" height="40">
                     </button>
 
                     <!-- Formulaire de suppression -->
-                    <form id="delete-form-[[${utilisateur.id}]]" sec:authorize="hasRole('ROLE_Admin')"
-                          th:action="${'/utilisateurs/supprimer/'+utilisateur.id}" method="post" class="hidden">
+                    <form th:id="'delete-form-' + ${utilisateur.id}" sec:authorize="hasAnyRole('ROLE_Admin', 'ROLE_RH')"
+                          th:action="${'/utilisateurs/supprimer/'+ utilisateur.id}" method="post" class="hidden">
                         <input type="submit" value="Supprimer"/>
                     </form>
                 </div>
@@ -98,7 +98,7 @@
     <p th:text="${errorMessageIntegrityViolation}" th:class="'hidden-integrity-message'"></p>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
-<script src="/js/listeUtilisateur.js"></script>
+<script src="/js/accueil.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Récupérer le message d'erreur
