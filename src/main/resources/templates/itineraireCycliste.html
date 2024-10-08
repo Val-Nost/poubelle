@@ -13,8 +13,8 @@
 </head>
 <body>
 <th:block th:replace="~{fragments/navbar :: navbar}"/>
-<h1 class="text-2xl text-center" th:text="${message}"></h1>
-<div class="flex justify-center">
+<h1 class="text-2xl text-center" th:if="${message != null}" th:text="${message}"></h1>
+<div class="flex justify-center" th:if="${message == null}">
     <table>
         <thead>
         <tr>

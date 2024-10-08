@@ -131,7 +131,8 @@ public class RamassageController {
             }
             ramassage = ramassageService.findById(idRamassage);
             ramassage.getRamassageCyclisteVelos().remove(ramassageCyclisteVelo);
-            ramassageService.save(ramassage);
+            ramassage = ramassageService.save(ramassage);
+            ramassageCyclisteVeloService.delete(ramassageCyclisteVelo);
         }
 
 
