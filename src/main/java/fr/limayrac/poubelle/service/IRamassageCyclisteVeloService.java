@@ -1,6 +1,7 @@
 package fr.limayrac.poubelle.service;
 
 import fr.limayrac.poubelle.model.Utilisateur;
+import fr.limayrac.poubelle.model.Velo;
 import fr.limayrac.poubelle.model.ramassage.Ramassage;
 import fr.limayrac.poubelle.model.ramassage.RamassageCyclisteVelo;
 
@@ -14,4 +15,5 @@ public interface IRamassageCyclisteVeloService {
     void delete(RamassageCyclisteVelo ramassageCyclisteVelo);
 
     RamassageCyclisteVelo findByRamassageAndCycliste(Ramassage ramassage, Utilisateur utilisateur);
+    RamassageCyclisteVelo findByRamassageAndVelo(Ramassage ramassage, Velo velo);
 }

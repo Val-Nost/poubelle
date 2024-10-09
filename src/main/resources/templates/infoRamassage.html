@@ -95,10 +95,13 @@
 <div id="Incidents" class="tabcontent">
     <form method="post" th:action="${'/ramassage/' + ramassage.id + '/ajoutIncident'}">
         <div>
-            <label for="libelle">Libelle</label>
-            <input id="libelle" name="libelle" type="text" required>
+            <label for="typeIncident">Type d'incident : </label>
+            <select id="typeIncident" name="typeIncident" onchange="selectTypeIncident(this)">
+                <option value="">Aucun</option>
+                <option th:each="typeIncident : ${typesIncidents}" th:value="${typeIncident.id}" th:text="${typeIncident.libelle}"></option>
+            </select>
         </div>
-        <div>
+        <div id="cycliste" style="display: none">
             <label for="cyclisteConcerne">Cycliste concerné : </label>
             <select id="cyclisteConcerne" name="cyclisteConcerne" onchange="selectCycliste(this)">
                 <option value="">Aucun</option>
@@ -111,7 +114,7 @@
                 </select>
             </div>
         </div>
-        <div>
+        <div id="velo" style="display: none">
             <label for="veloConcerne">Vélo concerné</label>
             <select id="veloConcerne" name="veloConcerne" onchange="selectVelo(this)">
                 <option value="">Aucun</option>
@@ -124,7 +127,7 @@
                 </select>
             </div>
         </div>
-        <div>
+        <div id="arretField" style="display: none">
             <label for="arret">Arret  concerné</label>
             <select id="arret" name="arret" onchange="selectArret(this)">
                 <option value="">Aucun</option>
@@ -150,13 +153,18 @@
         document.getElementById("Itinéraire").style.display = 'flex'
     }
 
+    // Champs à afficher
+    let cyclisteField = document.getElementById("cycliste")
+    let veloField = document.getElementById("velo")
+    let arretField = document.getElementById("arretField")
+
     let ajoutVelo = document.querySelector('#ajoutCyclisteVelo')
 
     let veloConcerne = document.querySelector('#veloConcerne');
     let veloRemplacant = document.querySelector('#veloRemplacant');
-
     let cyclisteConcerne = document.querySelector('#cyclisteConcerne');
     let cyclisteRemplacant = document.querySelector('#cyclisteRemplacant');
+    let arret = document.querySelector('#arret');
 
     let divVelo = document.querySelector("#veloRemplacantDiv")
     let divCycliste = document.querySelector("#cyclisteRemplacantDiv")
@@ -213,6 +221,65 @@
         }
     }
     // Tab Incidents
+
+    function selectTypeIncident(element) {
+        switch (element.value.toString()) {
+            case "":
+                cyclisteField.style.display = 'none'
+                veloField.style.display = 'none'
+                arretField.style.display = 'none'
+
+                // Cyclistes
+                cyclisteConcerne.value = ""
+                cyclisteRemplacant.value = ""
+                divCycliste.style.display = 'none'
+                // Velo
+                veloConcerne.value = ""
+                veloRemplacant.value = ""
+                divVelo.style.display = 'none'
+                // Arret
+                arret.value = ""
+                break;
+            case "0":
+                // Accident corporel
+                divVelo.style.display = 'none'
+                divCycliste.style.display = 'none'
+
+                cyclisteField.style.display = 'block'
+                veloField.style.display = 'none'
+                arretField.style.display = 'none'
+                // Velo
+                veloConcerne.value = ""
+                veloRemplacant.value = ""
+                // Arret
+                arret.value = ""
+                break;
+            case "1":
+                divVelo.style.display = 'none'
+                divCycliste.style.display = 'none'
+
+                cyclisteField.style.display = 'none'
+                veloField.style.display = 'block'
+                arretField.style.display = 'none'
+                // Cyclistes
+                cyclisteConcerne.value = ""
+                cyclisteRemplacant.value = ""
+                // Arret
+                arret.value = ""
+                break;
+            case "2":
+                divVelo.style.display = 'none'
+                divCycliste.style.display = 'none'
+
+                cyclisteField.style.display = 'none'
+                veloField.style.display = 'none'
+                arretField.style.display = 'block'
+                // Arret
+                arret.value = ""
+                break;
+        }
+    }
+
     function selectVelo(element) {
         if (element.value === "") {
             divVelo.style.display = 'none';

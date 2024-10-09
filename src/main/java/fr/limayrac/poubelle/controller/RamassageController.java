@@ -74,6 +74,7 @@ public class RamassageController {
         model.addAttribute("cyclistesRestants", utilisateurService.findUtilisateurNotAffectedToRamassageByRole(ramassage, Role.Cycliste));
 
         // Incident
+        model.addAttribute("typesIncidents", TypeIncident.values());
         model.addAttribute("cyclistes", utilisateurService.findByRole(Role.Cycliste));
         model.addAttribute("velos", veloService.findByStatut(StatutVelo.UTILISABLE));
         model.addAttribute("arrets", arretService.findAll());
@@ -103,55 +104,44 @@ public class RamassageController {
     }
 
     @PostMapping("/{idRamassage}/ajoutIncident")
-    public String ajoutIncident(Model model, @PathVariable Long idRamassage, @RequestParam String libelle,
+    public String ajoutIncident(Model model, @PathVariable Long idRamassage, @RequestParam("typeIncident") Integer typeIncidentId,
                                 @RequestParam(required = false) Long cyclisteConcerne, @RequestParam(required = false) Long cyclisteRemplacant,
                                 @RequestParam(required = false) Long veloConcerne, @RequestParam(required = false) Long veloRemplacant,
                                 @RequestParam(required = false) Long arret, @RequestParam(required = false) Boolean pratiquable) {
         Ramassage ramassage = ramassageService.findById(idRamassage);
 
         RamassageCyclisteVelo ramassageCyclisteVeloR = null;
-        if (cyclisteRemplacant != null && veloRemplacant != null) {
-            Utilisateur cyclisteR =  utilisateurService.findById(cyclisteRemplacant);
-            Velo veloR = veloService.findById(veloRemplacant);
-            RamassageCyclisteVelo ramassageCyclisteVelo = new RamassageCyclisteVelo();
-            ramassageCyclisteVelo.setVelo(veloR);
-            ramassageCyclisteVelo.setCycliste(cyclisteR);
-            ramassageCyclisteVelo.setRamassage(ramassage);
-            ramassageCyclisteVeloR = ramassageCyclisteVeloService.save(ramassageCyclisteVelo);
-        }
-
-        Utilisateur cyclisteC = null;
-        if (cyclisteConcerne != null) {
-            cyclisteC = utilisateurService.findById(cyclisteConcerne);
-            RamassageCyclisteVelo ramassageCyclisteVelo = ramassageCyclisteVeloService.findByRamassageAndCycliste(ramassage, cyclisteC);
-            Itineraire itineraire = itineraireService.findItineraireByCycliste(ramassage, cyclisteC);
-            if (ramassageCyclisteVeloR != null) {
-                itineraire.setRamassageCyclisteVelo(ramassageCyclisteVeloR);
-                itineraireService.save(itineraire);
-            }
-            ramassage = ramassageService.findById(idRamassage);
-            ramassage.getRamassageCyclisteVelos().remove(ramassageCyclisteVelo);
-            ramassage = ramassageService.save(ramassage);
-            ramassageCyclisteVeloService.delete(ramassageCyclisteVelo);
-        }
-
-
-        Velo veloC = null;
-        if (veloConcerne != null) {
-            veloC = veloService.findById(veloConcerne);
-        }
-
-        Arret arretObj = null;
-        if (arret != null) {
-            arretObj = arretService.findById(arret);
-        }
+        TypeIncident typeIncident = TypeIncident.values()[typeIncidentId];
 
         Incident incident = new Incident();
-        incident.setLibelle(libelle);
-        incident.setCycliste(cyclisteC);
-        incident.setVelo(veloC);
-        incident.setArret(arretObj);
+        incident.setTypeIncident(typeIncident);
         incident.setRamassage(ramassage);
+
+        switch (typeIncident) {
+            case ACCIDENT_CORPOREL -> {
+                Utilisateur cyclisteC =  utilisateurService.findById(cyclisteConcerne);
+                Utilisateur cyclisteR =  utilisateurService.findById(cyclisteRemplacant);
+                ramassageCyclisteVeloR = ramassageCyclisteVeloService.findByRamassageAndCycliste(ramassage, cyclisteC);
+                incident.setCycliste(cyclisteC);
+
+                ramassageCyclisteVeloR.setCycliste(cyclisteR);
+                ramassageCyclisteVeloR = ramassageCyclisteVeloService.save(ramassageCyclisteVeloR);
+
+
+            }
+            case CASSE_VELO -> {
+                Velo veloC =  veloService.findById(veloConcerne);
+                Velo veloR =  veloService.findById(veloRemplacant);
+                ramassageCyclisteVeloR = ramassageCyclisteVeloService.findByRamassageAndVelo(ramassage, veloC);
+                incident.setVelo(veloC);
+
+                ramassageCyclisteVeloR.setVelo(veloR);
+                ramassageCyclisteVeloR = ramassageCyclisteVeloService.save(ramassageCyclisteVeloR);
+            }
+            case ARRET_INACCESSIBLE -> {
+                incident.setArret(arretService.findById(arret));
+            }
+        }
 
         incidentService.save(incident);
 

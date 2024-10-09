@@ -11,7 +11,7 @@ public class Incident {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String libelle;
+    private TypeIncident typeIncident;
     @ManyToOne
     @JoinColumn(name = "cycliste")
     private Utilisateur cycliste;
