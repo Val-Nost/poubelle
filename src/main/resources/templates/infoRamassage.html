@@ -93,15 +93,18 @@
     </table>
 </div>
 <div id="Incidents" class="tabcontent">
-    <form method="post" th:action="${'/ramassage/' + ramassage.id + '/ajoutIncident'}">
-        <div>
+    <div class="formfield center" th:if="${ramassage.enCours}">
+        <button class="rounded-sm blueButton" onclick="addIncident(this)">Signaler un incident</button>
+    </div>
+    <form id="formulaireIncident" method="post" th:action="${'/ramassage/' + ramassage.id + '/ajoutIncident'}" style="display: none">
+        <div class="center">
             <label for="typeIncident">Type d'incident : </label>
             <select id="typeIncident" name="typeIncident" onchange="selectTypeIncident(this)">
                 <option value="">Aucun</option>
                 <option th:each="typeIncident : ${typesIncidents}" th:value="${typeIncident.id}" th:text="${typeIncident.libelle}"></option>
             </select>
         </div>
-        <div id="cycliste" style="display: none">
+        <div id="cycliste" style="display: none" class="center">
             <label for="cyclisteConcerne">Cycliste concerné : </label>
             <select id="cyclisteConcerne" name="cyclisteConcerne" onchange="selectCycliste(this)">
                 <option value="">Aucun</option>
@@ -114,7 +117,7 @@
                 </select>
             </div>
         </div>
-        <div id="velo" style="display: none">
+        <div id="velo" style="display: none" class="center">
             <label for="veloConcerne">Vélo concerné</label>
             <select id="veloConcerne" name="veloConcerne" onchange="selectVelo(this)">
                 <option value="">Aucun</option>
@@ -127,22 +130,39 @@
                 </select>
             </div>
         </div>
-        <div id="arretField" style="display: none">
+        <div id="arretField" style="display: none" class="center">
             <label for="arret">Arret  concerné</label>
             <select id="arret" name="arret" onchange="selectArret(this)">
                 <option value="">Aucun</option>
                 <option th:each="arret : ${arrets}" th:value="${arret.id}" th:text="${arret.libelle}"></option>
             </select>
-            <div id="arretDiv" style="display: none">
-                <label for="arretDiv">L'arrêt est-il toujours accessible ?</label>
-                <label for="pratiquableOui">Oui</label>
-                <input id="pratiquableOui" name="pratiquable" type="radio" th:value="${true}">
-                <label for="pratiquableNon">Non</label>
-                <input id="pratiquableNon" name="pratiquable" type="radio" th:value="${false}" checked>
-            </div>
+<!--            <div id="arretDiv" style="display: none">-->
+<!--                <label for="arretDiv">L'arrêt est-il toujours accessible ?</label>-->
+<!--                <label for="pratiquableOui">Oui</label>-->
+<!--                <input id="pratiquableOui" name="pratiquable" type="radio" th:value="${true}">-->
+<!--                <label for="pratiquableNon">Non</label>-->
+<!--                <input id="pratiquableNon" name="pratiquable" type="radio" th:value="${false}" checked>-->
+<!--            </div>-->
         </div>
-        <input type="submit" value="Valider" class="formfield center bg-blue-500 text-white border border-blue-700 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 px-4 py-2 rounded-md">
+        <div class="center">
+            <input type="submit" value="Valider" class="formfield center bg-blue-500 text-white border border-blue-700 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 px-4 py-2 rounded-md">
+        </div>
     </form>
+    <p class="center" th:if="${incidents.isEmpty()}">Aucun incident n'a été signalé</p>
+    <table th:if="${!incidents.isEmpty()}">
+        <tr>
+            <th>Type d'Incident</th>
+            <th>Cycliste concerné</th>
+            <th>Vélo concerné</th>
+            <th>Arrêt concerné</th>
+        </tr>
+        <tr th:each="incident : ${incidents}">
+            <td th:text="${incident.typeIncident.libelle}" class="center"/>
+            <td th:text="${incident.cycliste != null ? incident.cycliste.nom + ' ' + incident.cycliste.prenom: ''}" class="center"/>
+            <td th:text="${incident.velo != null ? incident.velo.id : ''}" class="center"/>
+            <td th:text="${incident.arret != null ? incident.arret.libelle : ''}" class="center"/>
+        </tr>
+    </table>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 <script>
@@ -159,6 +179,7 @@
     let arretField = document.getElementById("arretField")
 
     let ajoutVelo = document.querySelector('#ajoutCyclisteVelo')
+    let formulaireIncident = document.querySelector('#formulaireIncident')
 
     let veloConcerne = document.querySelector('#veloConcerne');
     let veloRemplacant = document.querySelector('#veloRemplacant');
@@ -168,7 +189,7 @@
 
     let divVelo = document.querySelector("#veloRemplacantDiv")
     let divCycliste = document.querySelector("#cyclisteRemplacantDiv")
-    let divArret = document.querySelector("#arretDiv")
+    // let divArret = document.querySelector("#arretDiv")
 
     function openTab(evt, tapName) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -220,7 +241,18 @@
             alert(message)
         }
     }
+
     // Tab Incidents
+
+    function addIncident(button) {
+        if (button.textContent === "Signaler un incident") {
+            button.innerHTML = "Annuler"
+            formulaireIncident.style.display = 'block'
+        } else {
+            button.innerHTML = "Signaler un incident"
+            formulaireIncident.style.display = 'none'
+        }
+    }
 
     function selectTypeIncident(element) {
         switch (element.value.toString()) {
@@ -231,11 +263,9 @@
 
                 // Cyclistes
                 cyclisteConcerne.value = ""
-                cyclisteRemplacant.value = ""
                 divCycliste.style.display = 'none'
                 // Velo
                 veloConcerne.value = ""
-                veloRemplacant.value = ""
                 divVelo.style.display = 'none'
                 // Arret
                 arret.value = ""
@@ -250,7 +280,6 @@
                 arretField.style.display = 'none'
                 // Velo
                 veloConcerne.value = ""
-                veloRemplacant.value = ""
                 // Arret
                 arret.value = ""
                 break;
@@ -263,7 +292,6 @@
                 arretField.style.display = 'none'
                 // Cyclistes
                 cyclisteConcerne.value = ""
-                cyclisteRemplacant.value = ""
                 // Arret
                 arret.value = ""
                 break;
@@ -274,8 +302,10 @@
                 cyclisteField.style.display = 'none'
                 veloField.style.display = 'none'
                 arretField.style.display = 'block'
-                // Arret
-                arret.value = ""
+                // Cyclistes
+                cyclisteConcerne.value = ""
+                // Velo
+                veloConcerne.value = ""
                 break;
         }
     }
@@ -311,11 +341,11 @@
         }
     }
     function selectArret(element) {
-        if (element.value === "") {
-            divArret.style.display = 'none'
-        } else {
-            divArret.style.display = 'block'
-        }
+        // if (element.value === "") {
+        //     divArret.style.display = 'none'
+        // } else {
+        //     divArret.style.display = 'block'
+        // }
     }
 </script>
 </body>

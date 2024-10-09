@@ -44,7 +44,7 @@ public class RamassageController {
     }
 
     @PostMapping("/choixCycliste")
-    public String choixCyclistes(Model model, @RequestParam List<Long> cyclistes) {
+    public String choixCyclistes(@RequestParam List<Long> cyclistes) {
         List<Utilisateur> cyclistesObj = new ArrayList<>();
 
         for (Long id : cyclistes) {
@@ -74,6 +74,7 @@ public class RamassageController {
         model.addAttribute("cyclistesRestants", utilisateurService.findUtilisateurNotAffectedToRamassageByRole(ramassage, Role.Cycliste));
 
         // Incident
+        model.addAttribute("incidents", incidentService.findByRamassage(ramassage));
         model.addAttribute("typesIncidents", TypeIncident.values());
         model.addAttribute("cyclistes", utilisateurService.findByRole(Role.Cycliste));
         model.addAttribute("velos", veloService.findByStatut(StatutVelo.UTILISABLE));
@@ -104,13 +105,13 @@ public class RamassageController {
     }
 
     @PostMapping("/{idRamassage}/ajoutIncident")
-    public String ajoutIncident(Model model, @PathVariable Long idRamassage, @RequestParam("typeIncident") Integer typeIncidentId,
+    public String ajoutIncident(@PathVariable Long idRamassage, @RequestParam("typeIncident") Integer typeIncidentId,
                                 @RequestParam(required = false) Long cyclisteConcerne, @RequestParam(required = false) Long cyclisteRemplacant,
                                 @RequestParam(required = false) Long veloConcerne, @RequestParam(required = false) Long veloRemplacant,
-                                @RequestParam(required = false) Long arret, @RequestParam(required = false) Boolean pratiquable) {
+                                @RequestParam(required = false) Long arret) {
         Ramassage ramassage = ramassageService.findById(idRamassage);
 
-        RamassageCyclisteVelo ramassageCyclisteVeloR = null;
+        RamassageCyclisteVelo ramassageCyclisteVeloR;
         TypeIncident typeIncident = TypeIncident.values()[typeIncidentId];
 
         Incident incident = new Incident();
@@ -125,7 +126,7 @@ public class RamassageController {
                 incident.setCycliste(cyclisteC);
 
                 ramassageCyclisteVeloR.setCycliste(cyclisteR);
-                ramassageCyclisteVeloR = ramassageCyclisteVeloService.save(ramassageCyclisteVeloR);
+                ramassageCyclisteVeloService.save(ramassageCyclisteVeloR);
 
 
             }
@@ -136,11 +137,9 @@ public class RamassageController {
                 incident.setVelo(veloC);
 
                 ramassageCyclisteVeloR.setVelo(veloR);
-                ramassageCyclisteVeloR = ramassageCyclisteVeloService.save(ramassageCyclisteVeloR);
+                ramassageCyclisteVeloService.save(ramassageCyclisteVeloR);
             }
-            case ARRET_INACCESSIBLE -> {
-                incident.setArret(arretService.findById(arret));
-            }
+            case ARRET_INACCESSIBLE -> incident.setArret(arretService.findById(arret));
         }
 
         incidentService.save(incident);
@@ -149,7 +148,7 @@ public class RamassageController {
     }
 
     @GetMapping("/{idRamassage}/itineraire/{idItineraire}")
-    public String infoItineraire(Model model, @PathVariable Long idRamassage, @PathVariable Long idItineraire) {
+    public String infoItineraire(Model model, @PathVariable Long idItineraire) {
         model.addAttribute(itineraireService.findById(idItineraire));
         return "infoItineraire";
     }
