@@ -17,4 +17,8 @@ public interface IItineraireDao extends CrudRepository<Itineraire, Long> {
     Itineraire findByRamassageAndCycliste(Ramassage ramassage, Utilisateur cycliste);
 
     Itineraire findByRamassageCyclisteVelo(RamassageCyclisteVelo ramassageCyclisteVelo);
+
+//    @Modifying
+//    @Query("DELETE FROM Itineraire where ramassageCyclisteVelo = :ramassageCyclisteVelo")
+    void deleteAllByRamassageCyclisteVelo(RamassageCyclisteVelo ramassageCyclisteVelo);
 }

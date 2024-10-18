@@ -25,4 +25,8 @@ public interface IItineraireService {
     void deleteAll(List<Itineraire> itineraires);
 
     Itineraire save(Itineraire itineraire);
+
+    void deleteByRamassageCyclisteVelo(RamassageCyclisteVelo ramassageCyclisteVelo);
+
+    void delete(Itineraire itineraire);
 }

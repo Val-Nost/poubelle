@@ -39,4 +39,9 @@ public class RamassageCyclisteVeloService implements IRamassageCyclisteVeloServi
     public RamassageCyclisteVelo findByRamassageAndVelo(Ramassage ramassage, Velo velo) {
         return ramassageCyclisteVeloDao.findByRamassageAndVelo(ramassage, velo);
     }
+
+    @Override
+    public RamassageCyclisteVelo findById(Long id) {
+        return ramassageCyclisteVeloDao.findById(id).orElse(null);
+    }
 }
