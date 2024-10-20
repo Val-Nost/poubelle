@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class V1_0_2__AjoutArretRue extends BaseJavaMigration implements SpringJDBCTemplateProvider{
 
     @Override
-    public void migrate(Context context) throws Exception {
+    public void migrate(Context context) {
         JdbcTemplate jdbcTemplate = jdbcTemplate(context);
         creationTableArret(jdbcTemplate);
         creationTableRue(jdbcTemplate);
@@ -25,7 +25,7 @@ public class V1_0_2__AjoutArretRue extends BaseJavaMigration implements SpringJD
                 "id BIGINT NOT NULL PRIMARY KEY auto_increment, " +
                 "libelle VARCHAR(255) UNIQUE, " +
                 "ramasse BOOLEAN NOT NULL DEFAULT false," +
-                "`accessible` BOOLEAN NOT NULL DEFAULT true" +
+                "isAccessible BOOLEAN NOT NULL DEFAULT true" +
                 ")");
     }
 

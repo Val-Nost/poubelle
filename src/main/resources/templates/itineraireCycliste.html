@@ -41,7 +41,7 @@
 
 <!-- Bouton pour mettre à jour l'itinéraire du cycliste -->
 <div class="text-center mt-4">
-    <button th:onclick="|updateItineraire(${utilisateur.id})|" class="btn btn-primary">Mettre à jour l'itinéraire</button>
+    <button th:if="${utilisateur != null}" th:onclick="'updateItineraire(' + ${utilisateur.id} + ')'" class="btn btn-primary">Mettre à jour l'itinéraire</button>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>

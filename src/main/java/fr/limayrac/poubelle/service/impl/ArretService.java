@@ -1,7 +1,6 @@
 package fr.limayrac.poubelle.service.impl;
 
 import fr.limayrac.poubelle.dao.IArretDao;
-import fr.limayrac.poubelle.dao.IRueDao;
 import fr.limayrac.poubelle.model.Arret;
 import fr.limayrac.poubelle.model.Rue;
 import fr.limayrac.poubelle.service.IArretService;
@@ -14,8 +13,6 @@ import java.util.List;
 public class ArretService implements IArretService {
     @Autowired
     private IArretDao arretDao;
-    @Autowired
-    private IRueDao rueDao;
     @Override
     public List<Arret> findAll() {
         return (List<Arret>) arretDao.findAll();
@@ -42,6 +39,6 @@ public class ArretService implements IArretService {
 
     @Override
     public List<Arret> findByAccessible(boolean accessible) {
-        return arretDao.findByAccessible(accessible);
+        return arretDao.findByIsAccessible(accessible);
     }
 }

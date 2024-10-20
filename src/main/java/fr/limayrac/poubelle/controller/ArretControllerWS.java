@@ -80,8 +80,7 @@ public class ArretControllerWS {
 
         // Filtrer les itinéraires par cycliste (utilisateur spécifique)
         for (RamassageCyclisteVelo ramassageCyclisteVelo : ramassage.getRamassageCyclisteVelos()) {
-            Utilisateur utilisateur = utilisateurService.findById(idUser);
-            if (utilisateur.getId().equals(idUser)) { // Mettre à jour uniquement pour l'utilisateur cible
+            if (ramassageCyclisteVelo.getCycliste().getId().equals(idUser)) { // Mettre à jour uniquement pour l'utilisateur cible
                 Itineraire itineraire = itineraireService.findByRamassageCyclisteVelo(ramassageCyclisteVelo);
                 for (ItineraireArret itineraireArret : itineraire.getItineraireArrets()) {
                     if (!itineraireArret.getArret().getRamasse()) {
