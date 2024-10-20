@@ -22,7 +22,6 @@
             <div class="card-container" th:if="${not #lists.isEmpty(ramassagesCyclistesVelos)}">
                 <div class="cycliste-card" th:each="ramassageCyclisteVelo : ${ramassagesCyclistesVelos}" th:data-cycliste-id="${ramassageCyclisteVelo.cycliste.id}">
                     <h3 th:text="${ramassageCyclisteVelo.cycliste.prenom} + ' ' + ${ramassageCyclisteVelo.cycliste.nom}"></h3>
-                    <p>Cycliste</p>
                 </div>
             </div>
             <p th:unless="${not #lists.isEmpty(ramassagesCyclistesVelos)}">Aucun cycliste trouvé.</p>

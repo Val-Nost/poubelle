@@ -155,12 +155,6 @@ function afficherItineraire(map, rueArrets, arretsCoords, itinerairesCycliste, u
         const arretListItem = document.createElement('li');
         arretListItem.textContent = arretLibelle;
 
-        if (arretId === baseId) {
-            arretListItem.textContent += ' (Retour à la base)';
-            arretListItem.style.fontWeight = 'bold'; // Mise en gras
-            arretListItem.style.color = '#FF0000'; // Rouge pour la base
-        }
-
         arretsList.appendChild(arretListItem);
     });
 
@@ -193,26 +187,6 @@ function animerItineraire(map, itinerairesCycliste, markers, polylines, uniqueIt
 
     let index = 0;
     const speed = 1000; // Durée en ms pour chaque segment de l'itinéraire
-
-    async function updateDatabaseOnLeave() {
-        try {
-            // Faire une requête POST à votre API
-            const response = await fetch('/ramassageDerniersArrets', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            console.log(response);
-            if (!response.ok) {
-                console.error('Erreur lors de la mise à jour de la base de données.');
-            } else {
-                console.log('Base de données mise à jour avec succès.');
-            }
-        } catch (error) {
-            console.error('Erreur de connexion à l\'API:', error);
-        }
-    }
 
     function moveMarker() {
         if (index < points.length - 1) {
@@ -251,8 +225,6 @@ function animerItineraire(map, itinerairesCycliste, markers, polylines, uniqueIt
                         iconAnchor: [15, 15]
                     }));
                 }
-                // Appeler l'API pour mettre à jour la base de données lorsque le cycliste quitte l'arrêt
-                updateDatabaseOnLeave();
             }
 
             // Fonction d'animation

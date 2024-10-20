@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", async function() {
-
     // Initialisation de la carte
     let map = L.map('mynetwork').setView([48.8566, 2.3522], 12);
 

@@ -45,7 +45,7 @@ public class ItineraireController {
 
                 // Si l'on trouve l'arrêt courant
                 if (arretCourant != null) {
-                    // L'arrêt courant n'est  le premier de la liste
+                    // L'arrêt courant n'est le premier de la liste
                     if (itineraire.getItineraireArrets().indexOf(arretCourant) != 0) {
                         arretPrecedent = itineraire.getItineraireArrets().get(itineraire.getItineraireArrets().indexOf(arretCourant)-1);
                     }
@@ -62,6 +62,7 @@ public class ItineraireController {
                 model.addAttribute("arretCourant", arretCourant);
                 model.addAttribute("arretSuivant", arretSuivant);
                 model.addAttribute("itineraire", itineraire);
+                model.addAttribute("utilisateur", utilisateur);
             } else {
                 model.addAttribute("message", "Aucun itinéraire ne vous est attribué");
             }

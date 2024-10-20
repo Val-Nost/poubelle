@@ -38,6 +38,35 @@
         </tbody>
     </table>
 </div>
+
+<!-- Bouton pour mettre à jour l'itinéraire du cycliste -->
+<div class="text-center mt-4">
+    <button th:onclick="|updateItineraire(${utilisateur.id})|" class="btn btn-primary">Mettre à jour l'itinéraire</button>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+<script>
+    function updateItineraire(userId) {
+        console.log("test");
+        fetch(`/ramassageDerniersArrets/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    alert('Itinéraire mis à jour avec succès');
+                    location.reload(); // Rafraîchir la page pour afficher les modifications
+                } else {
+                    alert('Erreur lors de la mise à jour de l\'itinéraire');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+            });
+    }
+</script>
 </body>
 </html>

@@ -72,28 +72,35 @@ public class ArretControllerWS {
         return arrets;
     }
 
-    @PostMapping("/ramassageDerniersArrets")
-    public Boolean ramassageDerniersArrets() {
+    @PostMapping("/ramassageDerniersArrets/{idUser}")
+    public Boolean ramassageDerniersArrets(@PathVariable Long idUser) {
+        // Récupérer le ramassage en cours
         Ramassage ramassage = ramassageService.findByEnCours(true).get(0);
         ItineraireArret toUpdate = null;
+
+        // Filtrer les itinéraires par cycliste (utilisateur spécifique)
         for (RamassageCyclisteVelo ramassageCyclisteVelo : ramassage.getRamassageCyclisteVelos()) {
-            Itineraire itineraire = itineraireService.findByRamassageCyclisteVelo(ramassageCyclisteVelo);
-            for (ItineraireArret itineraireArret : itineraire.getItineraireArrets()) {
-                if (!itineraireArret.getArret().getRamasse()) {
-                    toUpdate = itineraireArret;
-                    Arret arret = arretService.findById(itineraireArret.getArret().getId());
-                    arret.setRamasse(true);
-                    arretService.save(arret);
-                    break;
+            Utilisateur utilisateur = utilisateurService.findById(idUser);
+            if (utilisateur.getId().equals(idUser)) { // Mettre à jour uniquement pour l'utilisateur cible
+                Itineraire itineraire = itineraireService.findByRamassageCyclisteVelo(ramassageCyclisteVelo);
+                for (ItineraireArret itineraireArret : itineraire.getItineraireArrets()) {
+                    if (!itineraireArret.getArret().getRamasse()) {
+                        toUpdate = itineraireArret;
+                        Arret arret = arretService.findById(itineraireArret.getArret().getId());
+                        arret.setRamasse(true);
+                        arretService.save(arret);
+                        break;
+                    }
                 }
-            }
-            // On enregistre la date de passage
-            if (toUpdate != null) {
-                toUpdate.setDatePassage(LocalDateTime.now());
-                itineraireArretService.save(toUpdate);
+                // Enregistrer la date de passage
+                if (toUpdate != null) {
+                    toUpdate.setDatePassage(LocalDateTime.now());
+                    itineraireArretService.save(toUpdate);
+                }
+                break; // Sortir de la boucle après la mise à jour de cet utilisateur
             }
         }
-        // TODO, rediriger vers affichage carte individuelle
         return true;
     }
+
 }
