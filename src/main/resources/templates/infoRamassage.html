@@ -13,6 +13,9 @@
 </head>
 <body>
 <header th:replace="~{fragments/navbar :: navbar}"></header>
+<div class="text-center m-2">
+    <span class="text-lg text-red-500" th:if="${ramassage.getARecalculer()}">Un incident sans vélo ou cycliste remplaçant a été signalé, nous vous invitons à Recalculer l'itinéraire</span>
+</div>
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'Itinéraire')">Itinéraire</button>
     <button class="tablinks" onclick="openTab(event, 'Cyclistes')">Cyclistes</button>

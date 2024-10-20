@@ -16,4 +16,6 @@ public interface IRamassageCyclisteVeloService {
 
     RamassageCyclisteVelo findByRamassageAndCycliste(Ramassage ramassage, Utilisateur utilisateur);
     RamassageCyclisteVelo findByRamassageAndVelo(Ramassage ramassage, Velo velo);
+
+    RamassageCyclisteVelo findById(Long id);
 }

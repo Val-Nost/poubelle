@@ -112,12 +112,19 @@ form.addEventListener('submit', function (e) {
         method: 'POST',
         body: formData
     })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Succès:', data);
-            spinner.style.display = 'none';
-            form.classList.remove('loading');
+        .then(response => {
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
         })
+        // .then(data => {
+        //     console.log('Succès:', data);
+        //     spinner.style.display = 'none';
+        //     form.classList.remove('loading');
+        //     if (response.redirected) {
+        //         window.location.href = response.url;
+        //     }
+        // })
         .catch(error => {
             console.error('Erreur:', error);
             spinner.style.display = 'none';

@@ -4,6 +4,7 @@ import fr.limayrac.poubelle.model.*;
 import fr.limayrac.poubelle.model.ramassage.Ramassage;
 import fr.limayrac.poubelle.model.ramassage.RamassageCyclisteVelo;
 import fr.limayrac.poubelle.service.*;
+import fr.limayrac.poubelle.service.impl.ItineraireArretService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +35,8 @@ public class RamassageController {
     private IIncidentService incidentService;
     @Autowired
     private IItineraireService itineraireService;
+    @Autowired
+    private ItineraireArretService itineraireArretService;
 
     @GetMapping
     public String ramassage(Model model) {
@@ -121,24 +124,55 @@ public class RamassageController {
         switch (typeIncident) {
             case ACCIDENT_CORPOREL -> {
                 Utilisateur cyclisteC =  utilisateurService.findById(cyclisteConcerne);
-                Utilisateur cyclisteR =  utilisateurService.findById(cyclisteRemplacant);
+                Utilisateur cyclisteR =  null;
+                if (cyclisteRemplacant != null) {
+                    cyclisteR =  utilisateurService.findById(cyclisteRemplacant);
+                }
+
                 ramassageCyclisteVeloR = ramassageCyclisteVeloService.findByRamassageAndCycliste(ramassage, cyclisteC);
                 incident.setCycliste(cyclisteC);
+                if (cyclisteR == null) {
+                    Itineraire itineraire = itineraireService.findByRamassageCyclisteVelo(ramassageCyclisteVeloR);
+                    itineraireArretService.deleteByItineraire(itineraire);
+                    itineraireService.delete(itineraire);
 
-                ramassageCyclisteVeloR.setCycliste(cyclisteR);
-                ramassageCyclisteVeloService.save(ramassageCyclisteVeloR);
-
-
+                    ramassageCyclisteVeloR = ramassageCyclisteVeloService.findById(ramassageCyclisteVeloR.getId());
+                    ramassage.getRamassageCyclisteVelos().remove(ramassageCyclisteVeloR);
+                    ramassage.setARecalculer(true);
+                    ramassage = ramassageService.save(ramassage);
+                    ramassageCyclisteVeloService.delete(ramassageCyclisteVeloR);
+                } else {
+                    ramassageCyclisteVeloR.setCycliste(cyclisteR);
+                    ramassageCyclisteVeloService.save(ramassageCyclisteVeloR);
+                }
             }
             case CASSE_VELO -> {
                 Velo veloC =  veloService.findById(veloConcerne);
-                Velo veloR =  veloService.findById(veloRemplacant);
+                Velo veloR =  null;
+                if (veloRemplacant != null) {
+                    veloR =  veloService.findById(veloRemplacant);
+                }
                 ramassageCyclisteVeloR = ramassageCyclisteVeloService.findByRamassageAndVelo(ramassage, veloC);
                 incident.setVelo(veloC);
 
-                ramassageCyclisteVeloR.setVelo(veloR);
-                ramassageCyclisteVeloService.save(ramassageCyclisteVeloR);
+                if (veloR == null) {
+                    Itineraire itineraire = itineraireService.findByRamassageCyclisteVelo(ramassageCyclisteVeloR);
+                    itineraireArretService.deleteByItineraire(itineraire);
+                    itineraireService.delete(itineraire);
+
+                    ramassageCyclisteVeloR = ramassageCyclisteVeloService.findById(ramassageCyclisteVeloR.getId());
+                    ramassage.getRamassageCyclisteVelos().remove(ramassageCyclisteVeloR);
+                    ramassage.setARecalculer(true);
+                    ramassage = ramassageService.save(ramassage);
+                    ramassageCyclisteVeloService.delete(ramassageCyclisteVeloR);
+                    ramassageCyclisteVeloService.delete(ramassageCyclisteVeloR);
+                } else {
+                    ramassageCyclisteVeloR.setVelo(veloR);
+                    ramassageCyclisteVeloService.save(ramassageCyclisteVeloR);
+                }
+
             }
+
             case ARRET_INACCESSIBLE -> incident.setArret(arretService.findById(arret));
         }
 

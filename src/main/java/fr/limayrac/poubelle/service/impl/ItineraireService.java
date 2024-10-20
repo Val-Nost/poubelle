@@ -7,6 +7,7 @@ import fr.limayrac.poubelle.model.ramassage.Ramassage;
 import fr.limayrac.poubelle.model.ramassage.RamassageCyclisteVelo;
 import fr.limayrac.poubelle.service.*;
 import fr.limayrac.poubelle.utils.ItineraireUtils;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
+@Transactional
 public class ItineraireService implements IItineraireService {
     private static final Logger logger = LoggerFactory.getLogger(ItineraireService.class);
     @Autowired
@@ -73,6 +75,7 @@ public class ItineraireService implements IItineraireService {
 
         // On sauvegarde en cascades
         ramassage.setRamassageCyclisteVelos(ramassageCyclisteVelos);
+        ramassage.setARecalculer(false);
         ramassage = ramassageService.save(ramassage);
 
         // On calcule les itinéraires de chaque cycliste
@@ -198,6 +201,10 @@ public class ItineraireService implements IItineraireService {
         logger.info("Fin de l'attribution des arrêts aux cyclistes");
         saveAll(itineraireMap.values());
         logger.info("Fin du calcul des itinéraires");
+
+        ramassage = ramassageService.findById(ramassage.getId());
+        ramassage.setARecalculer(false);
+        ramassageService.save(ramassage);
     }
 
     @Override
@@ -208,5 +215,14 @@ public class ItineraireService implements IItineraireService {
     @Override
     public Itineraire save(Itineraire itineraire) {
         return itineraireDao.save(itineraire);
+    }
+    @Override
+    public void deleteByRamassageCyclisteVelo(RamassageCyclisteVelo ramassageCyclisteVelo) {
+        itineraireDao.deleteAllByRamassageCyclisteVelo(ramassageCyclisteVelo);
+    }
+
+    @Override
+    public void delete(Itineraire itineraire) {
+        itineraireDao.delete(itineraire);
     }
 }
