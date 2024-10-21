@@ -13,6 +13,8 @@ public interface IArretService {
     List<Arret> findFeuille();
     List<Arret> findByRue(Rue rue);
 
+    List<Arret> findByRueAndIsAccessibleAndRamasse(Rue rue, Boolean accessible, Boolean ramasse);
+
     Arret save(Arret arret);
 
     List<Arret> findByAccessible(boolean accessible);

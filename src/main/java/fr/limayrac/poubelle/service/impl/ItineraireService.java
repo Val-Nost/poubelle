@@ -81,13 +81,11 @@ public class ItineraireService implements IItineraireService {
         // On calcule les itinéraires de chaque cycliste
         Arret arretDepart = arretService.findById(161L); // Porte d'Ivry
         List<Arret> terminus = arretService.findFeuille();
-        // TODO Voir pour inclure un booléen si l'arrêt est inaccessible
-        // FIXME Modifier cette ligne une fois les tests finis
         Set<Arret> arretsARamasser = new HashSet<>();
 //        List<Arret> arretsARamasser = arretService.findByAccessible(true);
-        arretsARamasser.addAll(arretService.findByRue(rueService.findById(5L)));
-        arretsARamasser.addAll(arretService.findByRue(rueService.findById(8L)));
-        arretsARamasser.addAll(arretService.findByRue(rueService.findById(19L)));
+        arretsARamasser.addAll(arretService.findByRueAndIsAccessibleAndRamasse(rueService.findById(5L), true, false));
+        arretsARamasser.addAll(arretService.findByRueAndIsAccessibleAndRamasse(rueService.findById(8L), true, false));
+        arretsARamasser.addAll(arretService.findByRueAndIsAccessibleAndRamasse(rueService.findById(19L), true, false));
 
 //        arretsARamasser.addAll(arretService.findByRue(rueService.findById(7L)));
 //        arretsARamasser.addAll(arretService.findByRue(rueService.findById(10L)));
@@ -120,16 +118,16 @@ public class ItineraireService implements IItineraireService {
                     itineraireMap.put(ramassageCyclisteVelo, new Itineraire());
                     itineraireMap.get(ramassageCyclisteVelo).setRamassageCyclisteVelo(ramassageCyclisteVelo);
                 }
-                List<Arret> arrets = ItineraireUtils.ramasseCharge(ramassageCyclisteVelo, cheminPossibleDtos, arretsRamasses);
+                List<Arret> arrets = ItineraireUtils.ramasseCharge(ramassageCyclisteVelo, cheminPossibleDtos, arretsRamasses, itineraireMap);
                 if (arrets != null) {
-                    for (Arret arret : arrets) {
-                        ItineraireArret itineraireArret = new ItineraireArret();
-                        itineraireArret.setItineraire(itineraireMap.get(ramassageCyclisteVelo));
-                        itineraireArret.setArret(arret);
-                        itineraireArret.setOrdre(ordreRamassage);
-                        ordreRamassage++;
-                        itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets().add(itineraireArret);
-                    }
+//                    for (Arret arret : arrets) {
+//                        ItineraireArret itineraireArret = new ItineraireArret();
+//                        itineraireArret.setItineraire(itineraireMap.get(ramassageCyclisteVelo));
+//                        itineraireArret.setArret(arret);
+//                        itineraireArret.setOrdre(ordreRamassage);
+//                        ordreRamassage++;
+//                        itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets().add(itineraireArret);
+//                    }
                 }
             }
         }
@@ -185,16 +183,16 @@ public class ItineraireService implements IItineraireService {
                     itineraireMap.put(ramassageCyclisteVelo, new Itineraire());
                     itineraireMap.get(ramassageCyclisteVelo).setRamassageCyclisteVelo(ramassageCyclisteVelo);
                 }
-                List<Arret> arrets = ItineraireUtils.ramasseCharge(ramassageCyclisteVelo, cheminPossibleDtos, arretsRamasses);
+                List<Arret> arrets = ItineraireUtils.ramasseCharge(ramassageCyclisteVelo, cheminPossibleDtos, arretsRamasses, itineraireMap);
                 if (arrets != null) {
-                    for (Arret arret : arrets) {
-                        ItineraireArret itineraireArret = new ItineraireArret();
-                        itineraireArret.setItineraire(itineraireMap.get(ramassageCyclisteVelo));
-                        itineraireArret.setArret(arret);
-                        itineraireArret.setOrdre(ordreRamassage);
-                        ordreRamassage++;
-                        itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets().add(itineraireArret);
-                    }
+//                    for (Arret arret : arrets) {
+//                        ItineraireArret itineraireArret = new ItineraireArret();
+//                        itineraireArret.setItineraire(itineraireMap.get(ramassageCyclisteVelo));
+//                        itineraireArret.setArret(arret);
+//                        itineraireArret.setOrdrePassage(ordreRamassage);
+//                        ordreRamassage++;
+//                        itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets().add(itineraireArret);
+//                    }
                 }
             }
         }

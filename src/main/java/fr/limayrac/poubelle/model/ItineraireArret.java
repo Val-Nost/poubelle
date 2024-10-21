@@ -1,5 +1,6 @@
 package fr.limayrac.poubelle.model;
 
+import fr.limayrac.poubelle.utils.DateUtils;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,14 @@ public class ItineraireArret {
     @ManyToOne
     @JoinColumn(name = "arret")
     private Arret arret;
-    private Integer ordre;
+    private Integer ordrePassage;
+    private Integer ordreRamassage;
     private LocalDateTime datePassage;
+    public String getDatePassageFormatted() {
+        if (datePassage != null) {
+            return DateUtils.formatDateTime("dd/MM/yyyy hh:mm:ss", datePassage);
+        } else {
+            return null;
+        }
+    }
 }

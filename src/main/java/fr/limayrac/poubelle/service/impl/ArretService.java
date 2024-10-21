@@ -32,6 +32,12 @@ public class ArretService implements IArretService {
     public List<Arret> findByRue(Rue rue) {
         return arretDao.findArretsByRue(rue);
     }
+
+    @Override
+    public List<Arret> findByRueAndIsAccessibleAndRamasse(Rue rue, Boolean accessible, Boolean ramasse) {
+        return arretDao.findByRueAndAccessibleAndRamasse(rue, accessible, ramasse);
+    }
+
     @Override
     public Arret save(Arret arret) {
         return arretDao.save(arret);

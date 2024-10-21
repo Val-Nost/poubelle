@@ -74,6 +74,8 @@ public class ArretControllerWS {
 
     @PostMapping("/ramassageDerniersArrets/{idUser}")
     public Boolean ramassageDerniersArrets(@PathVariable Long idUser) {
+        // TODO Diminuer l'autonomie du vélo
+        // TODO Afficher l'autonomie du vélo
         // Récupérer le ramassage en cours
         Ramassage ramassage = ramassageService.findByEnCours(true).get(0);
         ItineraireArret toUpdate = null;
@@ -83,11 +85,13 @@ public class ArretControllerWS {
             if (ramassageCyclisteVelo.getCycliste().getId().equals(idUser)) { // Mettre à jour uniquement pour l'utilisateur cible
                 Itineraire itineraire = itineraireService.findByRamassageCyclisteVelo(ramassageCyclisteVelo);
                 for (ItineraireArret itineraireArret : itineraire.getItineraireArrets()) {
-                    if (!itineraireArret.getArret().getRamasse()) {
+                    if (itineraireArret.getDatePassage() == null) {
                         toUpdate = itineraireArret;
-                        Arret arret = arretService.findById(itineraireArret.getArret().getId());
-                        arret.setRamasse(true);
-                        arretService.save(arret);
+                        if (itineraireArret.getOrdreRamassage() != null) {
+                            Arret arret = arretService.findById(itineraireArret.getArret().getId());
+                            arret.setRamasse(true);
+                            arretService.save(arret);
+                        }
                         break;
                     }
                 }

@@ -20,12 +20,14 @@
         <tr>
             <th></th>
             <th>Libellé de l'arrêt</th>
+            <th>Date et heure de passage</th>
         </tr>
         </thead>
         <tbody>
         <tr th:if="${arretPrecedent != null}">
             <td class="text-xl text-green-500">Arret précédent</td>
             <td th:text="${arretPrecedent.arret.libelle}"></td>
+            <td th:text="${arretPrecedent.datePassageFormatted}"></td>
         </tr>
         <tr th:if="${arretCourant != null}">
             <td class="text-xl text-blue-500">Arret courant</td>
@@ -41,7 +43,8 @@
 
 <!-- Bouton pour mettre à jour l'itinéraire du cycliste -->
 <div class="text-center mt-4">
-    <button th:if="${utilisateur != null}" th:onclick="'updateItineraire(' + ${utilisateur.id} + ')'" class="btn btn-primary">Mettre à jour l'itinéraire</button>
+    <button class="bg-blue-500 text-white border border-blue-700 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 px-4 py-2 rounded-md"
+            th:if="${utilisateur != null}" th:onclick="'updateItineraire(' + ${utilisateur.id} + ')'">Mettre à jour l'itinéraire</button>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>

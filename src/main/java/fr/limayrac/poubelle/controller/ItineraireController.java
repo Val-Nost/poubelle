@@ -36,8 +36,9 @@ public class ItineraireController {
                 ItineraireArret arretPrecedent = null;
                 ItineraireArret arretCourant = null;
                 ItineraireArret arretSuivant = null;
+
                 for (ItineraireArret itineraireArret : itineraire.getItineraireArrets()) {
-                    if (!itineraireArret.getArret().getRamasse()) {
+                    if (itineraireArret.getDatePassage() == null) {
                         arretCourant = itineraireArret;
                         break;
                     }
@@ -45,7 +46,7 @@ public class ItineraireController {
 
                 // Si l'on trouve l'arrêt courant
                 if (arretCourant != null) {
-                    // L'arrêt courant n'est le premier de la liste
+                    // L'arrêt courant n'est pas le premier de la liste
                     if (itineraire.getItineraireArrets().indexOf(arretCourant) != 0) {
                         arretPrecedent = itineraire.getItineraireArrets().get(itineraire.getItineraireArrets().indexOf(arretCourant)-1);
                     }

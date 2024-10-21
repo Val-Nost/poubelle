@@ -3,6 +3,8 @@ package fr.limayrac.poubelle.utils;
 import fr.limayrac.poubelle.dto.CheminPossibleDto;
 import fr.limayrac.poubelle.model.Arret;
 import fr.limayrac.poubelle.model.ArretAdjacent;
+import fr.limayrac.poubelle.model.Itineraire;
+import fr.limayrac.poubelle.model.ItineraireArret;
 import fr.limayrac.poubelle.model.ramassage.RamassageCyclisteVelo;
 
 import java.util.*;
@@ -52,7 +54,12 @@ public class ItineraireUtils {
         }
     }
 
-    public static List<Arret> ramasseCharge(RamassageCyclisteVelo ramassageCyclisteVelo, List<CheminPossibleDto> allCheminsPossibles, Set<Arret> arretsRamasse) {
+    // Map<RamassageCyclisteVelo, List<ItineraireArret>>
+    // Map<RamassageCyclisteVelo, Itineraire>
+    public static List<Arret> ramasseCharge(RamassageCyclisteVelo ramassageCyclisteVelo,
+                                            List<CheminPossibleDto> allCheminsPossibles,
+                                            Set<Arret> arretsRamasse,
+                                            Map<RamassageCyclisteVelo, Itineraire> itineraireMap) {
         if (!allCheminsPossibles.isEmpty()) {
             // On trie la liste de tous les chemin pour récupérer la liste des chemins les plus court par arrêt
             List<CheminPossibleDto> cheminPlusCourtParArret = cheminPlusCourtParArret(allCheminsPossibles);
@@ -64,23 +71,43 @@ public class ItineraireUtils {
             // La liste des arrêts parcourus
             List<Arret> arrets = new ArrayList<>(cheminPossibleLePlusCourt.getArrets());
 
+            // Aller
+            for (Arret arret : cheminPossibleLePlusCourt.getArrets()) {
+                if (itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets().isEmpty() || !arret.equals(itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets().get(itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets().size()-1).getArret())) {
+                    ItineraireArret itineraireArret = new ItineraireArret();
+                    itineraireArret.setItineraire(itineraireMap.get(ramassageCyclisteVelo));
+                    itineraireArret.setArret(arret);
+                    itineraireArret.setOrdrePassage(getDernierOrdrePassage(itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets())+1);
+                    itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets().add(itineraireArret);
+                }
+            }
+
             // Le velo a assez d'autonomie pour faire l'allez-retour
             if (ramassageCyclisteVelo.getVelo().getAutonomie() >= cheminPossibleLePlusCourt.calculDistance()) {
                 // On calcule l'autonomie
-                ramassageCyclisteVelo.getVelo().setAutonomie(ramassageCyclisteVelo.getVelo().getAutonomie() + cheminPossibleLePlusCourt.calculDistance());
+                ramassageCyclisteVelo.getVelo().setAutonomie(ramassageCyclisteVelo.getVelo().getAutonomie() - cheminPossibleLePlusCourt.calculDistance());
 
                 // On retire le dernier vu qu'il est ajouté en dessous
                 arrets.remove(arrets.size()-1);
+                itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets().remove(itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets().size()-1);
+                // Retour
                 for (int i = cheminPossibleLePlusCourt.getArrets().size()-1; i >= 0; i--) {
                     arrets.add(cheminPossibleLePlusCourt.getArrets().get(i));
+                    ItineraireArret itineraireArret = new ItineraireArret();
+                    itineraireArret.setItineraire(itineraireMap.get(ramassageCyclisteVelo));
+                    itineraireArret.setArret(cheminPossibleLePlusCourt.getArrets().get(i));
+                    itineraireArret.setOrdrePassage(getDernierOrdrePassage(itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets())+1);
                     // Si la charge max n'est pas atteinte on ramasse l'arrêt
-                    if (!ramassageCyclisteVelo.getVelo().chargeMaxAtteint()) {
+                    if (!ramassageCyclisteVelo.getVelo().chargeMaxAtteint() && !cheminPossibleLePlusCourt.getArrets().get(i).getRamasse()) {
+                        itineraireArret.setOrdreRamassage(getDernierOrdreRamassage(itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets())+1);
+
                         arretsRamasse.add(cheminPossibleLePlusCourt.getArrets().get(i));
                         // On supprime l'arrêt du chemin
                         ramassageCyclisteVelo.getVelo().setCharge(ramassageCyclisteVelo.getVelo().getCharge() + 50);
                         // On supprime l'arrêt pour tout les chemins dont il est la dernier arrêt
                         removeArrets(allCheminsPossibles, cheminPossibleLePlusCourt.getArrets().get(i));
                     }
+                    itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets().add(itineraireArret);
                 }
                 ramassageCyclisteVelo.getVelo().setAutonomie(50.0);
             }
@@ -91,10 +118,12 @@ public class ItineraireUtils {
             }
             // Si la charge max n'est pas atteinte on recommence sur un autre chemin
             arrets.remove(arrets.size()-1);
+
+//            itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets().remove(itineraireMap.get(ramassageCyclisteVelo).getItineraireArrets().size()-1);
             if (!ramassageCyclisteVelo.getVelo().chargeMaxAtteint()) {
                 // Il faut retirer le point de départ sinon il apparaît deux fois aussi
                 // On retire le chemin que l'on vient de parcourir de la liste
-                List<Arret> arretsRecursif = ramasseCharge(ramassageCyclisteVelo, allCheminsPossibles, arretsRamasse);
+                List<Arret> arretsRecursif = ramasseCharge(ramassageCyclisteVelo, allCheminsPossibles, arretsRamasse, itineraireMap);
                 if (arretsRecursif != null) {
                     arrets.addAll(arretsRecursif);
                 }
@@ -106,6 +135,33 @@ public class ItineraireUtils {
             return arrets;
         }
         return null;
+    }
+
+    public static int getDernierOrdrePassage(List<ItineraireArret> itineraireArrets) {
+        if (itineraireArrets.isEmpty()) {
+            return 0;
+        } else {
+            int max = itineraireArrets.get(0).getOrdrePassage();
+            for (ItineraireArret itineraireArret : itineraireArrets) {
+                if (itineraireArret.getOrdrePassage() > max) {
+                    max = itineraireArret.getOrdrePassage();
+                }
+            }
+            return max;
+        }
+    }
+    public static int getDernierOrdreRamassage(List<ItineraireArret> itineraireArrets) {
+        if (itineraireArrets.isEmpty()) {
+            return 0;
+        } else {
+            int max = itineraireArrets.get(0).getOrdreRamassage() != null ? itineraireArrets.get(0).getOrdreRamassage() : 0;
+            for (ItineraireArret itineraireArret : itineraireArrets) {
+                if (itineraireArret.getOrdreRamassage() != null && itineraireArret.getOrdreRamassage() > max) {
+                    max = itineraireArret.getOrdreRamassage();
+                }
+            }
+            return max;
+        }
     }
 
     private static void removeArrets(List<CheminPossibleDto> cheminPossibleDtos, Arret arrets) {

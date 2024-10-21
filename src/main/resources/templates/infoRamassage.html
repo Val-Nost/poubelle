@@ -90,6 +90,7 @@
             <tr th:each="arretVoisin : ${rue.getArretRues}">
                 <td style="border: #333333 1px solid" th:text="${arretVoisin.arret.libelle}"></td>
                 <td style="border: #333333 1px solid" th:text="${arretVoisin.arret.ramasse ? 'Oui' : 'Non'}" th:class="${arretVoisin.arret.ramasse ? 'ok' : 'ko'}"></td>
+                <td style="border: #333333 1px solid" th:text="${arretMap.containsKey(arretVoisin.arret) ? arretMap.get(arretVoisin.arret).datePassageFormatted : ''}" th:class="${arretVoisin.arret.ramasse ? 'ok' : 'ko'}"></td>
             </tr>
         </th:block>
         </tbody>

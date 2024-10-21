@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/ramassage")
@@ -75,6 +77,14 @@ public class RamassageController {
         // Cyclistes
         model.addAttribute("velosRestants", veloService.findVeloNotAffectedToRamassage(ramassage));
         model.addAttribute("cyclistesRestants", utilisateurService.findUtilisateurNotAffectedToRamassageByRole(ramassage, Role.Cycliste));
+
+        // Rue et arrêts
+        Map<Arret, ItineraireArret> arretMap = new HashMap<>();
+        List<ItineraireArret> itineraireArrets = itineraireArretService.findItineraireArretByDatePassageNotNullAndOrdreRamassageNotNullAndRamassage(ramassage);
+        for (ItineraireArret itineraireArret : itineraireArrets) {
+            arretMap.put(itineraireArret.getArret(), itineraireArret);
+        }
+        model.addAttribute("arretMap", arretMap);
 
         // Incident
         model.addAttribute("incidents", incidentService.findByRamassage(ramassage));

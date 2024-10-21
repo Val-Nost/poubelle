@@ -16,7 +16,7 @@
 <div class="infoItineraire">
     <h1 class="text-3xl text-center">Itineraire</h1>
     <ul class="text-center">
-        <li th:each="itineraireArret : ${itineraire.itineraireArrets}" th:text="${itineraireArret.arret.libelle}">
+        <li th:each="itineraireArret : ${itineraire.itineraireArrets}" th:text="${itineraireArret.arret.libelle} +  ${itineraireArret.datePassage != null ? ' - Passage efféctué le : ' +  itineraireArret.datePassageFormatted: ''}">
         </li>
     </ul>
 </div>
