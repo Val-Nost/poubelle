@@ -47,4 +47,9 @@ public class ArretService implements IArretService {
     public List<Arret> findByAccessible(boolean accessible) {
         return arretDao.findByIsAccessible(accessible);
     }
+
+    @Override
+    public List<Arret> saveAll(List<Arret> arrets) {
+        return (List<Arret>) arretDao.saveAll(arrets);
+    }
 }

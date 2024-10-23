@@ -31,6 +31,8 @@ public class ArretControllerWS {
     private IItineraireService itineraireService;
     @Autowired
     private IItineraireArretService itineraireArretService;
+    @Autowired
+    private IVeloService veloService;
 
     @GetMapping(value = "/arrets", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Arret> getArrets() {
@@ -87,11 +89,20 @@ public class ArretControllerWS {
                 for (ItineraireArret itineraireArret : itineraire.getItineraireArrets()) {
                     if (itineraireArret.getDatePassage() == null) {
                         toUpdate = itineraireArret;
+                        Velo velo = ramassageCyclisteVelo.getVelo();
+                        velo.passageArret(toUpdate.getArret());
                         if (itineraireArret.getOrdreRamassage() != null) {
+                            // On augmente la charge
+                            velo.setCharge(velo.getCharge() + 50);
                             Arret arret = arretService.findById(itineraireArret.getArret().getId());
                             arret.setRamasse(true);
                             arretService.save(arret);
                         }
+                        // On passe par le centre de tri donc on change la batterie et on vide le vélo
+                        if (toUpdate.getArret().getId() == 161L) {
+                            velo.raz();
+                        }
+                        velo = veloService.save(velo);
                         break;
                     }
                 }

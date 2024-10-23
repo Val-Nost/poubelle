@@ -18,4 +18,6 @@ public interface IArretService {
     Arret save(Arret arret);
 
     List<Arret> findByAccessible(boolean accessible);
+
+    List<Arret> saveAll(List<Arret> arrets);
 }

@@ -28,4 +28,17 @@ public class VeloService implements IVeloService {
     public List<Velo> findVeloNotAffectedToRamassage(Ramassage ramassage) {
         return veloDao.findVeloNotAffectedToRamassage(ramassage.getId());
     }
+
+    @Override
+    public List<Velo> findAll() {
+        return (List<Velo>) veloDao.findAll();
+    }
+    @Override
+    public Velo save(Velo velo) {
+        return veloDao.save(velo);
+    }
+    @Override
+    public List<Velo> saveAll(List<Velo> velos) {
+        return (List<Velo>) veloDao.saveAll(velos);
+    }
 }

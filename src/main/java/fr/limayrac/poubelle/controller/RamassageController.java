@@ -50,6 +50,24 @@ public class RamassageController {
 
     @PostMapping("/choixCycliste")
     public String choixCyclistes(@RequestParam List<Long> cyclistes) {
+        // On remet tous les arrêts à leur états par défaut
+        List<Arret> arrets = arretService.findAll();
+        for (Arret arret : arrets) {
+            arret.setRamasse(false);
+            arret.setIsAccessible(true);
+        }
+        arrets = arretService.saveAll(arrets);
+
+        // On remet tous les vélos à leur état par défaut
+        List<Velo> velos = veloService.findAll();
+        for (Velo velo : velos) {
+            velo.setAutonomie(50.0);
+            velo.setCompteurCarrefour(0);
+            velo.setCharge(0);
+            velo.setModeRamassage(true);
+        }
+        velos = veloService.saveAll(velos);
+
         List<Utilisateur> cyclistesObj = new ArrayList<>();
 
         for (Long id : cyclistes) {

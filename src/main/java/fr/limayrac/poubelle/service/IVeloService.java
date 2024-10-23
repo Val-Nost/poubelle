@@ -11,4 +11,10 @@ public interface IVeloService {
 
     Velo findById(Long id);
     List<Velo> findVeloNotAffectedToRamassage(Ramassage ramassage);
+
+    List<Velo> findAll();
+
+    Velo save(Velo velo);
+
+    List<Velo> saveAll(List<Velo> velos);
 }
