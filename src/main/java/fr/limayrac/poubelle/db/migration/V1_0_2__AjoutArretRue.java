@@ -25,7 +25,7 @@ public class V1_0_2__AjoutArretRue extends BaseJavaMigration implements SpringJD
                 "id BIGINT NOT NULL PRIMARY KEY auto_increment, " +
                 "libelle VARCHAR(255) UNIQUE, " +
                 "ramasse BOOLEAN NOT NULL DEFAULT false," +
-                "isAccessible BOOLEAN NOT NULL DEFAULT true" +
+                "is_accessible BOOLEAN NOT NULL DEFAULT true" +
                 ")");
     }
 
