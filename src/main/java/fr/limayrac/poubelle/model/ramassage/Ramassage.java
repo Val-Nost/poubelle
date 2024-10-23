@@ -16,10 +16,4 @@ public class Ramassage {
     private List<RamassageCyclisteVelo> ramassageCyclisteVelos;
     private Boolean enCours;
     private Boolean aRecalculer;
-    @OneToMany(mappedBy = "ramassage")
-    private List<Passage> passages;
-
-    public boolean termine() {
-        return passages.stream().allMatch(passage -> passage.getRamasse().equals(true));
-    }
 }
