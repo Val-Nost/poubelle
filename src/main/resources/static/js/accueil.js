@@ -8,6 +8,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const closePopupBtn = document.getElementById('close-popup');
     let formToDelete = null;
 
+    // Récupérer le message d'erreur
+    var errorMessage = document.getElementById('error-message');
+    if (errorMessage) {
+        var message = errorMessage.textContent.trim();
+        if (message) {
+            Swal.fire({
+                icon: "info",
+                title: "Information ramassage d'un utilisateur",
+                text: message,
+                confirmButtonText: 'OK', // Texte du bouton de confirmation
+                confirmButtonColor: '#f57c00'
+            });
+        }
+    }
+
     document.querySelectorAll('.open-popup').forEach(button => {
         button.addEventListener('click', (event) => {
             const userId = event.target.closest('.open-popup').getAttribute('data-id');
