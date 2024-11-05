@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Prochains arrêts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/itineraire.css" rel="stylesheet">
     <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"/>
@@ -55,28 +56,6 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
-<script>
-    function updateItineraire(userId) {
-        console.log("test");
-        fetch(`/ramassageDerniersArrets/${userId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data) {
-                    alert('Itinéraire mis à jour avec succès');
-                    location.reload(); // Rafraîchir la page pour afficher les modifications
-                } else {
-                    alert('Erreur lors de la mise à jour de l\'itinéraire');
-                }
-            })
-            .catch(error => {
-                console.error('Erreur:', error);
-            });
-    }
-</script>
+<script src="/js/itineraireCycliste.js"></script>
 </body>
 </html>
