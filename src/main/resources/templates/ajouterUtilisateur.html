@@ -2,14 +2,22 @@
 <html lang="fr" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Ajouter un nouvel utilisateur</title>
-    <link rel="stylesheet" href="/css/ajouterUtilisateur.css">
-    <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <title>Ajouter un utilisateur</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/css/ajouterUtilisateur.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
+          rel="stylesheet">
 </head>
 <body>
+<th:block th:replace="~{fragments/navbar :: navbar}"/>
     <div class="ajoutUser">
-        <h1>Ajouter un nouvel utilisateur</h1>
+        <h1 class="text-3xl">Ajouter un nouvel utilisateur</h1>
         <form th:action="@{/utilisateurs/creer}" th:object="${utilisateur}" method="post">
             <label for="nom">Nom:</label>
             <input type="text" id="nom" name="nom" th:value="*{nom}" required><br><br>
