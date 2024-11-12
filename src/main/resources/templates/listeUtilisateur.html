@@ -99,23 +99,5 @@
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 <script src="/js/accueil.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Récupérer le message d'erreur
-        var errorMessage = document.getElementById('error-message');
-        if (errorMessage) {
-            var message = errorMessage.textContent.trim();
-            if (message) {
-                Swal.fire({
-                    icon: "info",
-                    title: "Information ramassage d'un utilisateur",
-                    text: message,
-                    confirmButtonText: 'OK', // Texte du bouton de confirmation
-                    confirmButtonColor: '#f57c00'
-                });
-            }
-        }
-    });
-</script>
 </body>
 </html>
