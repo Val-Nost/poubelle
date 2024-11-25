@@ -5,6 +5,8 @@ function toggleList(button) {
     listContainer.classList.toggle('expanded');
 }
 
+let currentAnimation = null; // Global variable to track the current animation
+
 document.addEventListener("DOMContentLoaded", async function() {
     const map = L.map('mynetwork').setView([48.8566, 2.3522], 12);
 
@@ -12,35 +14,61 @@ document.addEventListener("DOMContentLoaded", async function() {
         map.createPane(pane).style.zIndex = 400 + index * 50;
     });
 
-    try {
-        const arrets = await fetchData('/arrets');
-        const rueArrets = await fetchData('/arret-rue');
-        const arretsCoords = arrets.reduce((acc, arret) => {
-            acc[arret.id] = { lat: arret.latitude, lon: arret.longitude, libelle: arret.libelle };
-            return acc;
-        }, {});
+    const arrets = await fetchData('/arrets');
+    const rueArrets = await fetchData('/arret-rue');
+    const arretsCoords = arrets.reduce((acc, arret) => {
+        acc[arret.id] = { lat: arret.latitude, lon: arret.longitude, libelle: arret.libelle };
+        return acc;
+    }, {});
 
-        const pathname = window.location.pathname;
-        if (pathname.includes('/ramassage/ramassageByUser/')) {
-            const userId = pathname.split('/').pop();
-            const rammassages = await fetchData(`/rammassages/${userId}/arrets`);
-            const uniqueStops = Array.from(new Set(rammassages.map(r => r.id))).map(id => {
-                return rammassages.find(r => r.id === id);
-            });
+    const pathname = window.location.pathname;
+    if (pathname.includes('/ramassage/ramassageByUser/')) {
+        const userId = pathname.split('/').pop();
 
-            afficherItineraire(map, rueArrets, arretsCoords, uniqueStops);
-            animateCyclist(map, uniqueStops, arretsCoords); // Add cyclist animation after rendering
+        // Function to load and update the route every 2 seconds
+        async function updateRoute() {
+            try {
+                const rammassages = await fetchData(`/rammassages/${userId}/arrets`);
+                const uniqueStops = Array.from(new Set(rammassages.map(r => r.id))).map(id => {
+                    return rammassages.find(r => r.id === id);
+                });
+
+                // Clear previous markers and polylines
+                clearMapOverlays(map);
+
+                afficherItineraire(map, rueArrets, arretsCoords, uniqueStops);
+
+                // Clear and restart the cyclist animation
+                if (currentAnimation) {
+                    clearInterval(currentAnimation);
+                }
+                animateCyclist(map, uniqueStops, arretsCoords);
+            } catch (error) {
+                console.error('Erreur lors de la mise à jour des données:', error);
+            }
         }
-    } catch (error) {
-        console.error('Erreur lors du chargement des données:', error);
+
+        // Call updateRoute initially and then every 2 seconds
+        updateRoute();
+        setInterval(updateRoute, 2000);
     }
 });
+
+
+// Function to clear previous markers and polylines from the map
+function clearMapOverlays(map) {
+    map.eachLayer(layer => {
+        if (layer instanceof L.Marker || layer instanceof L.Polyline || layer instanceof L.CircleMarker) {
+            map.removeLayer(layer);
+        }
+    });
+}
 
 async function fetchData(url) {
     const response = await fetch(url);
     return await response.json();
 }
-
+let isFirstUpdate = true;
 function afficherItineraire(map, rueArrets, arretsCoords, uniqueStops) {
     const baseId = 161;
 
@@ -73,7 +101,11 @@ function afficherItineraire(map, rueArrets, arretsCoords, uniqueStops) {
     });
 
     displayStopsList(groupedPoints);
-    fitMapBounds(map, points);
+    if (isFirstUpdate) {
+        fitMapBounds(map, points);
+        isFirstUpdate = false;
+    }
+
 }
 
 function createPolyline(map, points, color) {
@@ -127,7 +159,6 @@ function animateCyclist(map, uniqueStops, arretsCoords) {
     const lastCollectedIndex = uniqueStops.findIndex((stop, i) => stop.ramasse && (!uniqueStops[i + 1] || !uniqueStops[i + 1].ramasse));
     const nextUncollectedIndex = lastCollectedIndex + 1;
 
-    // Ensure we have both a collected and an uncollected stop for the animation
     if (lastCollectedIndex === -1 || nextUncollectedIndex >= uniqueStops.length) {
         console.warn('No valid start and end points for the animation.');
         return;
@@ -142,8 +173,8 @@ function animateCyclist(map, uniqueStops, arretsCoords) {
         arretsCoords[uniqueStops[nextUncollectedIndex].id].lon
     ];
 
-    // Create a red marker for the cyclist
-    const cyclistMarker = L.circleMarker(startCoords, {
+    // Clear previous cyclist marker and create a new one
+    let cyclistMarker = L.circleMarker(startCoords, {
         color: '#FF0000',
         radius: 7,
         pane: 'animatedPointPane'
@@ -155,14 +186,15 @@ function animateCyclist(map, uniqueStops, arretsCoords) {
         const steps = 100; // Number of animation steps
         const interval = 20; // Milliseconds per step
 
-        const animationInterval = setInterval(() => {
+        currentAnimation = setInterval(() => {
             progress += 1 / steps;
             if (progress >= 1) {
                 progress = 1;
-                clearInterval(animationInterval);
+                clearInterval(currentAnimation);
+
                 // Reset marker to start after reaching the next stop
                 cyclistMarker.setLatLng(startCoords);
-                moveToNextStop(); // Repeat the animation
+                animateCyclist(map, uniqueStops, arretsCoords); // Restart animation with new stops
             }
 
             // Interpolate latitude and longitude between start and end points
