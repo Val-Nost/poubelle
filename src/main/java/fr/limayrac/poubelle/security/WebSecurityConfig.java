@@ -25,6 +25,10 @@ public class WebSecurityConfig  {
                                         AntPathRequestMatcher.antMatcher("/image/**"),
                                         AntPathRequestMatcher.antMatcher("/favicon/**")
                                 ).permitAll()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher("/utilisateurs/modifier/**")).permitAll()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher("/utilisateurs/**")).hasAnyAuthority("ROLE_Admin", "ROLE_RH")
+                                .requestMatchers(AntPathRequestMatcher.antMatcher("/itineraire/**")).hasAnyAuthority("ROLE_Admin", "ROLE_Cycliste")
+                                .requestMatchers(AntPathRequestMatcher.antMatcher("/ramassage/**")).hasAnyAuthority("ROLE_Admin", "ROLE_Gestionnaire")
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.NEVER))
