@@ -1,12 +1,11 @@
-// Toggle the display of the list associated with a button
+
 function toggleList(button) {
     const listContainer = button.parentElement;
     $(button).find('i').toggleClass('fa-arrow-down fa-arrow-up');
     listContainer.classList.toggle('expanded');
 }
 
-let currentAnimation = null; // Global variable to track the current animation
-
+let currentAnimation = null;
 document.addEventListener("DOMContentLoaded", async function() {
     const map = L.map('mynetwork').setView([48.8566, 2.3522], 12);
 

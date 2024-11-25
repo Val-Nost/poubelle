@@ -115,6 +115,8 @@ form.addEventListener('submit', function (e) {
         .then(response => {
             if (response.redirected) {
                 window.location.href = response.url;
+                spinner.style.display = 'none';
+                form.classList.remove('loading');
             }
         })
         // .then(data => {

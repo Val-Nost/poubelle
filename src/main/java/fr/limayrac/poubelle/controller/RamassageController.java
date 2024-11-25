@@ -248,7 +248,6 @@ public class RamassageController {
 
             List<Ramassage> ramassages = ramassageService.findByEnCours(true);
             if (ramassages.isEmpty()) {
-                // Formatez le message avec le nom de l'utilisateur
                 String errorMessage = String.format("Aucun ramassage en cours pour l'utilisateur %s %s.", utilisateur.getNom(), utilisateur.getPrenom());
                 redirectAttributes.addFlashAttribute("error", errorMessage);
                 return "redirect:/accueil";
@@ -258,7 +257,6 @@ public class RamassageController {
             Itineraire itineraire = itineraireService.findItineraireByCycliste(ramassage, utilisateur);
 
             if (itineraire == null) {
-                // Formatez le message avec le nom de l'utilisateur
                 String errorMessage = String.format("Itinéraire non trouvé pour l'utilisateur %s %s.", utilisateur.getNom(), utilisateur.getPrenom());
                 redirectAttributes.addFlashAttribute("error", errorMessage);
                 return "redirect:/accueil";

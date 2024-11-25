@@ -28,17 +28,19 @@
     height: 40px;
     animation: spin 1s linear infinite;
     position: fixed;
-    top: 56px;
-    left: 45%;
-    transform: translateX(-50%);
-    z-index: 9999;
+    top: 8%;
+    left: 48%;
 }
 
+@media (max-width: 768px) {
+    .spinner {
+        left: 44%;
+    }
+}
 @keyframes spin {
     0% {
         transform: rotate(0deg);
     }
-
     100% {
         transform: rotate(360deg);
     }
